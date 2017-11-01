@@ -12,7 +12,6 @@
 " Os detect functions have been move to .vimrc.bundles
 " Basics
     set nocompatible        " Must be first line
-    set termguicolors       " True Color
     set background=dark     " Assume a dark background
     set mouse=a             " Automatically enable mouse usage
     set mousehide           " Hide the mouse cursor while typing
