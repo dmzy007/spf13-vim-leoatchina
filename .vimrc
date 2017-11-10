@@ -130,6 +130,8 @@
         set tabpagemax=10 " Only show 10 tabs
         nnoremap <silent>-  : tabprevious<CR>
         nnoremap <silent>=  : tabnext<CR>
+        nnoremap <leader>tf : tabfirst<CR>
+        nnoremap <leader>tl : tablast<CR>
         nnoremap <leader>tn : tabnew<CR>
         nnoremap <Leader>ts : tabs<CR>
         nnoremap <Leader>tp : tab split<CR>
