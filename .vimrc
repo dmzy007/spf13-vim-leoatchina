@@ -521,15 +521,38 @@
                 nmap <silent><C-n> <plug>NERDTreeTabsToggle<CR>
                 nmap <leader>nn <plug>NERDTreeTabsToggle<CR>
                 nmap <leader>nt :NERDTreeFind<CR>
-                "let g:NERDShutUp=1
-                let NERDTreeShowBookmarks=1
-                let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
-                let NERDTreeChDirMode=0
-                let NERDTreeQuitOnOpen=1
-                let NERDTreeMouseMode=2
-                let NERDTreeShowHidden=1
-                let NERDTreeKeepTreeInNewTab=1
+                let g:NERDShutUp=1
+                let s:has_nerdtree = 1
                 let g:nerdtree_tabs_open_on_gui_startup=0
+                let g:NERDTreeWinSize=30
+                let g:NERDTreeShowBookmarks=1
+                let g:nerdtree_tabs_smart_startup_focus = 0
+                let g:NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
+                let g:NERDTreeChDirMode=0
+                let g:NERDTreeQuitOnOpen=1
+                let g:NERDTreeMouseMode=2
+                let g:NERDTreeShowHidden=1
+                let g:NERDTreeKeepTreeInNewTab=1
+                let g:nerdtree_tabs_focus_on_files = 1
+                let g:nerdtree_tabs_open_on_gui_startup = 0
+                let g:NERDTreeWinPos=0
+                let g:NERDTreeDirArrowExpandable = '▸'
+                let g:NERDTreeDirArrowCollapsible = '▾'
+                autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
+                " nerdtree-git
+                if isdirectory(expand("~/.vim/bundle/nerdtree-git-plugin"))
+                    let g:NERDTreeIndicatorMapCustom = {
+                            \ "Modified"  : "*",
+                            \ "Staged"    : "+",
+                            \ "Untracked" : "★",
+                            \ "Renamed"   : "→ ",
+                            \ "Unmerged"  : "=",
+                            \ "Deleted"   : "X",
+                            \ "Dirty"     : "●",
+                            \ "Clean"     : "√",
+                            \ "Unknown"   : "?"
+                    \ }
+                endif
             endif
         " VOom
             if isdirectory(expand("~/.vim/bundle/VOom"))
@@ -580,35 +603,7 @@
                 nmap <silent><C-T> :TagbarToggle<CR>
                 nmap <silent><leader>tt :TagbarToggle<CR>
                 nnoremap <silent><leader>jt :TagbarOpen j<CR>
-                let s:has_nerdtree = 1
-                let g:NERDTreeWinSize=30
-                let g:NERDTreeShowBookmarks=1
-                let g:NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
-                let g:NERDTreeChDirMode=0
-                let g:NERDTreeQuitOnOpen=1
-                let g:NERDTreeMouseMode=2
-                let g:NERDTreeShowHidden=1
-                let g:NERDTreeKeepTreeInNewTab=1
-                let g:nerdtree_tabs_focus_on_files = 1
-                let g:nerdtree_tabs_open_on_gui_startup = 0
-                let g:NERDTreeWinPos=0
-                let g:NERDTreeDirArrowExpandable = '▸'
-                let g:NERDTreeDirArrowCollapsible = '▾'
-                autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
-                " nerdtree-git
-                if isdirectory(expand("~/.vim/bundle/nerdtree-git-plugin"))
-                    let g:NERDTreeIndicatorMapCustom = {
-                            \ "Modified"  : "*",
-                            \ "Staged"    : "+",
-                            \ "Untracked" : "★",
-                            \ "Renamed"   : "→ ",
-                            \ "Unmerged"  : "=",
-                            \ "Deleted"   : "X",
-                            \ "Dirty"     : "●",
-                            \ "Clean"     : "√",
-                            \ "Unknown"   : "?"
-                    \ }
-                endif
+                let g:tagbar_sort = 0
             endif
         " Tabularize
             if isdirectory(expand("~/.vim/bundle/tabular"))
