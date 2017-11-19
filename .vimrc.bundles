@@ -179,6 +179,11 @@
             Bundle 'Shougo/neosnippet-snippets'
             Bundle 'honza/vim-snippets'
         endif
+    " vimshell
+        if count(g:spf13_bundle_groups, 'shell')
+            Bundle 'shougo/vimproc.vim'
+            Bundle 'shougo/vimshell.vim'
+        endif
     " PHP
         if count(g:spf13_bundle_groups, 'php')
             Bundle 'arnaud-lb/vim-php-namespace'

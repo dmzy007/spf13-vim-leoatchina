@@ -237,7 +237,9 @@
             endfunc
             " buffer switch
             nnoremap <leader>bn :bn<CR>
+            nmap <silent>) :bn<CR>
             nnoremap <leader>bp :bp<CR>
+            nmap <silent>( :bp<CR>
             " 定义快捷键保存当前窗口内容
             nmap <Leader>w :w<CR>
             nmap <Leader>W :wq!<CR>
@@ -553,6 +555,26 @@
                             \ "Unknown"   : "?"
                     \ }
                 endif
+            endif
+        " Shell
+            if isdirectory(expand("~/.vim/bundle/vimshell.vim"))
+                map <C-A> <Nop>
+                nmap <C-A>v :VimShell<Space>
+                nmap <C-A>\ :vsplit<cr>:VimShell<cr>
+                nmap <C-A>- :split<cr>:VimShell<cr>
+                nmap <C-A>c :VimShellClose<Cr>
+                nmap <C-A>s :VimShellSendBuffer<Space>
+                nmap <C-A>k :VimShellTab<Space>
+                nmap <C-A>p :VimShellPop<Space>
+                nmap <C-A>d :VimShellCurrentDir<Space>
+                nmap <C-A>b :VimShellBufferDir<Space>
+                nmap <C-A>e :VimShellExecute<Space>
+                nmap <C-A>i :VimShellInteractive<Space>
+                nmap <C-A>n :VimShellCreate<Space>
+                vmap <C-A>  :VimShellSendString<cr>
+                let g:vimshell_prompt_expr = 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
+                let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
+                let g:vimshell_force_overwrite_statusline=1
             endif
         " VOom
             if isdirectory(expand("~/.vim/bundle/VOom"))
