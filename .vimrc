@@ -128,17 +128,17 @@
         endif
         " tab contral
         set tabpagemax=10 " Only show 10 tabs
-        nnoremap <silent>-  : tabprevious<CR>
-        nnoremap <silent>=  : tabnext<CR>
-        nnoremap <leader>tf : tabfirst<CR>
-        nnoremap <leader>tl : tablast<CR>
-        nnoremap <leader>tn : tabnew<CR>
-        nnoremap <Leader>ts : tabs<CR>
-        nnoremap <Leader>tp : tab split<CR>
-        nnoremap <Leader>te : tabe<SPACE>
-        nnoremap <Leader>tm : tabm<SPACE>
-        nnoremap <silent>_  : tabm -1<CR>
-        nnoremap <silent>+  : tabm +1<CR>
+        nnoremap <silent>-  :tabprevious<CR>
+        nnoremap <silent>=  :tabnext<CR>
+        nnoremap <leader>tf :tabfirst<CR>
+        nnoremap <leader>tl :tablast<CR>
+        nnoremap <leader>tn :tabnew<CR>
+        nnoremap <Leader>ts :tabs<CR>
+        nnoremap <Leader>tp :tab split<CR>
+        nnoremap <Leader>te :tabe<SPACE>
+        nnoremap <Leader>tm :tabm<SPACE>
+        nnoremap <silent>_  :tabm -1<CR>
+        nnoremap <silent>+  :tabm +1<CR>
         " 设置快捷键将选中文本块复制至系统剪贴板
         vnoremap  <leader>y  "+y
         nnoremap  <leader>y  "+y
@@ -251,7 +251,7 @@
             nmap <Leader>Q :qa!
             " Q
             nnoremap ~ Q
-            nmap Q <Nop>
+            nmap Q :q!
             " 设置分割页面
             nmap <Leader>- :split<Space>
             nmap <leader>\ :vsplit<Space>
@@ -558,20 +558,20 @@
             endif
         " Shell
             if isdirectory(expand("~/.vim/bundle/vimshell.vim"))
-                map <C-A> <Nop>
-                nmap <C-A>v :VimShell<Space>
-                nmap <C-A>\ :vsplit<cr>:VimShell<cr>
-                nmap <C-A>- :split<cr>:VimShell<cr>
-                nmap <C-A>c :VimShellClose<Cr>
-                nmap <C-A>s :VimShellSendBuffer<Space>
-                nmap <C-A>k :VimShellTab<Space>
-                nmap <C-A>p :VimShellPop<Space>
-                nmap <C-A>d :VimShellCurrentDir<Space>
-                nmap <C-A>b :VimShellBufferDir<Space>
-                nmap <C-A>e :VimShellExecute<Space>
-                nmap <C-A>i :VimShellInteractive<Space>
-                nmap <C-A>n :VimShellCreate<Space>
-                vmap <C-A>  :VimShellSendString<cr>
+                map <C-S> <Nop>
+                nmap <C-S>v :VimShell<Space>
+                nmap <C-S>\ :vsplit<cr>:VimShell<cr>
+                nmap <C-S>- :split<cr>:VimShell<cr>
+                nmap <C-S>c :VimShellClose<Cr>
+                nmap <C-S>s :VimShellSendBuffer<Space>
+                nmap <C-S>k :VimShellTab<Space>
+                nmap <C-S>p :VimShellPop<Space>
+                nmap <C-S>d :VimShellCurrentDir<Space>
+                nmap <C-S>b :VimShellBufferDir<Space>
+                nmap <C-S>e :VimShellExecute<Space>
+                nmap <C-S>i :VimShellInteractive<Space>
+                nmap <C-S>n :VimShellCreate<Space>
+                vmap <C-S>  :VimShellSendString<cr>
                 let g:vimshell_prompt_expr = 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
                 let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
                 let g:vimshell_force_overwrite_statusline=1
@@ -882,6 +882,7 @@
                 let g:neocomplete_omni_patterns.go = '\h\w*\.\?'
          " neocomplcache
             elseif count(g:spf13_bundle_groups, 'neocomplcache')
+                set completeopt=menu,preview
                 let g:neocomplcache_enable_insert_char_pre = 1
                 let g:neocomplcache_enable_at_startup = 1
                 let g:neocomplcache_enable_auto_select = 1
@@ -912,9 +913,65 @@
                     let g:neocomplcache_keyword_patterns = {}
                 endif
                 let g:neocomplcache_keyword_patterns._ = '\h\w*'
-        " Normal Vim omni-completion ,if not set completion method , it works
-        " To disable omni complete, add the following to your .vimrc.before.local file:
-        " let g:spf13_no_omni_complete = 1
+                let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+                " <C-h>, <BS>: close popup and delete backword char.
+                let g:neocomplcache_enable_auto_select = 0
+                inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+                " c-l to list
+                inoremap <expr><C-l> neocomplcache#complete_common_string()
+                snoremap <expr><C-l> neocomplcache#complete_common_string()
+                " c-j to complete pum
+                inoremap <expr> <C-j> pumvisible() ? neocomplcache#close_popup(): "\<CR>"
+                snoremap <expr> <C-j> pumvisible() ? neocomplcache#close_popup(): "\<CR>"
+                " c-k to expand
+                imap <C-k> <Plug>(neosnippet_expand)
+                smap <C-k> <Plug>(neosnippet_expand)
+                " c-f to jump
+                imap <C-f> <Right><Plug>(neosnippet_jump)
+                smap <C-f> <Right><Plug>(neosnippet_jump)
+                inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+                inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
+                inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
+                inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
+
+                function! g:Neo_Complete_Tab()
+                    if pumvisible()
+                        if has_key(v:completed_item,'menu')
+                            return "\<C-k>"
+                        else
+                            return "\<C-n><C-k>"
+                        endif
+                    else
+                        return "\<Tab>"
+                    endif
+                endfunction
+                    "if pumvisible()
+                        "if neosnippet#expandable()
+                            "return neosnippet#mappings#expand_impl()
+                        "else
+                            "if count(g:spf13_bundle_groups,'neocomplcache')
+                                "return neocomplcache#close_popup()
+                            "else
+                                "return neocomplete#close_popup()
+                            "endif
+                        "endif
+                    "else
+                imap <expr> <Tab> Neo_Complete_Tab()
+                " Use honza's snippets.
+                let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+                " Enable neosnippet snipmate compatibility mode
+                let g:neosnippet#enable_snipmate_compatibility = 1
+                " For snippet_complete marker.
+                if !exists("g:spf13_no_conceal")
+                    if has('conceal')
+                        set conceallevel=2 concealcursor=i
+                    endif
+                endif
+                " Enable neosnippets when using go
+                let g:go_snippet_engine = "neosnippet"
+                " Normal Vim omni-completion ,if not set completion method , it works
+                " To disable omni complete, add the following to your .vimrc.before.local file:
+                " let g:spf13_no_omni_complete = 1
             elseif !exists('g:spf13_no_omni_complete')
                 " Enable omni-completion.
                 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -946,65 +1003,6 @@
                 " Automatically open and close the popup menu / preview window
                 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
                 set completeopt=menu,preview,longest
-            endif
-        " Snippets  and key map for neocomplete && neocomplcache
-            if count(g:spf13_bundle_groups, 'neocomplcache') || count(g:spf13_bundle_groups, 'neocomplete')
-                " <C-h>, <BS>: close popup and delete backword char.
-                if count(g:spf13_bundle_groups,'neocomplcache')
-                    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-                    " c-l to list
-                    inoremap <expr><C-l> neocomplcache#complete_common_string()
-                    snoremap <expr><C-l> neocomplcache#complete_common_string()
-                    " c-j to complete pum or cr
-                    inoremap <expr> <C-j> pumvisible() ? neocomplcache#close_popup(): "\<CR>"
-                    snoremap <expr> <C-j> pumvisible() ? neocomplcache#close_popup(): "\<CR>"
-                else
-                    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-                    " c-l to list
-                    inoremap <expr><C-l> neocomplete#complete_common_string()
-                    snoremap <expr><C-l> neocomplete#complete_common_string()
-                    inoremap <expr> <C-j> pumvisible() ? neocomplete#close_popup(): "\<CR>"
-                    snoremap <expr> <C-j> pumvisible() ? neocomplete#close_popup(): "\<CR>"
-                endif
-                " c-k to expand
-                imap <C-k> <Plug>(neosnippet_expand)
-                smap <C-k> <Plug>(neosnippet_expand)
-                " c-f tu jump
-                imap <C-f> <Right><Plug>(neosnippet_jump)
-                smap <C-f> <Right><Plug>(neosnippet_jump)
-                " <TAB><S-Tab> to select
-                inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-                inoremap <expr><S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-                " Ctrl+j for enter or stop pum
-                " cr to expand when available,or just enter
-                function! g:Neo_Complete()
-                    if pumvisible()
-                        if neosnippet#expandable()
-                            return neosnippet#mappings#expand_impl()
-                        else
-                            if count(g:spf13_bundle_groups,'neocomplcache')
-                                return neocomplcache#close_popup()
-                            else
-                                return neocomplete#close_popup()
-                            endif
-                        endif
-                    else
-                        return "\<CR>"
-                    endif
-                endfunction
-                au BufEnter * exec "inoremap <CR> <C-R>=g:Neo_Complete()<cr><C-c>"
-                " Use honza's snippets.
-                let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-                " Enable neosnippet snipmate compatibility mode
-                let g:neosnippet#enable_snipmate_compatibility = 1
-                " For snippet_complete marker.
-                if !exists("g:spf13_no_conceal")
-                    if has('conceal')
-                        set conceallevel=2 concealcursor=i
-                    endif
-                endif
-                " Enable neosnippets when using go
-                let g:go_snippet_engine = "neosnippet"
             endif
         " UndoTree
             if isdirectory(expand("~/.vim/bundle/undotree/"))
