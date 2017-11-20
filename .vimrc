@@ -880,6 +880,17 @@
                 let g:neocomplete_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
                 let g:neocomplete_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
                 let g:neocomplete_omni_patterns.go = '\h\w*\.\?'
+                " Define keyword.
+                if !exists('g:neocomplete_keyword_patterns')
+                    let g:neocomplete_keyword_patterns = {}
+                endif
+                let g:neocomplete_keyword_patterns._ = '\h\w*'
+                let g:neocomplete_enable_auto_select = 0
+                " <BS>: close popup and delete backword char.
+                inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+                " c-j to complete pum
+                imap <expr><C-j> neocomplete#smart_close_popup()
+                smap <expr><C-j> neocomplete#smart_close_popup()
          " neocomplcache
             elseif count(g:spf13_bundle_groups, 'neocomplcache')
                 let g:neocomplcache_enable_insert_char_pre = 1
@@ -916,8 +927,8 @@
                 " <BS>: close popup and delete backword char.
                 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
                 " c-j to complete pum
-                imap <expr><C-j> neocomplcache#smart_close_popup()
-                smap <expr><C-j> neocomplcache#smart_close_popup()
+                imap <expr><C-j> neocomplcache#cancel_popup()
+                smap <expr><C-j> neocomplcache#cancel_popup()
             " Normal Vim omni-completion ,if not set completion method , it works
             " To disable omni complete, add the following to your .vimrc.before.local file:
             " let g:spf13_no_omni_complete = 1
@@ -930,7 +941,6 @@
                 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
                 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
                 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
                 if has("autocmd") && exists("+omnifunc")
                 autocmd Filetype *
                     \if &omnifunc == "" |
@@ -941,7 +951,7 @@
                 hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
                 hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
                 " Some convenient mappings
-                "inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+                inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
                 if exists('g:spf13_map_cr_omni_complete')
                     inoremap <expr> <CR>     pumvisible() ? "\<C-y>" : "\<CR>"
                 endif
@@ -982,8 +992,10 @@
                         return "\<Tab>"
                     endif
                 endfunction
-                imap <expr><Tab> <SID>Neo_Complete_Tab()
-                smap <expr><Tab> <SID>Neo_Complete_Tab()
+                inoremap <expr><Tab> <SID>Neo_Complete_Tab()
+                snoremap <expr><Tab> <SID>Neo_Complete_Tab()
+                inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+                snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
                 function! s:Neo_Complete_Cr()
                     if pumvisible() "popup menu apeared
                         if neosnippet#expandable()
@@ -995,8 +1007,8 @@
                         return "\<Cr>"
                     endif
                 endfunction
-                imap <expr><CR> <SID>Neo_Complete_Cr()
-                smap <expr><CR> <SID>Neo_Complete_Cr()
+                inoremap <expr><CR> <SID>Neo_Complete_Cr()
+                snoremap <expr><CR> <SID>Neo_Complete_Cr()
                " Use honza's snippets.
                 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
                 " Enable neosnippet snipmate compatibility mode
