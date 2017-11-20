@@ -808,7 +808,7 @@
                 " Ulti的代码片段的文件夹
                 let g:UtiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
                 " 自定义代码片段的文件夹
-                let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
+                let g:UltiSnipsSnippetsDir = "~/.vim/bundle/UltiSnips"
                 let g:ycm_filetype_blacklist = {
                       \ 'tagbar' : 1,
                       \ 'nerdtree' : 1,
@@ -882,7 +882,6 @@
                 let g:neocomplete_omni_patterns.go = '\h\w*\.\?'
          " neocomplcache
             elseif count(g:spf13_bundle_groups, 'neocomplcache')
-                set completeopt=menu,preview
                 let g:neocomplcache_enable_insert_char_pre = 1
                 let g:neocomplcache_enable_at_startup = 1
                 let g:neocomplcache_enable_auto_select = 1
@@ -913,65 +912,17 @@
                     let g:neocomplcache_keyword_patterns = {}
                 endif
                 let g:neocomplcache_keyword_patterns._ = '\h\w*'
-                let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-                " <C-h>, <BS>: close popup and delete backword char.
                 let g:neocomplcache_enable_auto_select = 0
+                " <BS>: close popup and delete backword char.
                 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-                " c-l to list
-                inoremap <expr><C-l> neocomplcache#complete_common_string()
-                snoremap <expr><C-l> neocomplcache#complete_common_string()
                 " c-j to complete pum
-                inoremap <expr> <C-j> pumvisible() ? neocomplcache#close_popup(): "\<CR>"
-                snoremap <expr> <C-j> pumvisible() ? neocomplcache#close_popup(): "\<CR>"
-                " c-k to expand
-                imap <C-k> <Plug>(neosnippet_expand)
-                smap <C-k> <Plug>(neosnippet_expand)
-                " c-f to jump
-                imap <C-f> <Right><Plug>(neosnippet_jump)
-                smap <C-f> <Right><Plug>(neosnippet_jump)
-                inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
-                inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
-                inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
-                inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
-
-                function! g:Neo_Complete_Tab()
-                    if pumvisible()
-                        if has_key(v:completed_item,'menu')
-                            return "\<C-k>"
-                        else
-                            return "\<C-n><C-k>"
-                        endif
-                    else
-                        return "\<Tab>"
-                    endif
-                endfunction
-                    "if pumvisible()
-                        "if neosnippet#expandable()
-                            "return neosnippet#mappings#expand_impl()
-                        "else
-                            "if count(g:spf13_bundle_groups,'neocomplcache')
-                                "return neocomplcache#close_popup()
-                            "else
-                                "return neocomplete#close_popup()
-                            "endif
-                        "endif
-                    "else
-                imap <expr> <Tab> Neo_Complete_Tab()
-                " Use honza's snippets.
-                let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-                " Enable neosnippet snipmate compatibility mode
-                let g:neosnippet#enable_snipmate_compatibility = 1
-                " For snippet_complete marker.
-                if !exists("g:spf13_no_conceal")
-                    if has('conceal')
-                        set conceallevel=2 concealcursor=i
-                    endif
-                endif
-                " Enable neosnippets when using go
-                let g:go_snippet_engine = "neosnippet"
-                " Normal Vim omni-completion ,if not set completion method , it works
-                " To disable omni complete, add the following to your .vimrc.before.local file:
-                " let g:spf13_no_omni_complete = 1
+                inoremap <expr><C-j> neocomplcache#close_popup()
+                snoremap <expr><C-j> neocomplcache#close_popup()
+                inoremap <expr><Cr> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
+                snoremap <expr><Cr> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
+            " Normal Vim omni-completion ,if not set completion method , it works
+            " To disable omni complete, add the following to your .vimrc.before.local file:
+            " let g:spf13_no_omni_complete = 1
             elseif !exists('g:spf13_no_omni_complete')
                 " Enable omni-completion.
                 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -1003,6 +954,50 @@
                 " Automatically open and close the popup menu / preview window
                 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
                 set completeopt=menu,preview,longest
+            endif
+            if count(g:spf13_bundle_groups, 'neocomplcache') ||  count(g:spf13_bundle_groups, 'neocomplete')
+                " menu style
+                set completeopt=menu,preview
+                " c-k to expand
+                imap <C-k> <Plug>(neosnippet_expand)
+                smap <C-k> <Plug>(neosnippet_expand)
+                xmap <C-k> <Plug>(neosnippet_expand_target)
+                " c-f to jump
+                imap <C-f> <Right><Plug>(neosnippet_jump)
+                smap <C-f> <Right><Plug>(neosnippet_jump)
+                inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+                inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
+                inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
+                inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
+                function! s:Neo_Complete_Tab()
+                    if pumvisible() "popup menu apeared
+                        if neosnippet#expandable()
+                            return neosnippet#mappings#expand_impl()
+                        else
+                            if !len(get(v:completed_item,'menu'))
+                                return "\<C-n>"
+                            else
+                                return "\<C-j>"
+                            endif
+                        endif
+                    else
+                        return "\<Tab>"
+                    endif
+                endfunction
+                imap <expr><Tab> <SID>Neo_Complete_Tab()
+                smap <expr><Tab> <SID>Neo_Complete_Tab()
+               " Use honza's snippets.
+                let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+                " Enable neosnippet snipmate compatibility mode
+                let g:neosnippet#enable_snipmate_compatibility = 1
+                " For snippet_complete marker.
+                if !exists("g:spf13_no_conceal")
+                    if has('conceal')
+                        set conceallevel=2 concealcursor=i
+                    endif
+                endif
+                " Enable neosnippets when using go
+                let g:go_snippet_engine = "neosnippet"
             endif
         " UndoTree
             if isdirectory(expand("~/.vim/bundle/undotree/"))
