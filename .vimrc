@@ -916,10 +916,8 @@
                 " <BS>: close popup and delete backword char.
                 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
                 " c-j to complete pum
-                inoremap <expr><C-j> neocomplcache#close_popup()
-                snoremap <expr><C-j> neocomplcache#close_popup()
-                inoremap <expr><Cr> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
-                snoremap <expr><Cr> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
+                imap <expr><C-j> neocomplcache#smart_close_popup()
+                smap <expr><C-j> neocomplcache#smart_close_popup()
             " Normal Vim omni-completion ,if not set completion method , it works
             " To disable omni complete, add the following to your .vimrc.before.local file:
             " let g:spf13_no_omni_complete = 1
@@ -986,6 +984,19 @@
                 endfunction
                 imap <expr><Tab> <SID>Neo_Complete_Tab()
                 smap <expr><Tab> <SID>Neo_Complete_Tab()
+                function! s:Neo_Complete_Cr()
+                    if pumvisible() "popup menu apeared
+                        if neosnippet#expandable()
+                            return neosnippet#mappings#expand_impl()
+                        else
+                            return "\<C-j>"
+                        endif
+                    else
+                        return "\<Cr>"
+                    endif
+                endfunction
+                imap <expr><CR> <SID>Neo_Complete_Cr()
+                smap <expr><CR> <SID>Neo_Complete_Cr()
                " Use honza's snippets.
                 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
                 " Enable neosnippet snipmate compatibility mode
