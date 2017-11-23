@@ -765,8 +765,43 @@
             if isdirectory(expand("~/.vim/bundle/rainbow/"))
                 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
             endif
+        " Normal Vim omni-completion ,if not set completion method , it works
+        " To disable omni complete, add the following to your .vimrc.before.local file:
+        " let g:spf13_no_omni_complete = 1
+            if !exists('g:spf13_no_omni_complete') && g:completable==0
+                " Enable omni-completion.
+                autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+                autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+                autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+                autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+                autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+                autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+                autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+                if has("autocmd") && exists("+omnifunc")
+                autocmd Filetype *
+                    \if &omnifunc == "" |
+                    \setlocal omnifunc=syntaxcomplete#Complete |
+                    \endif
+                endif
+                hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
+                hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
+                hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
+                " Some convenient mappings
+                inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+                if exists('g:spf13_map_cr_omni_complete')
+                    inoremap <expr> <CR>     pumvisible() ? "\<C-y>" : "\<CR>"
+                endif
+                inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+                inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+                inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+                inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+                " Automatically open and close the popup menu / preview window
+                au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+                set completeopt=menu,preview,longest
+        " Snipmate
+            elseif g:completable==1
         " YouCompleteMe
-            if count(g:spf13_bundle_groups, 'youcompleteme')
+            elseif g:completable==2
                 set completeopt=longest,menu
                 au InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后关闭预览窗口
                 let g:ycm_python_binary_path = 'python'
@@ -778,9 +813,9 @@
                 let g:ycm_autoclose_preview_window_after_insertion = 1
                 " enable completion from tags
                 let g:ycm_collect_identifiers_from_tags_files = 1
-                let g:ycm_key_invoke_completion = '<Nop>'
-                let g:ycm_key_list_select_completion = ['<Tab>','<Down>']
-                let g:ycm_key_list_previous_completion = ['<S-Tab>','<Up>']
+                let g:ycm_key_invoke_completion = ['<Tab>','<CR>']
+                let g:ycm_key_list_select_completion = ['<Down>']
+                let g:ycm_key_list_previous_completion = ['<Up>']
                 " remap Ultisnips for compatibility for YCM
                 let g:UltiSnipsListSnippets="<C-l>"
                 let g:UltiSnipsExpandTrigger = '<C-k>'
@@ -789,21 +824,21 @@
                 " Ctrl+j for enter or stop pum
                 inoremap <expr> <C-j> pumvisible() ? "\<C-y>\<C-y>" : "\<CR>"
                 " cr for ExpandTrigger
-                function! g:UltiSnips_CR()
+                function! g:UltiSnips_Tab()
                     if pumvisible()
                         call UltiSnips#ExpandSnippet()
                         " 0:ExpandSnippet failed
                         if g:ulti_expand_res == 0
-                            return "\<C-y>"
+                            return "\<C-n>"
                         else
                             call feedkeys("\<C-c>")
                             return "\<Right>"
                         endif
                     else
-                        return "\<CR>"
+                        return "\<Tab>"
                     endif
                 endfunction
-                au BufEnter * exec "inoremap <silent> <CR> <C-R>=g:UltiSnips_CR()<cr>"
+                au BufEnter * exec "inoremap <silent> <Tab> <C-R>=g:UltiSnips_Tab()<cr>"
                 let g:UltiSnipsUsePythonVersion = 2
                 " Ulti的代码片段的文件夹
                 let g:UtiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
@@ -848,9 +883,9 @@
                 " 跳转到定义处
                 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
         " neocomplete
-            elseif count(g:spf13_bundle_groups, 'neocomplete')
-                let g:neocomplete_enable_insert_char_pre = 1
+            elseif g:completable == 4
                 let g:neocomplete_enable_at_startup = 1
+                let g:neocomplete_enable_insert_char_pre = 1
                 let g:neocomplete_enable_auto_select = 1
                 let g:neocomplete_enable_camel_case_completion = 1
                 let g:neocomplete_enable_smart_case = 1
@@ -869,7 +904,6 @@
                     let g:neocomplete_keyword_patterns = {}
                 endif
                 let g:neocomplete_keyword_patterns._ = '\h\w*'
-
                 " Enable heavy omni completion.
                 if !exists('g:neocomplete_omni_patterns')
                     let g:neocomplete_omni_patterns = {}
@@ -889,10 +923,10 @@
                 " <BS>: close popup and delete backword char.
                 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
                 " c-j to complete pum
-                imap <expr><C-j> neocomplete#smart_close_popup()
-                smap <expr><C-j> neocomplete#smart_close_popup()
+                imap <expr><C-j> neocomplete#cancel_popup()
+                smap <expr><C-j> neocomplete#cancel_popup()
          " neocomplcache
-            elseif count(g:spf13_bundle_groups, 'neocomplcache')
+            elseif g:completable == 5
                 let g:neocomplcache_enable_insert_char_pre = 1
                 let g:neocomplcache_enable_at_startup = 1
                 let g:neocomplcache_enable_auto_select = 1
@@ -929,41 +963,9 @@
                 " c-j to complete pum
                 imap <expr><C-j> neocomplcache#cancel_popup()
                 smap <expr><C-j> neocomplcache#cancel_popup()
-            " Normal Vim omni-completion ,if not set completion method , it works
-            " To disable omni complete, add the following to your .vimrc.before.local file:
-            " let g:spf13_no_omni_complete = 1
-            elseif !exists('g:spf13_no_omni_complete')
-                " Enable omni-completion.
-                autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-                autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-                autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-                autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-                autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-                autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-                autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-                if has("autocmd") && exists("+omnifunc")
-                autocmd Filetype *
-                    \if &omnifunc == "" |
-                    \setlocal omnifunc=syntaxcomplete#Complete |
-                    \endif
-                endif
-                hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
-                hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
-                hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-                " Some convenient mappings
-                inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
-                if exists('g:spf13_map_cr_omni_complete')
-                    inoremap <expr> <CR>     pumvisible() ? "\<C-y>" : "\<CR>"
-                endif
-                inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-                inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-                inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-                inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
-                " Automatically open and close the popup menu / preview window
-                au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-                set completeopt=menu,preview,longest
             endif
-            if count(g:spf13_bundle_groups, 'neocomplcache') ||  count(g:spf13_bundle_groups, 'neocomplete')
+            " neocomplet and necomplcache both use neosnippet to expand
+            if g:completable>3
                 " menu style
                 set completeopt=menu,preview
                 " c-k to expand

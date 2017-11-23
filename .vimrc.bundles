@@ -69,8 +69,6 @@
 
 " Bundles
     Bundle 'gmarik/vundle'
-    Bundle 'MarcWeber/vim-addon-mw-utils'
-    Bundle 'tomtom/tlib_vim'
     if executable('ag')
         Bundle 'rking/ag.vim'
         let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
@@ -157,26 +155,36 @@
             endif
         endif
     " Snippets & AutoComplete
+    " use comletable flag to set config
+        let g:completable=0
         if count(g:spf13_bundle_groups, 'snipmate')
+            let g:completable=1
             Bundle 'garbas/vim-snipmate'
-            Bundle 'honza/vim-snippets'
-            " Source support_function.vim to support vim-snippets.
-            if filereadable(expand("~/.vim/bundle/vim-snippets/snippets/support_functions.vim"))
-                source ~/.vim/bundle/vim-snippets/snippets/support_functions.vim
-            endif
-        elseif count(g:spf13_bundle_groups, 'youcompleteme')
+            Bundle 'MarcWeber/vim-addon-mw-utils'
+            Bundle 'tomtom/tlib_vim'
+        elseif count(g:spf13_bundle_groups, 'youcompleteme') && executable('cmake')
+            let g:completable=2
             Bundle 'Valloric/YouCompleteMe'
             Bundle 'SirVer/ultisnips'
-            Bundle 'honza/vim-snippets'
-        elseif count(g:spf13_bundle_groups, 'neocomplcache')
-            Bundle 'Shougo/neocomplcache.vim'
-            Bundle 'Shougo/neosnippet'
-            Bundle 'Shougo/neosnippet-snippets'
-            Bundle 'honza/vim-snippets'
-        elseif count(g:spf13_bundle_groups, 'neocomplete')
-            Bundle 'Shougo/neocomplete.vim'
-            Bundle 'Shougo/neosnippet'
-            Bundle 'Shougo/neosnippet-snippets'
+        " use shougo's completion plugins accoding to enviroment
+        elseif count(g:spf13_bundle_groups, 'shougocomplete')
+            if has('python3') && (has('nvim') || version>799)
+                let g:completable=3
+                Bundle 'Shougo/deoplete.nvim'
+            elseif has('lua') && (has('nvim') || version>703)
+                let g:completable=4
+                Bundle 'Shougo/neocomplete.vim'
+                Bundle 'Shougo/neosnippet'
+                Bundle 'Shougo/neosnippet-snippets'
+            elseif
+                let g:completable=5
+                Bundle 'Shougo/neocomplcache.vim'
+                Bundle 'Shougo/neosnippet'
+                Bundle 'Shougo/neosnippet-snippets'
+            endif
+        endif
+        " use honza's snippets collections
+        if g:completable>0
             Bundle 'honza/vim-snippets'
         endif
     " vimshell
