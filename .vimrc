@@ -15,7 +15,9 @@
     set background=dark     " Assume a dark background
     set mouse=a             " Automatically enable mouse usage
     set mousehide           " Hide the mouse cursor while typing
+    set noshowmode
     scriptencoding utf-8
+
 " Gui
     if !has('gui')
         if !has('nvim')
