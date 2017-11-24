@@ -884,26 +884,25 @@
                 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
         " neocomplete
             elseif g:completable == 4
-                let g:neocomplete_enable_at_startup = 1
-                let g:neocomplete_enable_insert_char_pre = 1
+                let g:acp_enableAtStartup = 1
+                let g:neocomplete#enable_at_startup = 1
+                let g:neocomplete#enable_smart_case = 1
+                let g:neocomplete#enable_auto_delimiter = 1
+                let g:neocomplete#max_list = 15
+                let g:neocomplete#force_overwrite_completefunc = 1
                 let g:neocomplete_enable_auto_select = 1
-                let g:neocomplete_enable_camel_case_completion = 1
-                let g:neocomplete_enable_smart_case = 1
-                let g:neocomplete_enable_underbar_completion = 1
-                let g:neocomplete_enable_auto_delimiter = 1
-                let g:neocomplete_max_list = 15
-                let g:neocomplete_force_overwrite_completefunc = 1
+
+                " Define keyword.
+                if !exists('g:neocomplete_keyword_patterns')
+                    let g:neocomplete_keyword_patterns = {}
+                endif
+                let g:neocomplete_keyword_patterns._ = '\h\w*'
                 " Define dictionary.
                 let g:neocomplete_dictionary_filetype_lists = {
                             \ 'default' : '',
                             \ 'vimshell' : $HOME.'/.vimshell_hist',
                             \ 'scheme' : $HOME.'/.gosh_completions'
                             \ }
-                " Define keyword.
-                if !exists('g:neocomplete_keyword_patterns')
-                    let g:neocomplete_keyword_patterns = {}
-                endif
-                let g:neocomplete_keyword_patterns._ = '\h\w*'
                 " Enable heavy omni completion.
                 if !exists('g:neocomplete_omni_patterns')
                     let g:neocomplete_omni_patterns = {}
@@ -914,12 +913,6 @@
                 let g:neocomplete_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
                 let g:neocomplete_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
                 let g:neocomplete_omni_patterns.go = '\h\w*\.\?'
-                " Define keyword.
-                if !exists('g:neocomplete_keyword_patterns')
-                    let g:neocomplete_keyword_patterns = {}
-                endif
-                let g:neocomplete_keyword_patterns._ = '\h\w*'
-                let g:neocomplete_enable_auto_select = 0
                 " <BS>: close popup and delete backword char.
                 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
                 " c-j to complete pum
@@ -929,7 +922,7 @@
             elseif g:completable == 5
                 let g:neocomplcache_enable_insert_char_pre = 1
                 let g:neocomplcache_enable_at_startup = 1
-                let g:neocomplcache_enable_auto_select = 1
+                let g:neocomplcache_enable_auto_select = 0
                 let g:neocomplcache_enable_camel_case_completion = 1
                 let g:neocomplcache_enable_smart_case = 1
                 let g:neocomplcache_enable_underbar_completion = 1
@@ -942,6 +935,7 @@
                             \ 'vimshell' : $HOME.'/.vimshell_hist',
                             \ 'scheme' : $HOME.'/.gosh_completions'
                             \ }
+                let g:neocomplcache_keyword_patterns = '\h\w*'
                 " Enable heavy omni completion.
                 if !exists('g:neocomplcache_omni_patterns')
                     let g:neocomplcache_omni_patterns = {}
@@ -952,12 +946,6 @@
                 let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
                 let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
                 let g:neocomplcache_omni_patterns.go = '\h\w*\.\?'
-                " Define keyword.
-                if !exists('g:neocomplcache_keyword_patterns')
-                    let g:neocomplcache_keyword_patterns = {}
-                endif
-                let g:neocomplcache_keyword_patterns._ = '\h\w*'
-                let g:neocomplcache_enable_auto_select = 0
                 " <BS>: close popup and delete backword char.
                 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
                 " c-j to complete pum
@@ -977,14 +965,14 @@
                 smap <C-f> <Right><Plug>(neosnippet_jump)
                 inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
                 inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
-                inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
-                inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
+                inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
+                inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
                 function! s:Neo_Complete_Tab()
                     if pumvisible() "popup menu apeared
                         if neosnippet#expandable()
                             return neosnippet#mappings#expand_impl()
                         else
-                            if !len(get(v:completed_item,'menu'))
+                            if !get(v:completed_item,'menu') || !len(get(v:completed_item,'menu'))
                                 return "\<C-n>"
                             else
                                 return "\<C-j>"
@@ -1011,10 +999,10 @@
                 endfunction
                 inoremap <expr><CR> <SID>Neo_Complete_Cr()
                 snoremap <expr><CR> <SID>Neo_Complete_Cr()
-               " Use honza's snippets.
+                " Use honza's snippets.
                 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-                " Enable neosnippet snipmate compatibility mode
-                let g:neosnippet#enable_snipmate_compatibility = 1
+                 "Enable neosnippet snipmate compatibility mode
+                "let g:neosnippet#enable_snipmate_compatibility = 1
                 " For snippet_complete marker.
                 if !exists("g:spf13_no_conceal")
                     if has('conceal')
