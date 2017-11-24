@@ -157,15 +157,15 @@
     " Snippets & AutoComplete
     " use comletable flag to set config
         let g:completable=0
-        if count(g:spf13_bundle_groups, 'snipmate')
+        if count(g:spf13_bundle_groups, 'youcompleteme') && executable('cmake')
             let g:completable=1
+            Bundle 'Valloric/YouCompleteMe'
+            Bundle 'SirVer/ultisnips'
+        elseif count(g:spf13_bundle_groups, 'snipmate')
+            let g:completable=2
             Bundle 'garbas/vim-snipmate'
             Bundle 'MarcWeber/vim-addon-mw-utils'
             Bundle 'tomtom/tlib_vim'
-        elseif count(g:spf13_bundle_groups, 'youcompleteme') && executable('cmake')
-            let g:completable=2
-            Bundle 'Valloric/YouCompleteMe'
-            Bundle 'SirVer/ultisnips'
         " use shougo's completion plugins accoding to enviroment
         elseif count(g:spf13_bundle_groups, 'shougocomplete')
             if has('python3') && (has('nvim') || version>799)
@@ -176,7 +176,7 @@
                 Bundle 'Shougo/neocomplete.vim'
                 Bundle 'Shougo/neosnippet'
                 Bundle 'Shougo/neosnippet-snippets'
-            else
+            elseif version>703
                 let g:completable=5
                 Bundle 'Shougo/neocomplcache.vim'
                 Bundle 'Shougo/neosnippet'

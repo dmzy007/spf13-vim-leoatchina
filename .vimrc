@@ -798,10 +798,8 @@
                 " Automatically open and close the popup menu / preview window
                 au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
                 set completeopt=menu,preview,longest
-        " Snipmate
+        " Youcompleteme
             elseif g:completable==1
-        " YouCompleteMe
-            elseif g:completable==2
                 set completeopt=longest,menu
                 au InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后关闭预览窗口
                 let g:ycm_python_binary_path = 'python'
@@ -882,6 +880,8 @@
                 let g:ycm_collect_identifiers_from_comments_and_strings = 0
                 " 跳转到定义处
                 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+        " snipmate
+            elseif g:completable==2
         " neocomplete
             elseif g:completable == 4
                 let g:acp_enableAtStartup = 1
