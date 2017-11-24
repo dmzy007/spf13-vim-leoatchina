@@ -180,6 +180,7 @@
             else
                 let g:completable=5
                 Bundle 'Shougo/neocomplcache.vim'
+                Bundle 'JazzCore/neocomplcache-ultisnips'
             endif
         endif
         " use honza's snippets collections

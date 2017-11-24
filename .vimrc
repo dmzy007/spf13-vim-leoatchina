@@ -999,11 +999,10 @@
                         if g:ulti_expand_res
                             return "\<Right>"
                         else
-                            if empty('v:completed_item')
-                                return "\<C-n>"
-                            else
-                                return "\<C-n>\<Space>\<BS>"
+                            if count(v:completed_item,'menu')
+                                call feedkeys("\<C-n>")
                             endif
+                            return "\<Space>\<BS>"
                         endif
                     else
                         return "\<Tab>"
