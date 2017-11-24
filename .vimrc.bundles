@@ -168,15 +168,19 @@
             Bundle 'tomtom/tlib_vim'
         " use shougo's completion plugins accoding to enviroment
         elseif count(g:spf13_bundle_groups, 'shougocomplete')
-            if has('python3') && (has('nvim') || version>799)
+            if has('python3') && (has('nvim') || version>799) && has('timers')
                 let g:completable=3
                 Bundle 'Shougo/deoplete.nvim'
+                if !has('nvim')
+                    Bundle 'roxma/nvim-yarp'
+                    Bundle 'roxma/vim-hug-neovim-rpc'
+                endif
             elseif has('lua') && (has('nvim') || version>703)
                 let g:completable=4
                 Bundle 'Shougo/neocomplete.vim'
                 Bundle 'Shougo/neosnippet'
                 Bundle 'Shougo/neosnippet-snippets'
-            elseif version>703
+            else
                 let g:completable=5
                 Bundle 'Shougo/neocomplcache.vim'
                 Bundle 'Shougo/neosnippet'

@@ -158,7 +158,7 @@
         noremap j gj
         noremap k gk
         "F1 help
-        nmap <F1> :h<SPACE>
+        nmap <F1> :tab help<SPACE>
         "F2 toggleFold
         noremap <F2> :set nofoldenable! nofoldenable?<CR>
         noremap <leader>fd :set nofoldenable! nofoldenable?<CR>
@@ -286,7 +286,8 @@
           au!
           au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
         aug END
-        set number                      " show line number
+        "set number                      " show line number
+        au BufWinEnter * set number
         set autoindent                  " Indent at the same level of the previous line
         set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
         set splitright                  " Puts new vsplit windows to the right of the current
@@ -884,6 +885,11 @@
             elseif g:completable==2
         " deoplete
             elseif g:completable == 3
+                let g:deoplete#enable_at_startup = 1
+                if !has('nvim')
+                    let g:deoplete#enable_yarp=1
+                endif
+                let g:deoplete#enable_camel_case=1
         " neocomplete
             elseif g:completable == 4
                 let g:acp_enableAtStartup = 1
@@ -908,13 +914,13 @@
                 " Enable heavy omni completion.
                 if !exists('g:neocomplete_omni_patterns')
                     let g:neocomplete_omni_patterns = {}
+                    let g:neocomplete_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+                    let g:neocomplete_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+                    let g:neocomplete_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+                    let g:neocomplete_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+                    let g:neocomplete_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+                    let g:neocomplete_omni_patterns.go = '\h\w*\.\?'
                 endif
-                let g:neocomplete_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-                let g:neocomplete_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-                let g:neocomplete_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-                let g:neocomplete_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-                let g:neocomplete_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-                let g:neocomplete_omni_patterns.go = '\h\w*\.\?'
                 " <BS>: close popup and delete backword char.
                 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
                 " c-j to complete pum
@@ -941,13 +947,13 @@
                 " Enable heavy omni completion.
                 if !exists('g:neocomplcache_omni_patterns')
                     let g:neocomplcache_omni_patterns = {}
+                    let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+                    let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+                    let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+                    let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+                    let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+                    let g:neocomplcache_omni_patterns.go = '\h\w*\.\?'
                 endif
-                let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-                let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-                let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-                let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-                let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-                let g:neocomplcache_omni_patterns.go = '\h\w*\.\?'
                 " <BS>: close popup and delete backword char.
                 inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
                 " c-j to complete pum
