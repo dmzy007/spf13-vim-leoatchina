@@ -160,7 +160,6 @@
         if count(g:spf13_bundle_groups, 'youcompleteme') && executable('cmake')
             let g:completable=1
             Bundle 'Valloric/YouCompleteMe'
-            Bundle 'SirVer/ultisnips'
         elseif count(g:spf13_bundle_groups, 'snipmate')
             let g:completable=2
             Bundle 'garbas/vim-snipmate'
@@ -182,13 +181,10 @@
                 let g:completable=5
                 Bundle 'Shougo/neocomplcache.vim'
             endif
-            if g:completable>0
-                Bundle 'Shougo/neosnippet'
-                Bundle 'Shougo/neosnippet-snippets'
-            endif
         endif
         " use honza's snippets collections
         if g:completable>0
+            Bundle 'SirVer/ultisnips'
             Bundle 'honza/vim-snippets'
         endif
     " vimshell

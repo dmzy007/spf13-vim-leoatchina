@@ -813,36 +813,8 @@
                 " enable completion from tags
                 let g:ycm_collect_identifiers_from_tags_files = 1
                 let g:ycm_key_invoke_completion = ['<Tab>','<CR>']
-                let g:ycm_key_list_select_completion = ['<Down>']
-                let g:ycm_key_list_previous_completion = ['<Up>']
-                " remap Ultisnips for compatibility for YCM
-                let g:UltiSnipsListSnippets="<C-l>"
-                let g:UltiSnipsExpandTrigger = '<C-k>'
-                let g:UltiSnipsJumpForwardTrigger = '<C-f>'
-                let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
-                " Ctrl+j for enter or stop pum
-                inoremap <expr> <C-j> pumvisible() ? "\<C-y>\<C-y>" : "\<CR>"
-                " cr for ExpandTrigger
-                function! g:UltiSnips_Tab()
-                    if pumvisible()
-                        call UltiSnips#ExpandSnippet()
-                        " 0:ExpandSnippet failed
-                        if g:ulti_expand_res == 0
-                            return "\<C-n>"
-                        else
-                            call feedkeys("\<C-c>")
-                            return "\<Right>"
-                        endif
-                    else
-                        return "\<Tab>"
-                    endif
-                endfunction
-                au BufEnter * exec "inoremap <silent> <Tab> <C-R>=g:UltiSnips_Tab()<cr>"
-                let g:UltiSnipsUsePythonVersion = 2
-                " Ulti的代码片段的文件夹
-                let g:UtiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
-                " 自定义代码片段的文件夹
-                let g:UltiSnipsSnippetsDir = "~/.vim/bundle/UltiSnips"
+                let g:ycm_key_list_select_completion = ['<C-n>','<Down>']
+                let g:ycm_key_list_previous_completion = ['<C-p','<Up>']
                 let g:ycm_filetype_blacklist = {
                       \ 'tagbar' : 1,
                       \ 'nerdtree' : 1,
@@ -991,65 +963,72 @@
                 inoremap <expr><C-g> neocomplcache#undo_completion()
                 snoremap <expr><C-g> neocomplcache#undo_completion()
             endif
-            " neocomplet and necomplcache both use neosnippet to expand
-            if g:completable>2
+            " shougo completion use neosnippet to expand
+            if g:completable>0
                 " menu style
                 set completeopt=menu,preview
-                " c-k to expand
-                imap <C-k> <Plug>(neosnippet_expand)
-                smap <C-k> <Plug>(neosnippet_expand)
-                xmap <C-k> <Plug>(neosnippet_expand_target)
-                " c-f to jump
-                imap <C-f> <Right><Plug>(neosnippet_jump)
-                smap <C-f> <Right><Plug>(neosnippet_jump)
-                inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
-                inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
-                inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
-                inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-                inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-                snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-                function! s:Complete_Tab()
-                    if pumvisible() "popup menu apeared
-                        if neosnippet#expandable()
-                            return neosnippet#mappings#expand_impl()
-                        else
-                            if !get(v:completed_item,'menu') || !len(get(v:completed_item,'menu'))
-                                return "\<C-n>"
-                            else
-                                return "\<C-j>"
-                            endif
-                        endif
-                    else
-                        return "\<Tab>"
-                    endif
-                endfunction
-                inoremap <expr><Tab> <SID>Complete_Tab()
-                snoremap <expr><Tab> <SID>Complete_Tab()
-                function! s:Complete_Cr()
-                    if pumvisible() "popup menu apeared
-                        if neosnippet#expandable()
-                            return neosnippet#mappings#expand_impl()
-                        else
-                            return "\<C-j>"
-                        endif
-                    else
-                        return "\<Cr>"
-                    endif
-                endfunction
-                inoremap <expr><CR> <SID>Complete_Cr()
-                snoremap <expr><CR> <SID>Complete_Cr()
                 " Use honza's snippets.
                 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-                 "Enable neosnippet snipmate compatibility mode
-                "let g:neosnippet#enable_snipmate_compatibility = 1
                 " For snippet_complete marker.
                 if !exists("g:spf13_no_conceal")
                     if has('conceal')
                         set conceallevel=2 concealcursor=i
                     endif
                 endif
-                " Enable neosnippets when using go
-                let g:go_snippet_engine = "neosnippet"
+                " remap Ultisnips for compatibility
+                let g:UltiSnipsListSnippets="<C-l>"
+                let g:UltiSnipsExpandTrigger = '<C-k>'
+                let g:UltiSnipsJumpForwardTrigger = '<C-f>'
+                let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
+                " Ulti python version
+                let g:UltiSnipsUsePythonVersion = 2
+                " Ulti的代码片段的文件夹
+                let g:UtiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/UltiSnips"]
+
+                inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+                inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
+                inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
+                inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+                inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+                snoremap <expr> <S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+                " tab for ExpandTrigger
+                function! s:UltiSnips_Tab()
+                    if pumvisible()
+                        call UltiSnips#ExpandSnippet()
+                        " 0:ExpandSnippet failed
+                        if g:ulti_expand_res
+                            return "\<Right>"
+                        else
+                            if empty('v:completed_item')
+                                return "\<C-n>"
+                            else
+                                return "\<C-n>\<Space>\<BS>"
+                            endif
+                        endif
+                    else
+                        return "\<Tab>"
+                    endif
+                endfunction
+                au BufEnter * exec "inoremap <silent> <Tab> <C-R>=<SID>UltiSnips_Tab()<cr>"
+                au BufEnter * exec "snoremap <silent> <Tab> <C-R>=<SID>UltiSnips_Tab()<cr>"
+                inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+                snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+                " tab for ExpandTrigger
+                function! s:UltiSnips_Cr()
+                    if pumvisible()
+                        call UltiSnips#ExpandSnippet()
+                        " 0:ExpandSnippet failed
+                        if g:ulti_expand_res
+                            return "\<Right>"
+                        else
+                            return "\<C-j>"
+                        endif
+                    else
+                        return "\<CR>"
+                    endif
+                endfunction
+                au BufEnter * exec "inoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
+                au BufEnter * exec "snoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
             endif
         " UndoTree
             if isdirectory(expand("~/.vim/bundle/undotree/"))
