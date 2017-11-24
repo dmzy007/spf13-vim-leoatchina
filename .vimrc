@@ -882,6 +882,8 @@
                 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
         " snipmate
             elseif g:completable==2
+        " deoplete
+            elseif g:completable == 3
         " neocomplete
             elseif g:completable == 4
                 let g:acp_enableAtStartup = 1
