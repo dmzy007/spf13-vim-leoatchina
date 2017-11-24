@@ -178,11 +178,11 @@
             elseif has('lua') && (has('nvim') || version>703)
                 let g:completable=4
                 Bundle 'Shougo/neocomplete.vim'
-                Bundle 'Shougo/neosnippet'
-                Bundle 'Shougo/neosnippet-snippets'
             else
                 let g:completable=5
                 Bundle 'Shougo/neocomplcache.vim'
+            endif
+            if g:completable>0
                 Bundle 'Shougo/neosnippet'
                 Bundle 'Shougo/neosnippet-snippets'
             endif

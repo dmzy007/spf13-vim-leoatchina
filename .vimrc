@@ -890,6 +890,29 @@
                     let g:deoplete#enable_yarp=1
                 endif
                 let g:deoplete#enable_camel_case=1
+                " Enable heavy omni completion.
+                if !exists('g:deoplete#keyword_patterns')
+                    let g:deoplete#keyword_patterns = {}
+                    let g:deoplete#keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
+                endif
+                if !exists('g:deoplete#omni_patterns')
+                    let g:deoplete#omni_patterns = {}
+                    let g:deoplete#omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+                    let g:deoplete#omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+                    let g:deoplete#omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+                    let g:deoplete#omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+                    let g:deoplete#omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+                    let g:deoplete#omni_patterns.go = '\h\w*\.\?'
+                    let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
+                endif
+                " <BS>: close popup and delete backword char.
+                inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+                " c-j to complete pum
+                imap <expr><C-j> deoplete#cancel_popup()
+                smap <expr><C-j> deoplete#cancel_popup()
+                " c=g
+                inoremap <expr><C-g> deocomplete#undo_completion()
+                snoremap <expr><C-g> deocomplete#undo_completion()
         " neocomplete
             elseif g:completable == 4
                 let g:acp_enableAtStartup = 1
@@ -899,12 +922,11 @@
                 let g:neocomplete#max_list = 15
                 let g:neocomplete#force_overwrite_completefunc = 1
                 let g:neocomplete_enable_auto_select = 1
-
                 " Define keyword.
                 if !exists('g:neocomplete_keyword_patterns')
                     let g:neocomplete_keyword_patterns = {}
+                    let g:neocomplete_keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
                 endif
-                let g:neocomplete_keyword_patterns._ = '\h\w*'
                 " Define dictionary.
                 let g:neocomplete_dictionary_filetype_lists = {
                             \ 'default' : '',
@@ -926,6 +948,9 @@
                 " c-j to complete pum
                 imap <expr><C-j> neocomplete#cancel_popup()
                 smap <expr><C-j> neocomplete#cancel_popup()
+                " c=g
+                inoremap <expr><C-g> neocomplete#undo_completion()
+                snoremap <expr><C-g> neocomplete#undo_completion()
          " neocomplcache
             elseif g:completable == 5
                 let g:neocomplcache_enable_insert_char_pre = 1
@@ -937,13 +962,16 @@
                 let g:neocomplcache_enable_auto_delimiter = 1
                 let g:neocomplcache_max_list = 15
                 let g:neocomplcache_force_overwrite_completefunc = 1
+                if !exists('g:neocomplcache_keyword_patterns')
+                    let g:neocomplcache_keyword_patterns = {}
+                    let g:neocomplcache_keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
+                endif
                 " Define dictionary.
                 let g:neocomplcache_dictionary_filetype_lists = {
                             \ 'default' : '',
                             \ 'vimshell' : $HOME.'/.vimshell_hist',
                             \ 'scheme' : $HOME.'/.gosh_completions'
                             \ }
-                let g:neocomplcache_keyword_patterns = '\h\w*'
                 " Enable heavy omni completion.
                 if !exists('g:neocomplcache_omni_patterns')
                     let g:neocomplcache_omni_patterns = {}
@@ -959,9 +987,12 @@
                 " c-j to complete pum
                 imap <expr><C-j> neocomplcache#cancel_popup()
                 smap <expr><C-j> neocomplcache#cancel_popup()
+                " c=g
+                inoremap <expr><C-g> neocomplcache#undo_completion()
+                snoremap <expr><C-g> neocomplcache#undo_completion()
             endif
             " neocomplet and necomplcache both use neosnippet to expand
-            if g:completable>3
+            if g:completable>2
                 " menu style
                 set completeopt=menu,preview
                 " c-k to expand
@@ -975,7 +1006,9 @@
                 inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
                 inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
                 inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-                function! s:Neo_Complete_Tab()
+                inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+                snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+                function! s:Complete_Tab()
                     if pumvisible() "popup menu apeared
                         if neosnippet#expandable()
                             return neosnippet#mappings#expand_impl()
@@ -990,11 +1023,9 @@
                         return "\<Tab>"
                     endif
                 endfunction
-                inoremap <expr><Tab> <SID>Neo_Complete_Tab()
-                snoremap <expr><Tab> <SID>Neo_Complete_Tab()
-                inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-                snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-                function! s:Neo_Complete_Cr()
+                inoremap <expr><Tab> <SID>Complete_Tab()
+                snoremap <expr><Tab> <SID>Complete_Tab()
+                function! s:Complete_Cr()
                     if pumvisible() "popup menu apeared
                         if neosnippet#expandable()
                             return neosnippet#mappings#expand_impl()
@@ -1005,8 +1036,8 @@
                         return "\<Cr>"
                     endif
                 endfunction
-                inoremap <expr><CR> <SID>Neo_Complete_Cr()
-                snoremap <expr><CR> <SID>Neo_Complete_Cr()
+                inoremap <expr><CR> <SID>Complete_Cr()
+                snoremap <expr><CR> <SID>Complete_Cr()
                 " Use honza's snippets.
                 let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
                  "Enable neosnippet snipmate compatibility mode
