@@ -847,7 +847,7 @@ autocmd FileType haskell,rust setlocal nospell
         inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
         " c-j to complete pum
         imap <expr><C-j> deoplete#cancel_popup()
-        smap <expr><C-j> deoplete#cancel_popup()
+        smap <expr><C-j> deoplete#close_popup()
         " c=g
         inoremap <expr><C-g> deocomplete#undo_completion()
         snoremap <expr><C-g> deocomplete#undo_completion()
@@ -890,8 +890,8 @@ autocmd FileType haskell,rust setlocal nospell
         " <BS>: close popup and delete backword char.
         inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
         " c-j to complete pum
-        imap <expr><C-j> neocomplete#cancel_popup()
-        smap <expr><C-j> neocomplete#cancel_popup()
+        imap <expr><C-j> neocomplete#close_popup()
+        smap <expr><C-j> neocomplete#close_popup()
         " c=g
         inoremap <expr><C-g> neocomplete#undo_completion()
         snoremap <expr><C-g> neocomplete#undo_completion()
@@ -928,8 +928,8 @@ autocmd FileType haskell,rust setlocal nospell
         " <BS>: close popup and delete backword char.
         inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
         " c-j to complete pum
-        imap <expr><C-j> pumvisible() ? neocomplcache#cancel_popup():"\<Cr>"
-        smap <expr><C-j> pumvisible() ? neocomplcache#cancel_popup():"\<Cr>"
+        imap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
+        smap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
         " c=g
         inoremap <expr><C-g> neocomplcache#undo_completion()
         snoremap <expr><C-g> neocomplcache#undo_completion()
