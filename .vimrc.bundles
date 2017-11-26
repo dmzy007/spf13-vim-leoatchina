@@ -12,269 +12,266 @@
 " You can find spf13's gread config  at http://spf13.com
 
 " Identify platform
-    silent function! OSX()
-        return has('macunix')
-    endfunction
-    silent function! LINUX()
-        return has('unix') && !has('macunix') && !has('win32unix')
-    endfunction
-    silent function! WINDOWS()
-        return  (has('win32') || has('win64'))
-    endfunction
+silent function! OSX()
+    return has('macunix')
+endfunction
+silent function! LINUX()
+    return has('unix') && !has('macunix') && !has('win32unix')
+endfunction
+silent function! WINDOWS()
+    return  (has('win32') || has('win64'))
+endfunction
 " Basics
-    if !WINDOWS()
-        set shell=/bin/sh
-    else
-    " Windows Compatible
-        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
-        " across (heterogeneous) systems easier.
-        set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-    endif
-
-    " Windows Compatible
+if !WINDOWS()
+    set shell=/bin/sh
+else
+" Windows Compatible
     " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
     " across (heterogeneous) systems easier.
-    if WINDOWS()
-      set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-      " Be nice and check for multi_byte even if the config requires
-      " multi_byte support most of the time
-      if has("multi_byte")
-        " Windows cmd.exe still uses cp850. If Windows ever moved to
-        " Powershell as the primary terminal, this would be utf-8
-        set termencoding=cp850
-        " Let Vim use utf-8 internally, because many scripts require this
-        set encoding=utf-8
-        setglobal fileencoding=utf-8
-        " Windows has traditionally used cp1252, so it's probably wise to
-        " fallback into cp1252 instead of eg. iso-8859-15.
-        " Newer Windows files might contain utf-8 or utf-16 LE so we might
-        " want to try them first.
-        set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
-      endif
+    set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+    " Be nice and check for multi_byte even if the config requires
+    " multi_byte support most of the time
+    if has("multi_byte")
+    " Windows cmd.exe still uses cp850. If Windows ever moved to
+    " Powershell as the primary terminal, this would be utf-8
+    set termencoding=cp850
+    " Let Vim use utf-8 internally, because many scripts require this
+    set encoding=utf-8
+    setglobal fileencoding=utf-8
+    " Windows has traditionally used cp1252, so it's probably wise to
+    " fallback into cp1252 instead of eg. iso-8859-15.
+    " Newer Windows files might contain utf-8 or utf-16 LE so we might
+    " want to try them first.
+    set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
     endif
+endif
 
-    " Setup Bundle Support
-    " The next three lines ensure that the ~/.vim/bundle/ system works
-    filetype off
-    set rtp+=~/.vim/bundle/vundle
-    call vundle#rc()
+" Setup Bundle Support
+" The next three lines ensure that the ~/.vim/bundle/ system works
+filetype off
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
 
-    " Add an UnBundle command
-    function! UnBundle(arg, ...)
-      let bundle = vundle#config#init_bundle(a:arg, a:000)
-      call filter(g:vundle#bundles, 'v:val["name_spec"] != "' . a:arg . '"')
-    endfunction
-    com! -nargs=+         UnBundle
-    \ call UnBundle(<args>)
+" Add an UnBundle command
+function! UnBundle(arg, ...)
+    let bundle = vundle#config#init_bundle(a:arg, a:000)
+    call filter(g:vundle#bundles, 'v:val["name_spec"] != "' . a:arg . '"')
+endfunction
+com! -nargs=+   UnBundle
+\ call UnBundle(<args>)
 
 " Bundles
-    Bundle 'gmarik/vundle'
-    if executable('ag')
-        Bundle 'rking/ag.vim'
-        let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
-    elseif executable('ack-grep')
-        let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-        Bundle 'mileszs/ack.vim'
-    elseif executable('ack')
-        Bundle 'mileszs/ack.vim'
-    endif
-    " In your .vimrc.before.local file
-    " list only the plugin groups you will use
-    if !exists('g:spf13_bundle_groups')
-        let g:spf13_bundle_groups=['programming', 'python', 'php', 'javascript', 'html',]
-    endif
+Bundle 'gmarik/vundle'
+if executable('ag')
+    Bundle 'rking/ag.vim'
+    let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
+elseif executable('ack-grep')
+    let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+    Bundle 'mileszs/ack.vim'
+elseif executable('ack')
+    Bundle 'mileszs/ack.vim'
+endif
+" In your .vimrc.before.local file
+" list only the plugin groups you will use
+if !exists('g:spf13_bundle_groups')
+    let g:spf13_bundle_groups=['programming', 'python', 'php', 'javascript', 'html',]
+endif
 
-   " To override all the included bundles, add the following to your
-    " .vimrc.bundles.local file:
-    "   let g:override_spf13_bundles = 1
-    if !exists("g:override_spf13_bundles")
-        " General
-        Bundle 'scrooloose/nerdtree'
-        Bundle 'jistr/vim-nerdtree-tabs'
-        Bundle 'Xuyuanp/nerdtree-git-plugin'
-        Bundle 'vim-voom/VOoM'
-        if count(g:spf13_bundle_groups, 'chinese')
-            Bundle 'leoatchina/ywvim'
-        endif
-        Bundle 'easymotion/vim-easymotion'
-        Bundle 'tyrannicaltoucan/vim-quantum'
-        Bundle 'altercation/vim-colors-solarized'
-        Bundle 'spf13/vim-colors'
-        Bundle 'tpope/vim-repeat'
-        Bundle 'tpope/vim-surround'
-        if OSX()
-            Bundle 'CodeFalling/fcitx-vim-osx'
-        else
-            Bundle 'lilydjwg/fcitx.vim'
-        endif
-        Bundle 'powerline/fonts'
-        Bundle 'rhysd/conflict-marker.vim'
-        Bundle 'jiangmiao/auto-pairs'
-        Bundle 'ctrlpvim/ctrlp.vim'
-        Bundle 'tacahiroy/ctrlp-funky'
-        Bundle 'godlygeek/tabular'
-        Bundle 'mbbill/undotree'
-        Bundle 'bling/vim-bufferline'
-        Bundle 'nathanaelkane/vim-indent-guides'
-        Bundle 'drmingdrmer/vim-toggle-quickfix'
-        Bundle 'vim-scripts/sessionman.vim'
-        Bundle 'mhinz/vim-signify'
-        Bundle 'tamlok/vim-markdown'
-        if (has("python") || has("python3")) && exists('g:spf13_use_powerline') && !exists('g:spf13_use_old_powerline')
-            Bundle 'Lokaltog/powerline', 'rtp':'/powerline/bindings/vim'
-        elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
-            Bundle 'Lokaltog/vim-powerline'
-        else
-            Bundle 'vim-airline/vim-airline'
-            Bundle 'vim-airline/vim-airline-themes'
-        endif
-        if !exists('g:spf13_no_views')
-            Bundle 'vim-scripts/restore_view.vim'
-        endif
-        if count(g:spf13_bundle_groups, 'markdown')
-            Bundle 'terryma/vim-multiple-cursors'
-            Bundle 'iamcco/mathjax-support-for-mkdp'
-            Bundle 'iamcco/markdown-preview.vim'
-        endif
+" To override all the included bundles, add the following to your
+" .vimrc.bundles.local file:
+"  let g:override_spf13_bundles = 1
+if !exists("g:override_spf13_bundles")
+    " General
+    Bundle 'scrooloose/nerdtree'
+    Bundle 'jistr/vim-nerdtree-tabs'
+    Bundle 'Xuyuanp/nerdtree-git-plugin'
+    Bundle 'vim-voom/VOoM'
+    Bundle 'easymotion/vim-easymotion'
+    Bundle 'tyrannicaltoucan/vim-quantum'
+    Bundle 'altercation/vim-colors-solarized'
+    Bundle 'spf13/vim-colors'
+    Bundle 'tpope/vim-repeat'
+    Bundle 'tpope/vim-surround'
+    if count(g:spf13_bundle_groups, 'chinese')
+        Bundle 'leoatchina/ywvim'
+    endif
+    if OSX()
+        Bundle 'CodeFalling/fcitx-vim-osx'
+    else
+        Bundle 'lilydjwg/fcitx.vim'
+    endif
+    Bundle 'powerline/fonts'
+    Bundle 'rhysd/conflict-marker.vim'
+    Bundle 'jiangmiao/auto-pairs'
+    Bundle 'ctrlpvim/ctrlp.vim'
+    Bundle 'tacahiroy/ctrlp-funky'
+    Bundle 'godlygeek/tabular'
+    Bundle 'mbbill/undotree'
+    Bundle 'bling/vim-bufferline'
+    Bundle 'nathanaelkane/vim-indent-guides'
+    Bundle 'drmingdrmer/vim-toggle-quickfix'
+    Bundle 'vim-scripts/sessionman.vim'
+    Bundle 'mhinz/vim-signify'
+    Bundle 'tamlok/vim-markdown'
+    if (has("python") || has("python3")) && exists('g:spf13_use_powerline') && !exists('g:spf13_use_old_powerline')
+        Bundle 'Lokaltog/powerline', 'rtp':'/powerline/bindings/vim'
+    elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
+        Bundle 'Lokaltog/vim-powerline'
+    else
+        Bundle 'vim-airline/vim-airline'
+        Bundle 'vim-airline/vim-airline-themes'
+    endif
+    if !exists('g:spf13_no_views')
+        Bundle 'vim-scripts/restore_view.vim'
+    endif
+    if count(g:spf13_bundle_groups, 'markdown')
+        Bundle 'terryma/vim-multiple-cursors'
+        Bundle 'iamcco/mathjax-support-for-mkdp'
+        Bundle 'iamcco/markdown-preview.vim'
+    endif
    " General Programming
-        if count(g:spf13_bundle_groups, 'programming')
-            Bundle 'scrooloose/nerdcommenter'
-            Bundle 'tpope/vim-commentary'
-            Bundle 'mattn/webapi-vim'
-            if executable('git')
-              Bundle 'tpope/vim-fugitive'
-            endif
-            if OSX()
-                Bundle 'rizzatti/dash.vim'
-            endif
-            if v:version > 799 || has('nvim')
-                Bundle 'skywind3000/asyncrun.vim'
-            endif
-            if executable('ctags')
-                Bundle 'majutsushi/tagbar'
-            endif
+    if count(g:spf13_bundle_groups, 'programming')
+        Bundle 'scrooloose/nerdcommenter'
+        Bundle 'tpope/vim-commentary'
+        Bundle 'mattn/webapi-vim'
+        if executable('git')
+          Bundle 'tpope/vim-fugitive'
         endif
+        if OSX()
+            Bundle 'rizzatti/dash.vim'
+        endif
+        if v:version > 799 || has('nvim')
+            Bundle 'skywind3000/asyncrun.vim'
+        endif
+        if executable('ctags')
+            Bundle 'majutsushi/tagbar'
+        endif
+    endif
     " Snippets & AutoComplete
     " use comletable flag to set config
-        let g:completable=0
-        if count(g:spf13_bundle_groups, 'youcompleteme') && executable('cmake')
-            let g:completable=1
-            Bundle 'Valloric/YouCompleteMe'
-        elseif count(g:spf13_bundle_groups, 'snipmate')
-            let g:completable=2
-            Bundle 'garbas/vim-snipmate'
-            Bundle 'MarcWeber/vim-addon-mw-utils'
-            Bundle 'tomtom/tlib_vim'
-        " use shougo's completion plugins accoding to enviroment
-        elseif count(g:spf13_bundle_groups, 'smartcomplete')
-            if has('python3') && (has('nvim') || version>799) && has('timers')
-                let g:completable=3
-                Bundle 'Shougo/deoplete.nvim'
-                if !has('nvim')
-                    Bundle 'roxma/nvim-yarp'
-                    Bundle 'roxma/vim-hug-neovim-rpc'
-                endif
-            elseif has('lua') && (has('nvim') || version>703)
-                let g:completable=4
-                Bundle 'Shougo/neocomplete.vim'
-            else
-                let g:completable=5
-                Bundle 'Shougo/neocomplcache.vim'
-                Bundle 'JazzCore/neocomplcache-ultisnips'
+    let g:completable=0
+    if count(g:spf13_bundle_groups, 'youcompleteme') && executable('cmake')
+        let g:completable = 1
+        Bundle 'Valloric/YouCompleteMe'
+    elseif count(g:spf13_bundle_groups,'nvimcompletion')
+        let g:completable = 2
+    " use completion plugins accoding to enviroment
+    elseif count(g:spf13_bundle_groups, 'smartcomplete')
+        if has('python3') && (has('nvim') || v:version>799) && has('timers')
+            let g:completable = 3
+            Bundle 'Shougo/deoplete.nvim'
+            if !(has('nvim'))
+                Bundle 'roxma/nvim-yarp'
+                Bundle 'roxma/vim-hug-neovim-rpc'
             endif
+        elseif has('lua') && (has('nvim') || version>703)
+            let g:completable = 4
+            Bundle 'Shougo/neocomplete.vim'
+        else
+            let g:completable = 5
+            Bundle 'Shougo/neocomplcache.vim'
+            Bundle 'JazzCore/neocomplcache-ultisnips'
         endif
-        if g:completable>0
-            " use honza's snippets collection"
-            Bundle 'honza/vim-snippets'
-            if !has('nvim') && (executable('python') || executable('python3'))
-                let g:use_ultisnips = 1
-                Bundle 'SirVer/ultisnips'
-            else
-                let g:use_ultisnips = 0
-                Bundle 'Shougo/neosnippet'
-                Bundle 'Shougo/neosnippet-snippets'
-            endif
+    endif
+    if g:completable>0
+        " use honza's snippets collection"
+        Bundle 'honza/vim-snippets'
+        if count(g:spf13_bundle_groups,'forceultisnips')
+            let g:use_ultisnips = 1
+            Bundle 'SirVer/ultisnips'
+        elseif count(g:spf13_bundle_groups,'forceneosnippet')
+            let g:use_ultisnips = 0
+            Bundle 'Shougo/neosnippet'
+            Bundle 'Shougo/neosnippet-snippets'
+        elseif !has('nvim') && (executable('python3') || executable('python'))
+            let g:use_ultisnips = 1
+            Bundle 'SirVer/ultisnips'
+        else
+            let g:use_ultisnips = 0
+            Bundle 'Shougo/neosnippet'
+            Bundle 'Shougo/neosnippet-snippets'
         endif
+    endif
     " vimshell
-        if count(g:spf13_bundle_groups, 'shell')
-            Bundle 'shougo/vimproc.vim'
-            Bundle 'shougo/vimshell.vim'
-        endif
+    if count(g:spf13_bundle_groups, 'shell') && !has('nvim')
+        Bundle 'shougo/vimproc.vim'
+        Bundle 'shougo/vimshell.vim'
+    endif
     " PHP
-        if count(g:spf13_bundle_groups, 'php')
-            Bundle 'arnaud-lb/vim-php-namespace'
-        endif
+    if count(g:spf13_bundle_groups, 'php')
+        Bundle 'arnaud-lb/vim-php-namespace'
+    endif
     " Python
-        if count(g:spf13_bundle_groups, 'python')
-            Bundle 'python-mode/python-mode'
-            Bundle 'yssource/python.vim'
-        endif
+    if count(g:spf13_bundle_groups, 'python')
+        Bundle 'python-mode/python-mode'
+        Bundle 'yssource/python.vim'
+    endif
     " Perl
-        if count(g:spf13_bundle_groups, 'perl')
-            Bundle 'vim-perl/vim-perl'
-            Bundle 'perl-support.vim'
-        endif
+    if count(g:spf13_bundle_groups, 'perl')
+        Bundle 'vim-perl/vim-perl'
+        Bundle 'perl-support.vim'
+    endif
     " Javascript
-        if count(g:spf13_bundle_groups, 'javascript')
-            Bundle 'elzr/vim-json'
-            Bundle 'pangloss/vim-javascript'
-            Bundle 'briancollins/vim-jst'
-            Bundle 'kchmck/vim-coffee-script'
-        endif
+    if count(g:spf13_bundle_groups, 'javascript')
+        Bundle 'elzr/vim-json'
+        Bundle 'pangloss/vim-javascript'
+        Bundle 'briancollins/vim-jst'
+        Bundle 'kchmck/vim-coffee-script'
+    endif
     " R
-        if count(g:spf13_bundle_groups, 'R')
-            Bundle 'jalvesaq/Nvim-R'
-        endif
+    if count(g:spf13_bundle_groups, 'R')
+        Bundle 'jalvesaq/Nvim-R'
+    endif
     " Scala
-        if count(g:spf13_bundle_groups, 'scala')
-            Bundle 'derekwyatt/vim-scala'
-            Bundle 'derekwyatt/vim-sbt'
-            Bundle 'xptemplate'
-        endif
-    " Haskell
-        if count(g:spf13_bundle_groups, 'haskell')
-            Bundle 'travitch/hasksyn'
-            Bundle 'dag/vim2hs'
-            Bundle 'Twinside/vim-haskellConceal'
-            Bundle 'Twinside/vim-haskellFold'
-            Bundle 'lukerandall/haskellmode-vim'
-            Bundle 'eagletmt/neco-ghc'
-            Bundle 'eagletmt/ghcmod-vim'
-            Bundle 'Shougo/vimproc.vim'
-            Bundle 'adinapoli/cumino'
-            Bundle 'bitc/vim-hdevtools'
-        endif
+    if count(g:spf13_bundle_groups, 'scala')
+        Bundle 'derekwyatt/vim-scala'
+        Bundle 'derekwyatt/vim-sbt'
+        Bundle 'xptemplate'
+    endif
     " HTML
-        if count(g:spf13_bundle_groups, 'html')
-            Bundle 'hail2u/vim-css3-syntax'
-            Bundle 'gorodinskiy/vim-coloresque'
-            Bundle 'tpope/vim-haml'
-            Bundle 'mattn/emmet-vim'
-        endif
+    if count(g:spf13_bundle_groups, 'html')
+        Bundle 'hail2u/vim-css3-syntax'
+        Bundle 'gorodinskiy/vim-coloresque'
+        Bundle 'tpope/vim-haml'
+        Bundle 'mattn/emmet-vim'
+    endif
     " Ruby
-        if count(g:spf13_bundle_groups, 'ruby')
-            Bundle 'tpope/vim-rails'
-            let g:rubycomplete_buffer_loading = 1
-            "let g:rubycomplete_classes_in_global = 1
-            "let g:rubycomplete_rails = 1
-        endif
+    if count(g:spf13_bundle_groups, 'ruby')
+        Bundle 'tpope/vim-rails'
+        let g:rubycomplete_buffer_loading = 1
+        "let g:rubycomplete_classes_in_global = 1
+        "let g:rubycomplete_rails = 1
+    endif
+    " Haskell
+    if count(g:spf13_bundle_groups, 'haskell')
+        Bundle 'travitch/hasksyn'
+        Bundle 'dag/vim2hs'
+        Bundle 'Twinside/vim-haskellConceal'
+        Bundle 'Twinside/vim-haskellFold'
+        Bundle 'lukerandall/haskellmode-vim'
+        Bundle 'eagletmt/neco-ghc'
+        Bundle 'eagletmt/ghcmod-vim'
+        Bundle 'Shougo/vimproc.vim'
+        Bundle 'adinapoli/cumino'
+        Bundle 'bitc/vim-hdevtools'
+    endif
     " Puppet
-        if count(g:spf13_bundle_groups, 'puppet')
-            Bundle 'rodjek/vim-puppet'
-        endif
+    if count(g:spf13_bundle_groups, 'puppet')
+        Bundle 'rodjek/vim-puppet'
+    endif
     " Go Lang
-        if count(g:spf13_bundle_groups, 'go')
-            "Bundle 'Blackrush/vim-gocode'
-            Bundle 'fatih/vim-go'
-        endif
+    if count(g:spf13_bundle_groups, 'go')
+        Bundle 'Blackrush/vim-gocode'
+        Bundle 'fatih/vim-go'
+    endif
     " Elixir
-        if count(g:spf13_bundle_groups, 'elixir')
-            Bundle 'elixir-lang/vim-elixir'
-            Bundle 'carlosgaldino/elixir-snippets'
-            Bundle 'mattreduce/vim-mix'
-        endif
+    if count(g:spf13_bundle_groups, 'elixir')
+        Bundle 'elixir-lang/vim-elixir'
+        Bundle 'carlosgaldino/elixir-snippets'
+        Bundle 'mattreduce/vim-mix'
     endif
+endif
 " Use local bundles config if available
-    if filereadable(expand("~/.vimrc.bundles.local"))
-        source ~/.vimrc.bundles.local
-    endif
+if filereadable(expand("~/.vimrc.bundles.local"))
+    source ~/.vimrc.bundles.local
+endif
