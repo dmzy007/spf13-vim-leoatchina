@@ -15,7 +15,8 @@ set nocompatible        " Must be first line
 set background=dark     " Assume a dark background
 set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
-set noshowmode
+"set noshowmode
+set shortmess+=c
 scriptencoding utf-8
 
 " Gui
@@ -117,9 +118,11 @@ noremap <leader>fp :set nopaste! nopaste?<CR>
 " shortcuts by leatchina
 if !exists('g:no_leoatchina_config')
     " move to last or first position of a line
-    nmap <silent><C-y> ^
-    " FIXME: c-y sometime not work in centos
     nmap <silent><C-e> $
+    inoremap <silent><expr> <C-e> pumvisible()? "\<C-e>":"\<ESC>A"
+    " FIXME: c-y sometime not work in centos
+    nmap <silent><C-y> ^
+    inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>^i"
     nmap <silent><C-m> %
     vmap <silent><C-m> %
     if isdirectory(expand("~/.vim/bundle/vim-toggle-quickfix"))
@@ -354,9 +357,9 @@ au BufNewFile,BufRead *.py
     \set expandtab
     \set autoindent
     \set foldmethod=indent
-"set comments=sl:/*,mb:*,elx:*/  " auto format comment blocks
+au FileType python autocmd BufWritePost <buffer> :%retab
 " Remove trailing whitespaces and ^M chars
-autocmd FileType markdown,vim,c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+autocmd FileType markdown,vim,c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql,vim autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd BufNewFile,BufRead *.md,*.markdown set filetype=markdown
 autocmd BufNewFile,BufRead *.pandoc set filetype=pandoc
@@ -815,6 +818,9 @@ autocmd FileType haskell,rust setlocal nospell
         nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     " nvim completion
     elseif g:completable==2
+
+        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
     " deoplete
     elseif g:completable == 3
         let g:deoplete#enable_at_startup = 1
@@ -847,8 +853,8 @@ autocmd FileType haskell,rust setlocal nospell
         snoremap <expr><C-g> deocomplete#undo_completion()
         if g:use_ultisnips
             call deoplete#custom#set('ultisnips', 'min_pattern_length', 1)
-        else
-            " use neosnippets
+            "let g:deoplete#ignore_sources = {}
+            "let g:deoplete#ignore_sources._ = ["neosnippet"]
         endif
     " neocomplete
     elseif g:completable == 4
@@ -932,6 +938,7 @@ autocmd FileType haskell,rust setlocal nospell
     if g:completable>0
         " menu style
         set completeopt=menu,longest,preview
+        "set completeopt=menu,menuone,noinsert,noselect
         " For snippet_complete marker.
         if !exists("g:spf13_no_conceal")
             if has('conceal')
@@ -966,9 +973,7 @@ autocmd FileType haskell,rust setlocal nospell
                     if g:ulti_expand_res
                         return "\<Right>"
                     else
-                        let g:completed_item = v:completed_item
                         if empty(v:completed_item) || !len(get(v:completed_item,'menu'))
-                            let g:download = 1
                             return "\<C-n>"
                         else
                             return "\<C-y>"
@@ -983,7 +988,7 @@ autocmd FileType haskell,rust setlocal nospell
             inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
             snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
             function! s:UltiSnips_Cr()
-              if pumvisible()
+                if pumvisible()
                   call UltiSnips#ExpandSnippet()
                   " 0:ExpandSnippet failed
                   if g:ulti_expand_res
@@ -991,13 +996,14 @@ autocmd FileType haskell,rust setlocal nospell
                   else
                       return "\<C-j>"
                   endif
-              else
+                else
                   return "\<CR>"
-              endif
+                endif
             endfunction
             au BufEnter * exec "inoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
             au BufEnter * exec "snoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
         else
+            let g:neosnippet#enable_completed_snippet=1
             " c-k to expand
             imap <C-k> <Plug>(neosnippet_expand)
             smap <C-k> <Plug>(neosnippet_expand)
@@ -1009,12 +1015,13 @@ autocmd FileType haskell,rust setlocal nospell
             inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
             inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
             inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
-            function! s:Neo_Complete_Tab()
+            function! s:Neo_Snippet_Tab()
                 if pumvisible() "popup menu apeared
                     if neosnippet#expandable()
                         return neosnippet#mappings#expand_impl()
                     else
-                        if !len(get(v:completed_item,'menu'))
+                        if empty(v:completed_item) || !len(get(v:completed_item,'menu'))
+                        "if !len(get(v:completed_item,'menu'))
                             return "\<C-n>"
                         else
                             return "\<C-j>"
@@ -1024,11 +1031,11 @@ autocmd FileType haskell,rust setlocal nospell
                     return "\<Tab>"
                 endif
             endfunction
-            inoremap <expr><Tab> <SID>Neo_Complete_Tab()
-            snoremap <expr><Tab> <SID>Neo_Complete_Tab()
+            inoremap <expr><Tab> <SID>Neo_Snippet_Tab()
+            snoremap <expr><Tab> <SID>Neo_Snippet_Tab()
             inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
             snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-            function! s:Neo_Complete_Cr()
+            function! s:Neo_Snippet_Cr()
                 if pumvisible() "popup menu apeared
                     if neosnippet#expandable()
                         return neosnippet#mappings#expand_impl()
@@ -1039,18 +1046,12 @@ autocmd FileType haskell,rust setlocal nospell
                     return "\<Cr>"
                 endif
             endfunction
-            inoremap <expr><CR> <SID>Neo_Complete_Cr()
-            snoremap <expr><CR> <SID>Neo_Complete_Cr()
+            inoremap <expr><CR> <SID>Neo_Snippet_Cr()
+            snoremap <expr><CR> <SID>Neo_Snippet_Cr()
             " Use honza's snippets.
             let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
             " Enable neosnippet snipmate compatibility mode
             let g:neosnippet#enable_snipmate_compatibility = 1
-            " For snippet_complete marker.
-            if !exists("g:spf13_no_conceal")
-                if has('conceal')
-                    set conceallevel=2 concealcursor=i
-                endif
-            endif
             " Enable neosnippets when using go
             let g:go_snippet_engine = "neosnippet"
         endif
