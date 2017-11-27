@@ -952,7 +952,7 @@ autocmd FileType haskell,rust setlocal nospell
             let g:UltiSnipsJumpForwardTrigger = '<C-f>'
             let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
             " Ulti python version
-            if has('python3')
+            if executable('python3')
                 let g:UltiSnipsUsePythonVersion = 3
             else
                 let g:UltiSnipsUsePythonVersion = 2
