@@ -769,7 +769,6 @@ autocmd FileType haskell,rust setlocal nospell
     endif
     " Youcompleteme
     if g:completable == 1
-        set completeopt = preview,menu
         au InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后关闭预览窗口
         let g:ycm_python_binary_path = 'python'
         let g:acp_enableAtStartup = 0
