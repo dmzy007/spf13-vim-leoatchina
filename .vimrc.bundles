@@ -153,14 +153,13 @@ if !exists("g:override_spf13_bundles")
     if count(g:spf13_bundle_groups, 'youcompleteme') && executable('cmake')
         let g:completable = 1
         Bundle 'Valloric/YouCompleteMe'
-    elseif count(g:spf13_bundle_groups,'nvimcomplete')
+    elseif count(g:spf13_bundle_groups,'nvimcomplete') && has('python3') && (has('nvim') || v:version > 799)
         let g:completable = 2
         Bundle 'roxma/nvim-completion-manager'
         if !has('nvim')
-            " Requires vim8 with has('python') or has('python3')
-            " Requires the installation of msgpack-python. (pip install msgpack-python)
-            "(pip3 install neovim)"
             Bundle 'roxma/vim-hug-neovim-rpc'
+            Bundle 'neovim/python-client'
+            Bundle 'roxma/nvim-yarp'
         endif
     " use completion plugins accoding to enviroment
     elseif count(g:spf13_bundle_groups, 'smartcomplete')
@@ -168,8 +167,9 @@ if !exists("g:override_spf13_bundles")
             let g:completable = 3
             Bundle 'Shougo/deoplete.nvim'
             if !(has('nvim'))
-                Bundle 'roxma/nvim-yarp'
                 Bundle 'roxma/vim-hug-neovim-rpc'
+                Bundle 'neovim/python-client'
+                Bundle 'roxma/nvim-yarp'
             endif
         elseif has('lua') && (has('nvim') || version>703)
             let g:completable = 4
