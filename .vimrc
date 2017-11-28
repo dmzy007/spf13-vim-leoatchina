@@ -17,6 +17,7 @@ set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
 "set noshowmode
 set shortmess+=c
+set encoding=utf-8
 scriptencoding utf-8
 
 " Gui
