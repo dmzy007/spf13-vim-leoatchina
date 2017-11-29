@@ -164,8 +164,8 @@ if !exists("g:override_spf13_bundles")
             Bundle 'roxma/nvim-completion-manager'
             if !has('nvim')
                 " pip3 install neovim first
+                " Bundle 'neovim/python-client'
                 Bundle 'roxma/vim-hug-neovim-rpc'
-                Bundle 'neovim/python-client'
                 Bundle 'roxma/nvim-yarp'
             endif
         else
@@ -178,8 +178,8 @@ if !exists("g:override_spf13_bundles")
             Bundle 'Shougo/deoplete.nvim'
             if !(has('nvim'))
                 " pip3 install neovim first
+                " Bundle 'neovim/python-client'
                 Bundle 'roxma/vim-hug-neovim-rpc'
-                Bundle 'neovim/python-client'
                 Bundle 'roxma/nvim-yarp'
             endif
         elseif has('lua') && (has('nvim') || version>703)
@@ -201,7 +201,7 @@ if !exists("g:override_spf13_bundles")
             let g:use_ultisnips = 0
             Bundle 'Shougo/neosnippet'
             Bundle 'Shougo/neosnippet-snippets'
-        elseif !has('nvim') && ((executable('python3') && has('python3')) || (executable('python') && has('python')))
+        elseif !has('nvim') && ((executable('python3') && has('python3')) || (executable('python2') && has('python')))
             let g:use_ultisnips = 1
             Bundle 'SirVer/ultisnips'
         else

@@ -25,8 +25,6 @@ if !has('gui')
     if !has('nvim')
         set term=$TERM          " Make arrow and other keys work
     endif
-else
-    set guifont=Consolas:h11
 endif
 " Clipboard
 if has('clipboard')
@@ -852,9 +850,7 @@ autocmd FileType haskell,rust setlocal nospell
         inoremap <expr><C-g> deocomplete#undo_completion()
         snoremap <expr><C-g> deocomplete#undo_completion()
         if g:use_ultisnips
-            call deoplete#custom#set('ultisnips', 'min_pattern_length', 1)
-            "let g:deoplete#ignore_sources = {}
-            "let g:deoplete#ignore_sources._ = ["neosnippet"]
+            call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
         endif
     " neocomplete
     elseif g:completable == 4
