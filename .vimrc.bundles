@@ -74,7 +74,7 @@ endif
 " In your .vimrc.before.local file
 " list only the plugin groups you will use
 if !exists('g:spf13_bundle_groups')
-    let g:spf13_bundle_groups=['programming', 'python', 'php', 'javascript', 'html',]
+    let g:spf13_bundle_groups=['smartcomplete','programming', 'python', 'php', 'javascript', 'html',]
 endif
 
 " To override all the included bundles, add the following to your
@@ -83,6 +83,7 @@ endif
 if !exists("g:override_spf13_bundles")
     " General
     Bundle 'scrooloose/nerdtree'
+    Bundle 'terryma/vim-expand-region'
     Bundle 'jistr/vim-nerdtree-tabs'
     Bundle 'Xuyuanp/nerdtree-git-plugin'
     Bundle 'vim-voom/VOoM'

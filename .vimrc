@@ -17,6 +17,7 @@ set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
 "set noshowmode
 set shortmess+=c
+set encoding=utf-8
 scriptencoding utf-8
 
 " Gui
@@ -779,7 +780,7 @@ autocmd FileType haskell,rust setlocal nospell
         let g:ycm_autoclose_preview_window_after_insertion = 1
         " enable completion from tags
         let g:ycm_collect_identifiers_from_tags_files = 1
-        let g:ycm_key_invoke_completion = ['<Tab>','<CR>']
+        let g:ycm_key_invoke_completion = '<Tab>'
         let g:ycm_key_list_select_completion = ['<C-n>','<Down>']
         let g:ycm_key_list_previous_completion = ['<C-p','<Up>']
         let g:ycm_filetype_blacklist = {
