@@ -118,9 +118,11 @@ noremap <leader>fp :set nopaste! nopaste?<CR>
 if !exists('g:no_leoatchina_config')
     " move to last or first position of a line
     nmap <silent><C-e> $
+    vmap <silent><C-e> $
     inoremap <silent><expr> <C-e> pumvisible()? "\<C-e>":"\<ESC>A"
     " FIXME: c-y sometime not work in centos
     nmap <silent><C-y> ^
+    vmap <silent><C-y> ^
     inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>^i"
     nmap <silent><C-m> %
     vmap <silent><C-m> %
