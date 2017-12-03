@@ -29,21 +29,21 @@ This is leoatchina's vim config forked from [spf13-vim:steve francia's vim distr
 * `.vimrc.local`
 
 ## 安装
-*安装本配置 需要 Git 1.7+ 和 Vim 7.3+（编译时加入对lua和python的支持），部分插件如`Nvim-R`,`AsyncRun`,需要Vim8.0*
+*安装本配置 需要 Git 1.7+ 和 Vim 7.3+，部分插件如`Nvim-R`,`AsyncRun`,需要Vim8.0*
 如果要安装[neocomplete](https://github.com/Shougo/neocomplete.vim), 需要[vim with lua]().
 
 ### Linux, \*nix, Mac OSX 下的安装
 ```bash
   git clone https://github.com/leoatchina/spf13-vim-leoatchina.git
   cd spf13-vim-leoatchina
-  bash bootstrap.sh
+  ./install.sh
 ```
 
 ### windows下的安装
 ```bash
   git clone https://github.com/leoatchina/spf13-vim-leoatchina.git
   cd spf13-vim-leoatchina
-  点击install.cmd
+  点击setup.cmd
 ```
 
 ### 升级到最新版本
@@ -79,7 +79,7 @@ This is leoatchina's vim config forked from [spf13-vim:steve francia's vim distr
 2. 修改了安装代码，变成直接从clone的目录中软链接到用户目录下，**不再支持XP**
 3. 按自己习惯修改了大量插件的快捷键
 4. 去除了原来定义的一些函数
-5. 重点修改了代码补全插件[YouCompleteMe](YoucompleteMe)、[Neocomplete](Neocomplete)的配置和快捷键
+5. 改了代码补全插件[YouCompleteMe](YoucompleteMe)、[Neocomplete](Neocomplete)的配置和快捷键
 6. 去除了fork文件功能，仅保留before文件功能
 7. 增加对R和Markdown的支持,要在`~/.vimrc.before.local`里加入`markdown`和`R`开启，支持语法高亮，不过暂时这两个语言的支持都有一些问题，要改动。
 8. 默认**不进行代码补全**，要使用者在 `~/.vimrc.before.local`里进行配置,如我加入了对`youcompletme`的配置,也可以使用`neocomplete`或`neocomplcache`
