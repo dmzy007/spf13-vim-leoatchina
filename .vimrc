@@ -20,28 +20,10 @@ set shortmess+=c
 set encoding=utf-8
 scriptencoding utf-8
 
-" Gui
-if !has('gui')
-    if !has('nvim')
-        set term=$TERM          " Make arrow and other keys work
-    endif
-endif
-" Clipboard
-if has('clipboard')
-    if has('unnamedplus')  " When possible use + register for copy-paste
-        set clipboard=unnamed,unnamedplus
-    else         " On mac and Windows, use * register for copy-paste
-        set clipboard=unnamed
-    endif
-endif
-" Arrow Key Fix
-" https://github.com/spf13/spf13-vim/issues/780
-if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
-    inoremap <silent> <C-[>OC <RIGHT>
-endif
 " set timeout
 set timeout
 set timeoutlen=500 ttimeoutlen=50
+
 " Use before config
 if filereadable(expand("~/.vimrc.before"))
     source ~/.vimrc.before
@@ -49,6 +31,30 @@ endif
 " Use bundles config
 if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
+endif
+
+" Gui
+if !has('gui')
+    if !has('nvim')
+        set term=$TERM          " Make arrow and other keys work
+    endif
+else
+    set guifont=YaHei\ Consolas\ Hybrid:h11
+endif
+
+" Arrow Key Fix
+" https://github.com/spf13/spf13-vim/issues/780
+if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
+    inoremap <silent> <C-[>OC <RIGHT>
+endif
+
+" Clipboard
+if has('clipboard')
+    if has('unnamedplus')  " When possible use + register for copy-paste
+        set clipboard=unnamed,unnamedplus
+    else         " On mac and Windows, use * register for copy-paste
+        set clipboard=unnamed
+    endif
 endif
 " Key (re)Mappings
 " The default leader is '\', spf13 prefer ';' as it's in a standard location
