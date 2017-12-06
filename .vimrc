@@ -847,11 +847,8 @@ autocmd FileType haskell,rust setlocal nospell
         " <BS>: close popup and delete backword char.
         inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
         " c-j to complete pum
-        imap <expr><C-j> deoplete#cancel_popup()
-        smap <expr><C-j> deoplete#close_popup()
-        " c=g
-        inoremap <expr><C-g> deocomplete#undo_completion()
-        snoremap <expr><C-g> deocomplete#undo_completion()
+        imap <expr><C-j> pumvisible()?deoplete#close_popup():'\<CR>'
+        smap <expr><C-j> pumvisible()?deoplete#close_popup():'\<CR>'
         if g:use_ultisnips
             call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
         endif
@@ -892,12 +889,9 @@ autocmd FileType haskell,rust setlocal nospell
         endif
         " <BS>: close popup and delete backword char.
         inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-        " c-j to complete pum
-        imap <expr><C-j> neocomplete#close_popup()
-        smap <expr><C-j> neocomplete#close_popup()
-        " c=g
-        inoremap <expr><C-g> neocomplete#undo_completion()
-        snoremap <expr><C-g> neocomplete#undo_completion()
+        "   to complete pum
+        imap <expr><C-j> pumvisible()?neocomplete#close_popup():"\<CR>"
+        smap <expr><C-j> pumvisible()?neocomplete#close_popup():"\<CR>"
     " neocomplcache
     elseif g:completable == 5
         let g:neocomplcache_enable_insert_char_pre = 1
@@ -933,9 +927,6 @@ autocmd FileType haskell,rust setlocal nospell
         " c-j to complete pum
         imap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
         smap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
-        " c=g
-        inoremap <expr><C-g> neocomplcache#undo_completion()
-        snoremap <expr><C-g> neocomplcache#undo_completion()
     endif
     " smart completion use neosnippet to expand
     if g:completable>0
@@ -952,7 +943,7 @@ autocmd FileType haskell,rust setlocal nospell
             " remap Ultisnips for compatibility
             let g:UltiSnipsListSnippets="<C-l>"
             let g:UltiSnipsExpandTrigger = '<C-k>'
-            let g:UltiSnipsJumpForwardTrigger = '<C-f>'
+            let g:UltiSnipsJumpForwardTrigger = '<C-g>'
             let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
             " Ulti python version
             if has('python3')
@@ -992,15 +983,15 @@ autocmd FileType haskell,rust setlocal nospell
             snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
             function! s:UltiSnips_Cr()
                 if pumvisible()
-                  call UltiSnips#ExpandSnippet()
-                  " 0:ExpandSnippet failed
-                  if g:ulti_expand_res
+                    call UltiSnips#ExpandSnippet()
+                    " 0:ExpandSnippet failed
+                    if g:ulti_expand_res
                       return "\<Right>"
-                  else
-                      return "\<C-j>"
-                  endif
+                    else
+                      return "\<C-y>"
+                    endif
                 else
-                  return "\<CR>"
+                    return "\<CR>"
                 endif
             endfunction
             au BufEnter * exec "inoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
@@ -1011,9 +1002,9 @@ autocmd FileType haskell,rust setlocal nospell
             imap <C-k> <Plug>(neosnippet_expand)
             smap <C-k> <Plug>(neosnippet_expand)
             xmap <C-k> <Plug>(neosnippet_expand_target)
-            " c-f to jump
-            imap <C-f> <Right><Plug>(neosnippet_jump)
-            smap <C-f> <Right><Plug>(neosnippet_jump)
+            " c-g to jump
+            imap <C-g> <Right><Plug>(neosnippet_jump)
+            smap <C-g> <Right><Plug>(neosnippet_jump)
             inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
             inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
             inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
