@@ -943,7 +943,7 @@ autocmd FileType haskell,rust setlocal nospell
             " remap Ultisnips for compatibility
             let g:UltiSnipsListSnippets="<C-l>"
             let g:UltiSnipsExpandTrigger = '<C-k>'
-            let g:UltiSnipsJumpForwardTrigger = '<C-g>'
+            let g:UltiSnipsJumpForwardTrigger = '<C-f>'
             let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
             " Ulti python version
             if has('python3')
@@ -1002,9 +1002,9 @@ autocmd FileType haskell,rust setlocal nospell
             imap <C-k> <Plug>(neosnippet_expand)
             smap <C-k> <Plug>(neosnippet_expand)
             xmap <C-k> <Plug>(neosnippet_expand_target)
-            " c-g to jump
-            imap <C-g> <Right><Plug>(neosnippet_jump)
-            smap <C-g> <Right><Plug>(neosnippet_jump)
+            " c-f to jump
+            imap <C-f> <Right><Plug>(neosnippet_jump)
+            smap <C-f> <Right><Plug>(neosnippet_jump)
             inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
             inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
             inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
