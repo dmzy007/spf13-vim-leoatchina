@@ -822,8 +822,12 @@ autocmd FileType haskell,rust setlocal nospell
         let g:ycm_collect_identifiers_from_comments_and_strings = 0
         " 跳转到定义处
         nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+    " nvim completion
+    elseif g:completable == 2
+        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
     " deoplete
-    elseif g:completable==2
+    elseif g:completable==3
         let g:deoplete#enable_at_startup = 1
         if !has('nvim')
             let g:deoplete#enable_yarp=1
@@ -852,10 +856,6 @@ autocmd FileType haskell,rust setlocal nospell
         if g:use_ultisnips
             call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
         endif
-    " nvim completion
-    elseif g:completable == 3
-        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
     " neocomplete
     elseif g:completable == 4
         let g:acp_enableAtStartup = 1
