@@ -15,7 +15,7 @@ set nocompatible        " Must be first line
 set background=dark     " Assume a dark background
 set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
-"set noshowmode
+set noimdisable
 set shortmess+=c
 set encoding=utf-8
 scriptencoding utf-8
