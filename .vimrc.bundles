@@ -93,11 +93,11 @@ if !exists("g:override_spf13_bundles")
     Bundle 'spf13/vim-colors'
     Bundle 'tpope/vim-repeat'
     Bundle 'tpope/vim-surround'
-    if OSX()
-        Bundle 'CodeFalling/fcitx-vim-osx'
-    else
-        Bundle 'lilydjwg/fcitx.vim'
-    endif
+    "if OSX()
+        "Bundle 'CodeFalling/fcitx-vim-osx'
+    "else
+        "Bundle 'lilydjwg/fcitx.vim'
+    "endif
     if count(g:spf13_bundle_groups, 'chinese')
         Bundle 'leoatchina/ywvim'
     endif
