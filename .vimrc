@@ -38,7 +38,7 @@ if !has('gui')
     if !has('nvim')
         set term=$TERM          " Make arrow and other keys work
     endif
-else
+elseif WINDOWS()
     set guifont=YaHei\ Consolas\ Hybrid:h11
 endif
 
