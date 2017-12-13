@@ -38,7 +38,7 @@ IF NOT EXIST "%HOME%\.vim\bundle" (
 )
 
 IF NOT EXIST "%HOME%\.vim\bundle\vundle" (
-    call git clone https://github.com/gmarik/vundle.git "%HOME%\.vim\bundle\vundle"
+    call git clone https://github.com/VundleVim/Vundle.vim.git "%HOME%\.vim\bundle\vundle"
 ) ELSE (
     call cd "%HOME%\.vim\bundle\vundle"
     call git pull

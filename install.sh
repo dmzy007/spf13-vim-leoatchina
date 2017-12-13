@@ -18,10 +18,10 @@ app_name='spf13-vim'
 [ -z "$REPO_URI" ] && REPO_URI='https://github.com/leoatchina/spf13-vim-leoatchina.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='3.0'
 debug_mode='0'
-[ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://github.com/gmarik/vundle.git"
+[ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://github.com/VundleVim/Vundle.vim.git"
 ############################  BASIC SETUP TOOLS
 msg() {
-    printf '%b\n' "$1" >&2
+    printf '%b\n' "$1" >&2:
 }
 success() {
     if [ "$ret" -eq '0' ]; then
