@@ -15,14 +15,6 @@ set nocompatible        " Must be first line
 set background=dark     " Assume a dark background
 set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
-set noimdisable
-set shortmess+=c
-set encoding=utf-8
-scriptencoding utf-8
-
-" set timeout
-set timeout
-set timeoutlen=500 ttimeoutlen=50
 
 " Use before config
 if filereadable(expand("~/.vimrc.before"))
@@ -32,6 +24,23 @@ endif
 if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
 endif
+
+set noimdisable
+set shortmess+=c
+set encoding=utf-8
+scriptencoding utf-8
+set fileencodings=utf-8,chinese,latin-1,gbk,gb18030,gk2312
+if WINDOWS()
+    set fileencoding=chinese
+else
+    set fileencoding=utf-8
+endif
+language messages zh_CN.utf-8
+
+" set timeout
+set timeout
+set timeoutlen=500 ttimeoutlen=50
+
 
 " Gui
 if !has('gui')
