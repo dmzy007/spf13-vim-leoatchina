@@ -120,7 +120,7 @@ nmap <leader>f9 :set foldlevel=9<CR>
 if !WINDOWS()
     map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
 else
-    autocmd GUIEnter * simalt ~x
+    au GUIEnter * simalt ~x
     " 按 F11 切换全屏
     noremap <F11> <esc>:call libcallnr('gvim_fullscreen.dll', 'ToggleFullscreen', 0)<cr>
     " 按 S-F11 切换窗口透明度
@@ -135,10 +135,10 @@ if !exists('g:no_leoatchina_config')
     nmap <silent><C-e> $
     vmap <silent><C-e> $
     inoremap <silent><expr> <C-e> pumvisible()? "\<C-e>":"\<ESC>A"
-    " FIXME: c-y sometime not work in centos
+
     nmap <silent><C-y> ^
     vmap <silent><C-y> ^
-    inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>^i"
+    inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>I"
     nmap <silent><C-m> %
     vmap <silent><C-m> %
     if isdirectory(expand("~/.vim/bundle/vim-toggle-quickfix"))
@@ -302,8 +302,8 @@ endif
 " Formatting
 " auto close qfixwindows when leave vim
 aug QFClose
-  au!
-  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+    au!
+    au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
 "set number                      " show line number
 au BufWinEnter * set number
@@ -373,26 +373,34 @@ au BufNewFile,BufRead *.py
     \set expandtab
     \set autoindent
     \set foldmethod=indent
-au FileType python autocmd BufWritePost <buffer> :%retab
+au FileType python au BufWritePost <buffer> :%retab
+" yaml
+au BufNewFile,BufRead *.yml
+    \set shiftwidth=2
+    \set tabstop=2
+    \set softtabstop=2
+    \set expandtab
+    \set autoindent
+    \set foldmethod=indent
 " Remove trailing whitespaces and ^M chars
-autocmd FileType markdown,vim,c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql,vim autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
-autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
-autocmd BufNewFile,BufRead *.md,*.markdown set filetype=markdown
-autocmd BufNewFile,BufRead *.pandoc set filetype=pandoc
-autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
+au FileType markdown,vim,c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql,vim au BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+au BufNewFile,BufRead *.html.twig set filetype=html.twig
+au BufNewFile,BufRead *.md,*.markdown set filetype=markdown
+au BufNewFile,BufRead *.pandoc set filetype=pandoc
+au FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
 " preceding line best in a plugin but here for now.
-autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+au BufNewFile,BufRead *.coffee set filetype=coffee
 " Workaround vim-commentary for Haskell
-autocmd FileType haskell setlocal commentstring=--\ %s
+au FileType haskell setlocal commentstring=--\ %s
 " Workaround broken colour highlighting in Haskell
-autocmd FileType haskell,rust setlocal nospell
+au FileType haskell,rust setlocal nospell
 " General
     " Most prefer to automatically switch to the current file directory when
     " a new buffer is opened; to prevent this behavior, add the following to
     " your .vimrc.before.local file:
     "   let g:spf13_no_autochdir = 1
     if !exists('g:spf13_no_autochdir')
-        autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
+        au BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
         " Always switch to the current file directory
     endif
     " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
@@ -407,8 +415,8 @@ autocmd FileType haskell,rust setlocal nospell
             endif
         endfunction
         augroup resCur
-            autocmd!
-            autocmd BufWinEnter * call ResCur()
+            au!
+            au BufWinEnter * call ResCur()
         augroup END
     endif
     " To disable views add the following to your .vimrc.before.local file:
@@ -560,7 +568,7 @@ autocmd FileType haskell,rust setlocal nospell
         let g:NERDTreeWinPos=0
         let g:NERDTreeDirArrowExpandable = '▸'
         let g:NERDTreeDirArrowCollapsible = '▾'
-        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
+        au bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
         " nerdtree-git
         if isdirectory(expand("~/.vim/bundle/nerdtree-git-plugin"))
             let g:NERDTreeIndicatorMapCustom = {
@@ -675,7 +683,7 @@ autocmd FileType haskell,rust setlocal nospell
     if isdirectory(expand("~/.vim/bundle/Nvim-R"))
         let R_rconsole_width = 0
         let R_objbr_place = "script,right"
-        autocmd VimResized * let R_rconsole_height = winheight(0) /3
+        au VimResized * let R_rconsole_height = winheight(0) /3
         let R_objbr_h = 25
         let R_objbr_opendf = 1    " Show data.frames elements
         let R_objbr_openlist = 1  " Show lists elements
@@ -816,7 +824,7 @@ autocmd FileType haskell,rust setlocal nospell
         " $ `cabal install ghcmod` if missing and ensure
         " ~/.cabal/bin is in your $PATH.
         if !executable("ghcmod")
-            autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+            au BufWritePost *.hs GhcModCheckAndLintAsync
         endif
         let g:ycm_confirm_extra_conf=1 "加载.ycm_extra_conf.py提示
         let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YC基于标签引擎
