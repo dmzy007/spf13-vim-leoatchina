@@ -276,8 +276,8 @@ if !exists('g:no_leoatchina_config')
     nmap <leader>\ :vsplit<Space>
     nmap <leader>= <C-W>=
     "设置垂直高度减增
-    nmap <Leader>{ :resize -3<CR>
-    nmap <Leader>} :resize +3<CR>
+    nmap <Leader>< :resize -3<CR>
+    nmap <Leader>> :resize +3<CR>
     "设置水平宽度减增
     nmap <Leader>[ :vertical resize -3<CR>
     nmap <Leader>] :vertical resize +3<CR>
