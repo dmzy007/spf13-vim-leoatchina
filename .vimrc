@@ -740,7 +740,7 @@ au FileType haskell,rust setlocal nospell
         " run python
         let g:pymode_run_bind = '<leader>R'
         " breakpoint
-        let g:pymode_breakpoint_bind = '<leader>T'
+        let g:pymode_breakpoint_bind = '<leader>B'
         let g:pymode_trim_whitespaces = 1
         let g:pymode_options = 0
         let g:pymode_rope = 0
