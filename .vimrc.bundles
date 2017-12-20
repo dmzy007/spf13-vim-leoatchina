@@ -220,7 +220,7 @@ if !exists("g:override_spf13_bundles")
     " Python
     if count(g:spf13_bundle_groups, 'python')
         Bundle 'python-mode/python-mode'
-        Bundle 'yssource/python.vim'
+        "Bundle 'yssource/python.vim'
     endif
     " Perl
     if count(g:spf13_bundle_groups, 'perl')

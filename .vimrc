@@ -844,7 +844,7 @@ au FileType haskell,rust setlocal nospell
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
     " deoplete
-    elseif g:completable==3
+    elseif g:completable == 3
         let g:deoplete#enable_at_startup = 1
         if !has('nvim')
             let g:deoplete#enable_yarp=1
