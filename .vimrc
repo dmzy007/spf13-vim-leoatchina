@@ -35,7 +35,6 @@ if WINDOWS()
 else
     set fileencoding=utf-8
 endif
-language messages zh_CN.utf-8
 
 " set timeout
 set timeout
