@@ -723,6 +723,12 @@ au FileType haskell,rust setlocal nospell
     let g:vim_json_syntax_conceal = 0
     " PyMode
     if isdirectory(expand("~/.vim/bundle/python-mode"))
+        " python version
+        if has('python3')
+            let g:pymode_python = 'python3'
+        else
+            let g:pymode_python = 'python'
+        endif
         " pymode check
         let g:pymode_lint = 1
         let g:pymode_lint_on_write = 1
