@@ -312,7 +312,9 @@ set splitright                  " Puts new vsplit windows to the right of the cu
 set splitbelow                  " Puts new split windows to the bottom of the current
 " 不生成back文件
 set nobackup
+set noswapfile
 set nowritebackup
+set noundofile
 " 关闭拼写检查
 set nospell
 " 关闭声音
