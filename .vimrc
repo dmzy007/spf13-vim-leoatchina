@@ -312,9 +312,9 @@ set splitright                  " Puts new vsplit windows to the right of the cu
 set splitbelow                  " Puts new split windows to the bottom of the current
 " 不生成back文件
 set nobackup
-set noswapfile
+"set noswapfile
 set nowritebackup
-set noundofile
+"set noundofile
 " 关闭拼写检查
 set nospell
 " 关闭声音
@@ -955,7 +955,7 @@ au FileType haskell,rust setlocal nospell
     " smart completion use neosnippet to expand
     if g:completable>0
         " menu style
-        set completeopt=menu,longest,preview
+        set completeopt=menu,preview
         "set completeopt=menu,menuone,noinsert,noselect
         " For snippet_complete marker.
         if !exists("g:spf13_no_conceal")
