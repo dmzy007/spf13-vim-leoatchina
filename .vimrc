@@ -732,18 +732,17 @@ au FileType haskell,rust setlocal nospell
         endif
         " pymode check
         let g:pymode_lint = 1
-        let g:pymode_lint_on_write = 1
+        let g:pymode_lint_on_write = 0 
         let g:pymode_lint_checkers = ['pyflakes','pep8']
         let g:pymode_lint_ignore = "E128,E2,E3,E501"
         let g:pymode_lint_cwindow = 1
         let g:pymode_lint_message = 0
         nmap <F9> :PymodeLint<CR>
         imap <F9> <ESC>:PymodeLint<CR>i
-        nmap <S-F9> :PymodeLintToggle<cr>
         " motion
         let g:pymode_motion = 1
         " no doc for python
-        let g:pymode_doc = 1
+        let g:pymode_doc = 0
         " run python
         let g:pymode_run_bind = '<leader>R'
         " breakpoint
