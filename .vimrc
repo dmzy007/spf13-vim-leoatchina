@@ -732,24 +732,37 @@ au FileType haskell,rust setlocal nospell
         endif
         " pymode check
         let g:pymode_lint = 1
-        let g:pymode_lint_on_write = 0 
+        let g:pymode_lint_signs = 1
+        let g:pymode_trim_whitespaces = 1
+        let g:pymode_options = 0
+        let g:pymode_syntax = 0
+        " no check when white
+        let g:pymode_lint_on_write = 0
+        " check when save
+        let g:pymode_lint_unmodified = 0
+        " not check of fly
+        let g:pymode_lint_on_fly = 0
+        " show message of error line
+        let g:pymode_lint_message = 1
+
         let g:pymode_lint_checkers = ['pyflakes','pep8']
         let g:pymode_lint_ignore = "E128,E2,E3,E501"
-        let g:pymode_lint_cwindow = 1
-        let g:pymode_lint_message = 0
+        " not Auto open cwindow (quickfix) if any errors have been found
+        let g:pymode_lint_cwindow = 0
         nmap <F9> :PymodeLint<CR>
         imap <F9> <ESC>:PymodeLint<CR>i
-        " motion
-        let g:pymode_motion = 1
         " no doc for python
         let g:pymode_doc = 0
+        " motion
+        let g:pymode_motion = 1
         " run python
         let g:pymode_run_bind = '<leader>R'
         " breakpoint
-        let g:pymode_breakpoint_bind = '<leader>B'
-        let g:pymode_trim_whitespaces = 1
-        let g:pymode_options = 0
-        let g:pymode_rope = 0
+        let g:pymode_breakpoint = 1
+        let g:pymode_breakpoint_bind = '<S-F9>'
+        let g:pymode_breakpoint_cmd = 'import pdb;pdb.set_trace()'
+        let g:pymode_rope = 1
+        let g:pymode_rope_show_doc_bind = '<C-l>'
         let g:pymode_rope_completion = 0
     endif
     " Disable if python support not present

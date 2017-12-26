@@ -220,8 +220,7 @@ if !exists("g:override_spf13_bundles")
     " Python
     if count(g:spf13_bundle_groups, 'python')
         Bundle 'hdima/python-syntax'
-        " pip install jedi
-        Bundle 'davidhalter/jedi-vim.git'
+        Bundle 'python-mode/python-mode'
     endif
     " Perl
     if count(g:spf13_bundle_groups, 'perl')
