@@ -759,7 +759,7 @@ au FileType haskell,rust setlocal nospell
         let g:pymode_run_bind = '<leader>R'
         " breakpoint
         let g:pymode_breakpoint = 1
-        let g:pymode_breakpoint_bind = '<S-F9>'
+        let g:pymode_breakpoint_bind = '<C-g>'
         let g:pymode_breakpoint_cmd = 'import pdb;pdb.set_trace()'
         let g:pymode_rope = 1
         let g:pymode_rope_show_doc_bind = '<C-l>'
