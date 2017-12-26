@@ -155,8 +155,8 @@ if !exists('g:no_leoatchina_config')
     nnoremap <Leader>tp :tab split<CR>
     nnoremap <Leader>te :tabe<SPACE>
     nnoremap <Leader>tm :tabm<SPACE>
-    nnoremap <silent>_  :tabm -1<CR>
-    nnoremap <silent>+  :tabm +1<CR>
+    nnoremap (  :tabm -1<CR>
+    nnoremap )  :tabm +1<CR>
     " 设置快捷键将选中文本块复制至系统剪贴板
     vnoremap  <leader>y  "+y
     nnoremap  <leader>y  "+y
@@ -255,9 +255,9 @@ if !exists('g:no_leoatchina_config')
     endfunc
     " buffer switch
     nnoremap <leader>bn :bn<CR>
-    nmap <silent>) :bn<CR>
+    nmap <silent><F8> :bn<CR>
     nnoremap <leader>bp :bp<CR>
-    nmap <silent>( :bp<CR>
+    nmap <silent><F7> :bp<CR>
     " 定义快捷键保存当前窗口内容
     nmap <Leader>w :w<CR>
     nmap <Leader>W :wq!<CR>
@@ -722,36 +722,12 @@ au FileType haskell,rust setlocal nospell
     " JSON
     nmap <leader>jst <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
     let g:vim_json_syntax_conceal = 0
-    " PyMode
-    if isdirectory(expand("~/.vim/bundle/python-mode"))
-        " python version
-        if has('python3')
-            let g:pymode_python = 'python3'
-        else
-            let g:pymode_python = 'python'
-        endif
-        " pymode check
-        let g:pymode_lint = 1
-        let g:pymode_lint_on_write = 1
-        let g:pymode_lint_checkers = ['pyflakes','pep8']
-        let g:pymode_lint_ignore = "E128,E2,E3,E501"
-        let g:pymode_lint_cwindow = 1
-        let g:pymode_lint_message = 0
-        nmap <F9> :PymodeLint<CR>
-        imap <F9> <ESC>:PymodeLint<CR>i
-        nmap <S-F9> :PymodeLintToggle<cr>
-        " motion
-        let g:pymode_motion = 1
-        " no doc for python
-        let g:pymode_doc = 1
-        " run python
-        let g:pymode_run_bind = '<leader>R'
-        " breakpoint
-        let g:pymode_breakpoint_bind = '<leader>B'
-        let g:pymode_trim_whitespaces = 1
-        let g:pymode_options = 0
-        let g:pymode_rope = 0
-        let g:pymode_rope_completion = 0
+    " jedi-vim
+    if isdirectory(expand("~/.vim/bundle/jedi-vim"))
+
+    endif
+    if isdirectory(expand("~/.vim/bundle/python-syntax"))
+        let g:python_highlight_all = 1
     endif
     " Disable if python support not present
     if !has('python') && !has('python3')
@@ -955,7 +931,7 @@ au FileType haskell,rust setlocal nospell
     " smart completion use neosnippet to expand
     if g:completable>0
         " menu style
-        set completeopt=menu,preview
+        set completeopt=menuone,noselect
         "set completeopt=menu,menuone,noinsert,noselect
         " For snippet_complete marker.
         if !exists("g:spf13_no_conceal")
@@ -1076,7 +1052,7 @@ au FileType haskell,rust setlocal nospell
     endif
     " UndoTree
     if isdirectory(expand("~/.vim/bundle/undotree/"))
-        nnoremap <Leader>u :UndotreeToggle<CR>
+        nnoremap <silent><Leader>u :UndotreeToggle<CR>
         " If undotree is opened, it is likely one wants to interact with it.
         let g:undotree_SetFocusWhenToggle=1
     endif
