@@ -30,15 +30,10 @@ set shortmess+=c
 set encoding=utf-8
 scriptencoding utf-8
 set fileencodings=utf-8,chinese,latin-1,gbk,gb18030,gk2312
-if WINDOWS()
-    set fileencoding=chinese
-else
-    set fileencoding=utf-8
-endif
 
 " set timeout
 set timeout
-set timeoutlen=500 ttimeoutlen=50
+set timeoutlen=300 ttimeoutlen=50
 
 
 " Gui
@@ -724,6 +719,10 @@ au FileType haskell,rust setlocal nospell
     let g:vim_json_syntax_conceal = 0
     " PyMode
     if isdirectory(expand("~/.vim/bundle/python-mode"))
+        " Disable if python support not present
+        if !has('python') && !has('python3')
+            let g:pymode = 0
+        endif
         " python version
         if has('python3')
             let g:pymode_python = 'python3'
@@ -735,7 +734,15 @@ au FileType haskell,rust setlocal nospell
         let g:pymode_lint_signs = 1
         let g:pymode_trim_whitespaces = 1
         let g:pymode_options = 0
-        let g:pymode_syntax = 0
+        " python syntax highlight
+        if isdirectory(expand("~/.vim/bundle/python-syntax"))
+            let g:python_highlight_all = 1
+            let g:pymode_syntax = 0
+            let g:pymode_syntax_all = 0
+        else
+            let g:pymode_syntax = 1
+            let g:pymode_syntax_all = 1
+        endif
         " no check when white
         let g:pymode_lint_on_write = 0
         " check when save
@@ -751,12 +758,12 @@ au FileType haskell,rust setlocal nospell
         let g:pymode_lint_cwindow = 0
         nmap <F9> :PymodeLint<CR>
         imap <F9> <ESC>:PymodeLint<CR>i
-        " no doc for python
+        " doc for python
         let g:pymode_doc = 0
         " motion
         let g:pymode_motion = 1
         " run python
-        let g:pymode_run_bind = '<leader>R'
+        let g:pymode_run_bind = '<F5>'
         " breakpoint
         let g:pymode_breakpoint = 1
         let g:pymode_breakpoint_bind = '<C-g>'
@@ -764,10 +771,6 @@ au FileType haskell,rust setlocal nospell
         let g:pymode_rope = 1
         let g:pymode_rope_show_doc_bind = '<C-l>'
         let g:pymode_rope_completion = 0
-    endif
-    " Disable if python support not present
-    if !has('python') && !has('python3')
-        let g:pymode = 0
     endif
     " ctrlp
     if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
