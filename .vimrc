@@ -33,7 +33,7 @@ set fileencodings=utf-8,chinese,latin-1,gbk,gb18030,gk2312
 
 " set timeout
 set timeout
-set timeoutlen=300 ttimeoutlen=50
+set timeoutlen=500 ttimeoutlen=50
 
 
 " Gui
@@ -143,6 +143,8 @@ if !exists('g:no_leoatchina_config')
     set tabpagemax=10 " Only show 10 tabs
     nnoremap <silent>-  :tabprevious<CR>
     nnoremap <silent>=  :tabnext<CR>
+    nnoremap <silent>t- :tabm -1<CR>
+    nnoremap <silent>t= :tabm +1<CR>
     nnoremap <leader>tf :tabfirst<CR>
     nnoremap <leader>tl :tablast<CR>
     nnoremap <leader>tn :tabnew<CR>
@@ -150,8 +152,6 @@ if !exists('g:no_leoatchina_config')
     nnoremap <Leader>tp :tab split<CR>
     nnoremap <Leader>te :tabe<SPACE>
     nnoremap <Leader>tm :tabm<SPACE>
-    nnoremap (  :tabm -1<CR>
-    nnoremap )  :tabm +1<CR>
     " 设置快捷键将选中文本块复制至系统剪贴板
     vnoremap  <leader>y  "+y
     nnoremap  <leader>y  "+y
@@ -481,9 +481,7 @@ au FileType haskell,rust setlocal nospell
 
         " Map g* keys in Normal, Operator-pending, and Visual+select
         noremap $ :call WrapRelativeMotion("$")<CR>
-        noremap <End> :call WrapRelativeMotion("$")<CR>
         noremap 0 :call WrapRelativeMotion("0")<CR>
-        noremap <Home> :call WrapRelativeMotion("0")<CR>
         noremap ^ :call WrapRelativeMotion("^")<CR>
         " Overwrite the operator pending $/<End> mappings from above
         " to force inclusive motion with :execute normal!
@@ -494,7 +492,7 @@ au FileType haskell,rust setlocal nospell
         vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR>
         vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR>
         vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
-        vnoremap <Home> :<C-U>call WrapRelativeMotion("0", 1)<CR>
+        vnoremap <Home> :<C-U>call WrapRelativeMotion("^", 1)<CR>
         vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
     endif
     " Stupid shift key fixes
@@ -582,20 +580,19 @@ au FileType haskell,rust setlocal nospell
     endif
     " Shell
     if isdirectory(expand("~/.vim/bundle/vimshell.vim"))
-        map <C-S> <Nop>
-        nmap <C-S>v :VimShell<Space>
-        nmap <C-S>\ :vsplit<cr>:VimShell<cr>
-        nmap <C-S>- :split<cr>:VimShell<cr>
-        nmap <C-S>c :VimShellClose<Cr>
-        nmap <C-S>s :VimShellSendBuffer<Space>
-        nmap <C-S>k :VimShellTab<Space>
-        nmap <C-S>p :VimShellPop<Space>
-        nmap <C-S>d :VimShellCurrentDir<Space>
-        nmap <C-S>b :VimShellBufferDir<Space>
-        nmap <C-S>e :VimShellExecute<Space>
-        nmap <C-S>i :VimShellInteractive<Space>
-        nmap <C-S>n :VimShellCreate<Space>
-        vmap <C-S>  :VimShellSendString<cr>
+        nmap <C-k>v :VimShell<Space>
+        nmap <C-k>\ :vsplit<cr>:VimShell<cr>
+        nmap <C-k>- :split<cr>:VimShell<cr>
+        nmap <C-k>c :VimShellClose<Cr>
+        nmap <C-k>s :VimShellSendBuffer<Space>
+        nmap <C-k>t :VimShellTab<Space>
+        nmap <C-k>p :VimShellPop<Space>
+        nmap <C-k>d :VimShellCurrentDir<Space>
+        nmap <C-k>b :VimShellBufferDir<Space>
+        nmap <C-k>e :VimShellExecute<Space>
+        nmap <C-k>i :VimShellInteractive<Space>
+        nmap <C-k>n :VimShellCreate<Space>
+        vmap <C-k><Space> :VimShellSendString<cr>
         let g:vimshell_prompt_expr = 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
         let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
         let g:vimshell_force_overwrite_statusline=1
@@ -647,26 +644,21 @@ au FileType haskell,rust setlocal nospell
         " AutoCloseTag
         " Make it so AutoCloseTag works for xml and xhtml files as well
         au FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
-        nmap <Leader>ac <Plug>ToggleAutoCloseMappings
+        nmap <Leader>ta <Plug>ToggleAutoCloseMappings
     endif
     " Tabularize
     if isdirectory(expand("~/.vim/bundle/tabular"))
-        nmap <Leader>a& :Tabularize /&<CR>
-        vmap <Leader>a& :Tabularize /&<CR>
-        nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-        vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-        nmap <Leader>a=> :Tabularize /=><CR>
-        vmap <Leader>a=> :Tabularize /=><CR>
-        nmap <Leader>a: :Tabularize /:<CR>
-        vmap <Leader>a: :Tabularize /:<CR>
-        nmap <Leader>a:: :Tabularize /:\zs<CR>
-        vmap <Leader>a:: :Tabularize /:\zs<CR>
-        nmap <Leader>a, :Tabularize /,<CR>
-        vmap <Leader>a, :Tabularize /,<CR>
-        nmap <Leader>a,, :Tabularize /,\zs<CR>
-        vmap <Leader>a,, :Tabularize /,\zs<CR>
-        nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-        vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+        vmap <Leader>t& :Tabularize /&<CR>
+        vmap <Leader>t% :Tabularize /%<CR>
+        vmap <Leader>t$ :Tabularize /\$<CR>
+        vmap <Leader>t= :Tabularize /^[^=]*\zs=<CR>
+        vmap <Leader>t=> :Tabularize /=><CR>
+        vmap <Leader>t: :Tabularize /:<CR>
+        vmap <Leader>t:: :Tabularize /:\zs<CR>
+        vmap <Leader>t, :Tabularize /,<CR>
+        vmap <Leader>t,, :Tabularize /,\zs<CR>
+        vmap <Leader>t. :Tabularize /\.<CR>
+        vmap <Leader>t<Bar> :Tabularize /<Bar><CR>
     endif
     " Session List
     set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
