@@ -143,8 +143,8 @@ if !exists('g:no_leoatchina_config')
     set tabpagemax=10 " Only show 10 tabs
     nnoremap <silent>-  :tabprevious<CR>
     nnoremap <silent>=  :tabnext<CR>
-    nnoremap <silent>t- :tabm -1<CR>
-    nnoremap <silent>t= :tabm +1<CR>
+    nnoremap <silent><S-F7> :tabm -1<CR>
+    nnoremap <silent><F7>   :tabm +1<CR>
     nnoremap <leader>tf :tabfirst<CR>
     nnoremap <leader>tl :tablast<CR>
     nnoremap <leader>tn :tabnew<CR>
@@ -250,9 +250,9 @@ if !exists('g:no_leoatchina_config')
     endfunc
     " buffer switch
     nnoremap <leader>bn :bn<CR>
-    nmap <silent><F8> :bn<CR>
+    nmap <F6> :bn<CR>
     nnoremap <leader>bp :bp<CR>
-    nmap <silent><F7> :bp<CR>
+    nmap <S-F6> :bp<CR>
     " 定义快捷键保存当前窗口内容
     nmap <Leader>w :w<CR>
     nmap <Leader>W :wq!<CR>
@@ -619,7 +619,8 @@ au FileType haskell,rust setlocal nospell
     endif
     " fugitive
     if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
-        nmap <Leader>gi :Git<Space>
+        nmap <F8> :Git<Space>
+        nmap <leader>gi :Git<Space>
     endif
     " AsyncRun
     if isdirectory(expand("~/.vim/bundle/asyncrun.vim"))
