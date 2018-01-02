@@ -620,6 +620,7 @@ au FileType haskell,rust setlocal nospell
     " fugitive
     if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
         nmap <F8> :Git<Space>
+        nmap <S-F8> :Git add -A
         nmap <leader>gi :Git<Space>
     endif
     " AsyncRun
@@ -638,7 +639,6 @@ au FileType haskell,rust setlocal nospell
         if gitroot != ''
             let &tags = &tags . ',' . gitroot . '/.git/tags'
         endif
-        nmap <silent><C-T> :TagbarToggle<CR>
         nmap <silent><leader>tt :TagbarToggle<CR>
         nnoremap <silent><leader>jt :TagbarOpen j<CR>
         let g:tagbar_sort = 0
@@ -649,24 +649,24 @@ au FileType haskell,rust setlocal nospell
     endif
     " Tabularize
     if isdirectory(expand("~/.vim/bundle/tabular"))
-        vmap <Leader>t& :Tabularize /&<CR>
-        vmap <Leader>t% :Tabularize /%<CR>
-        vmap <Leader>t$ :Tabularize /\$<CR>
-        vmap <Leader>t= :Tabularize /^[^=]*\zs=<CR>
-        vmap <Leader>t=> :Tabularize /=><CR>
-        vmap <Leader>t: :Tabularize /:<CR>
-        vmap <Leader>t:: :Tabularize /:\zs<CR>
-        vmap <Leader>t, :Tabularize /,<CR>
-        vmap <Leader>t,, :Tabularize /,\zs<CR>
-        vmap <Leader>t. :Tabularize /\.<CR>
-        vmap <Leader>t<Bar> :Tabularize /<Bar><CR>
+        vmap <C-t>& :Tabularize /&<CR>
+        vmap <C-t>% :Tabularize /%<CR>
+        vmap <C-t>$ :Tabularize /\$<CR>
+        vmap <C-t>= :Tabularize /^[^=]*\zs=<CR>
+        vmap <C-t>== :Tabularize /=><CR>
+        vmap <C-t>: :Tabularize /:<CR>
+        vmap <C-t>:: :Tabularize /:\zs<CR>
+        vmap <C-t>, :Tabularize /,<CR>
+        vmap <C-t>,, :Tabularize /,\zs<CR>
+        vmap <C-t>. :Tabularize /\.<CR>
+        vmap <C-t><Bar> :Tabularize /<Bar><CR>
     endif
     " Session List
     set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
     if isdirectory(expand("~/.vim/bundle/sessionman.vim/"))
-        nmap <leader>sl :SessionList<CR>
-        nmap <leader>ss :SessionSave<CR>
-        nmap <leader>sc :SessionClose<CR>n
+        nmap <leader>sl : SessionList<CR>
+        nmap <leader>ss : SessionSave<CR>
+        nmap <leader>sc : SessionClose<CR>n
     endif
     " Nvim-R
     if isdirectory(expand("~/.vim/bundle/Nvim-R"))
