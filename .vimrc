@@ -580,11 +580,11 @@ au FileType haskell,rust setlocal nospell
     endif
     " Shell
     if isdirectory(expand("~/.vim/bundle/vimshell.vim"))
-        nmap <C-k>v :VimShell<Space>
-        nmap <C-k>\ :vsplit<cr>:VimShell<cr>
-        nmap <C-k>- :split<cr>:VimShell<cr>
+        nmap <C-k>v :vsplit<cr>:VimShell<cr>
+        nmap <C-k>s :split<cr>:VimShell<cr>
+        nmap <C-k>V :VimShell<Space>
+        nmap <C-k>S :VimShellSendBuffer<Space>
         nmap <C-k>c :VimShellClose<Cr>
-        nmap <C-k>s :VimShellSendBuffer<Space>
         nmap <C-k>t :VimShellTab<Space>
         nmap <C-k>p :VimShellPop<Space>
         nmap <C-k>d :VimShellCurrentDir<Space>
@@ -592,7 +592,7 @@ au FileType haskell,rust setlocal nospell
         nmap <C-k>e :VimShellExecute<Space>
         nmap <C-k>i :VimShellInteractive<Space>
         nmap <C-k>n :VimShellCreate<Space>
-        vmap <C-k><Space> :VimShellSendString<cr>
+        vmap K      :VimShellSendString<cr>
         let g:vimshell_prompt_expr = 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
         let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
         let g:vimshell_force_overwrite_statusline=1
@@ -653,7 +653,7 @@ au FileType haskell,rust setlocal nospell
         vmap <C-t>% :Tabularize /%<CR>
         vmap <C-t>$ :Tabularize /\$<CR>
         vmap <C-t>= :Tabularize /^[^=]*\zs=<CR>
-        vmap <C-t>== :Tabularize /=><CR>
+        vmap <C-t>=> :Tabularize /=><CR>
         vmap <C-t>: :Tabularize /:<CR>
         vmap <C-t>:: :Tabularize /:\zs<CR>
         vmap <C-t>, :Tabularize /,<CR>
