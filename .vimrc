@@ -542,12 +542,16 @@ au FileType haskell,rust setlocal nospell
     endif
     " NerdTree
     if isdirectory(expand("~/.vim/bundle/nerdtree"))
-        nmap <silent><C-n> <plug>NERDTreeTabsToggle<CR>
-        nmap <leader>nn <plug>NERDTreeTabsToggle<CR>
-        nmap <leader>nt :NERDTreeFind<CR>
+        nmap <leader>nc :NERDTreeTabsClose<CR>
+        nmap <leader>nn :NERDTreeTabsOpen<CR>
+        nmap <leader>nf :NERDTreeFind<CR>
+
         let g:NERDShutUp=1
         let s:has_nerdtree = 1
         let g:nerdtree_tabs_open_on_gui_startup=0
+        let g:nerdtree_tabs_open_on_console_startup = 0
+        let g:nerdtree_tabs_smart_startup_focus = 2
+        let g:nerdtree_tabs_focus_on_files = 1
         let g:NERDTreeWinSize=30
         let g:NERDTreeShowBookmarks=1
         let g:nerdtree_tabs_smart_startup_focus = 0
@@ -729,7 +733,6 @@ au FileType haskell,rust setlocal nospell
         let g:pymode_options = 0
         " python syntax highlight
         if isdirectory(expand("~/.vim/bundle/python-syntax"))
-            let g:python_highlight_all = 1
             let g:pymode_syntax = 0
             let g:pymode_syntax_all = 0
         else
@@ -764,6 +767,9 @@ au FileType haskell,rust setlocal nospell
         let g:pymode_rope = 1
         let g:pymode_rope_show_doc_bind = '<C-l>'
         let g:pymode_rope_completion = 0
+    endif
+    if isdirectory(expand("~/.vim/bundle/python-syntax"))
+        let g:python_highlight_all = 1
     endif
     " ctrlp
     if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
