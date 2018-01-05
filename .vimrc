@@ -545,6 +545,7 @@ au FileType haskell,rust setlocal nospell
         nmap <leader>nc :NERDTreeTabsClose<CR>
         nmap <leader>nn :NERDTreeTabsOpen<CR>
         nmap <leader>nf :NERDTreeFind<CR>
+        nmap <leader>nt :NERDTreeFocusToggle<CR>
 
         let g:NERDShutUp=1
         let s:has_nerdtree = 1
