@@ -739,8 +739,8 @@ if isdirectory(expand("~/.vim/bundle/python-mode"))
     " show message of error line
     let g:pymode_lint_message = 1
     " checkers
-    "let g:pymode_lint_checkers = ['pyflakes','pep8']
-    let g:pymode_lint_checkers = ['pep8']
+    let g:pymode_lint_checkers = ['pyflakes','pep8']
+    "let g:pymode_lint_checkers = ['pep8']
     let g:pymode_lint_ignore = "E128,E2,E3,E501"
     " not Auto open cwindow (quickfix) if any errors have been found
     let g:pymode_lint_cwindow = 0
@@ -762,9 +762,8 @@ if isdirectory(expand("~/.vim/bundle/python-mode"))
     let g:pymode_breakpoint = 1
     let g:pymode_breakpoint_bind = '<C-g>'
     let g:pymode_breakpoint_cmd = 'import pdb;pdb.set_trace()'
-    let g:pymode_rope = 1
-    let g:pymode_rope_show_doc_bind = '<C-l>'
-    let g:pymode_rope_completion = 0
+    let g:pymode_rope = 0
+    let g:pymode_folding = 0
 endif
 if isdirectory(expand("~/.vim/bundle/python-syntax"))
     let g:python_highlight_all = 1
