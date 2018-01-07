@@ -183,7 +183,7 @@ if !exists("g:override_spf13_bundles")
         elseif has('lua') && (has('nvim') || version>703)
             let g:completable = 4
             Bundle 'Shougo/neocomplete.vim'
-        else
+        elseif version>703
             let g:completable = 5
             Bundle 'Shougo/neocomplcache.vim'
             Bundle 'JazzCore/neocomplcache-ultisnips'
@@ -235,7 +235,7 @@ if !exists("g:override_spf13_bundles")
         Bundle 'kchmck/vim-coffee-script'
     endif
     " R
-    if count(g:spf13_bundle_groups, 'R')
+    if count(g:spf13_bundle_groups, 'R') && executable('R')
         Bundle 'jalvesaq/Nvim-R'
     endif
     " Scala

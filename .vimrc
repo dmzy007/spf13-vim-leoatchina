@@ -618,7 +618,8 @@ if isdirectory(expand("~/.vim/bundle/PIV"))
 endif
 " fugitive
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
-    nmap <leader>GG :Git<Space>
+    nnoremap <leader>GG :Git<Space>
+    nnoremap <F10> :Git<Space>
 endif
 " AsyncRun
 if isdirectory(expand("~/.vim/bundle/asyncrun.vim"))
