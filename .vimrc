@@ -444,6 +444,7 @@ endif
 if isdirectory(expand("~/.vim/bundle/vim-quickrun"))
     nnoremap <Leader>R <Plug>(quickrun)
     nnoremap <F5> <Plug>(quickrun)
+    let g:quickrun_config={"_":{"outputter":"message"}}
 endif
 " ywvim,vim里的中文输入法
 if isdirectory(expand("~/.vim/bundle/ywvim"))
@@ -478,7 +479,6 @@ endif
 if isdirectory(expand("~/.vim/bundle/nerdtree"))
     nmap <leader>nn :NERDTreeTabsToggle<CR>
     nmap <leader>nf :NERDTreeFind<CR>
-
     let g:NERDShutUp=1
     let s:has_nerdtree = 1
     let g:nerdtree_tabs_open_on_gui_startup=0
@@ -515,7 +515,7 @@ if isdirectory(expand("~/.vim/bundle/nerdtree"))
                     \ }
     endif
 endif
-" Shell
+" vimShell
 if isdirectory(expand("~/.vim/bundle/vimshell.vim"))
     nmap <C-k>v :vsplit<cr>:VimShell<cr>
     nmap <C-k>s :split<cr>:VimShell<cr>
@@ -548,6 +548,33 @@ if isdirectory(expand("~/.vim/bundle/markdown-preview.vim"))
     else
         let g:mkdp_path_to_chrome = "google-chrome"
     endif
+endif
+" startify
+if isdirectory(expand("~/.vim/bundle/vim-startify"))
+    let g:startify_custom_header = [
+        \ '+----------------------------------------------------------+',
+        \ '|  Welcome to use leoatchina vim config forked from spf13  |',
+        \ '|                                                          |',
+        \ '|  https://github.com/leoatchina/spf13-vim-leoathina       |',
+        \ '+----------------------------------------------------------+',
+        \ ]
+    let g:startify_session_dir = '~/.vim/session'
+    let g:startify_files_number = 5
+    let g:startify_session_number = 5
+    let g:startify_list_order = [
+        \ ['   最近项目:'],
+        \ 'sessions',
+        \ ['   最近文件:'],
+        \ 'files',
+        \ ['   快捷命令:'],
+        \ 'commands',
+        \ ['   常用书签:'],
+        \ 'bookmarks',
+        \ ]
+    let g:startify_commands = [
+    \ {'h': ['帮助', 'help howto']},
+    \ {'v': ['版本', 'version']}
+    \ ]
 endif
 " PIV
 if isdirectory(expand("~/.vim/bundle/PIV"))
@@ -583,19 +610,14 @@ if isdirectory(expand("~/.vim/bundle/tagbar/"))
     au FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
     nmap <Leader>ta <Plug>ToggleAutoCloseMappings
 endif
-" Tabularize
-if isdirectory(expand("~/.vim/bundle/tabular"))
-    vmap <C-t>& :Tabularize /&<CR>
-    vmap <C-t>% :Tabularize /%<CR>
-    vmap <C-t>$ :Tabularize /\$<CR>
-    vmap <C-t>= :Tabularize /^[^=]*\zs=<CR>
-    vmap <C-t>=> :Tabularize /=><CR>
-    vmap <C-t>: :Tabularize /:<CR>
-    vmap <C-t>:: :Tabularize /:\zs<CR>
-    vmap <C-t>, :Tabularize /,<CR>
-    vmap <C-t>,, :Tabularize /,\zs<CR>
-    vmap <C-t>. :Tabularize /\.<CR>
-    vmap <C-t><Bar> :Tabularize /<Bar><CR>
+" easy-align
+if isdirectory(expand("~/.vim/bundle/vim-easy-align"))
+    vmap <Cr> <Plug>(EasyAlign)
+    nmap <Leader>A <Plug>(EasyAlign)
+    if !exists('g:easy_align_delimiters')
+        let g:easy_align_delimiters = {}
+    endif
+    let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
 endif
 " Nvim-R
 if isdirectory(expand("~/.vim/bundle/Nvim-R"))
@@ -603,16 +625,16 @@ if isdirectory(expand("~/.vim/bundle/Nvim-R"))
     let R_objbr_place = "script,right"
     " R console windows
     au VimResized * let R_rconsole_height = winheight(0) /3
-    let R_objbr_h = 25
-    let R_objbr_opendf = 1    " Show data.frames elements
-    let R_objbr_openlist = 1  " Show lists elements
-    let R_objbr_allnames = 0  " Show .GlobalEnv hidden objects
-    let R_objbr_labelerr = 1  " Warn if label is not a valid text
-    let R_in_buffer = 1
-    let R_hl_term = 1
-    let R_close_term = 1
-    let Rout_more_colors = 1
-    let R_hi_fun_paren = 1
+    let R_objbr_h         = 25
+    let R_objbr_opendf    = 1    " Show data.frames elements
+    let R_objbr_openlist  = 1  " Show lists elements
+    let R_objbr_allnames  = 0  " Show .GlobalEnv hidden objects
+    let R_objbr_labelerr  = 1  " Warn if label is not a valid text
+    let R_in_buffer       = 1
+    let R_hl_term         = 1
+    let R_close_term      = 1
+    let Rout_more_colors  = 1
+    let R_hi_fun_paren    = 1
     let R_rmd_environment = "new.env()"
     nmap <leader>rr <localleader>rf<localleader>ro<C-w>h
     nmap <leader>rq <localleader>rq

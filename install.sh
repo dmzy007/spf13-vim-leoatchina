@@ -142,6 +142,7 @@ setup_vundle() {
 variable_set "$HOME"
 program_must_exist "vim"
 program_must_exist "git"
+mkdir -p "~/.vim/session"
 create_symlinks "$APP_PATH" \
                 "$HOME"
 

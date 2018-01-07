@@ -105,14 +105,14 @@ if !exists("g:override_spf13_bundles")
     Bundle 'jiangmiao/auto-pairs'
     Bundle 'ctrlpvim/ctrlp.vim'
     Bundle 'tacahiroy/ctrlp-funky'
-    Bundle 'godlygeek/tabular'
+    Bundle 'junegunn/vim-easy-align'
     Bundle 'mbbill/undotree'
     Bundle 'bling/vim-bufferline'
     Bundle 'nathanaelkane/vim-indent-guides'
     Bundle 'drmingdrmer/vim-toggle-quickfix'
-    Bundle 'vim-scripts/sessionman.vim'
     Bundle 'mhinz/vim-signify'
     Bundle 'tamlok/vim-markdown'
+    Bundle 'terryma/vim-multiple-cursors'
     if (has("python") || has("python3")) && exists('g:spf13_use_powerline') && !exists('g:spf13_use_old_powerline')
         Bundle 'Lokaltog/powerline', 'rtp':'/powerline/bindings/vim'
     elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
@@ -125,7 +125,6 @@ if !exists("g:override_spf13_bundles")
         Bundle 'vim-scripts/restore_view.vim'
     endif
     if count(g:spf13_bundle_groups, 'markdown')
-        Bundle 'terryma/vim-multiple-cursors'
         Bundle 'iamcco/mathjax-support-for-mkdp'
         Bundle 'iamcco/markdown-preview.vim'
     endif
@@ -138,12 +137,10 @@ if !exists("g:override_spf13_bundles")
         if executable('git')
           Bundle 'tpope/vim-fugitive'
         endif
-        if OSX()
-            Bundle 'rizzatti/dash.vim'
-        endif
         if executable('ctags')
             Bundle 'majutsushi/tagbar'
         endif
+        Bundle 'mhinz/vim-startify'
     endif
     " Snippets & AutoComplete
     " use comletable flag to set config
