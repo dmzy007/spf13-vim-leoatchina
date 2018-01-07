@@ -179,73 +179,7 @@ if !exists('g:no_leoatchina_config')
     "F4 toggle hlsearch
     noremap <F4> :set nohlsearch! nohlsearch?<CR>
     noremap <leader>fh :set nohlsearch! nohlsearch?<CR>
-    " F5运行脚本
-    noremap <F5> :call CompileRunGcc()<CR>
-    noremap <leader>R :call CompileRunGcc()<CR>
-    func! CompileRunGcc()
-        exec "w"
-        if &filetype == 'c'
-            exec "!g++ % -o %<"
-            exec "!./%<"
-        elseif &filetype == 'cpp'
-            exec "!g++ % -o %<"
-            exec "!./%<"
-        elseif &filetype == 'java'
-            exec "!javac %"
-            exec "!java %<"
-        elseif &filetype == 'sh'
-            exec "!bash %"
-        elseif &filetype == 'perl'
-            exec "!perl %"
-        elseif &filetype == 'go'
-            exec "!go run %"
-        endif
-    endfunc
-    " S-F5 time the program testing
-    noremap <S-F5> :call TimeCompileRunGcc()<CR>
-    func! TimeCompileRunGcc()
-        exec "w"
-        " asyncrun 是一个异步执行脚本的插件，要vim8.0以上才支持
-        if isdirectory(expand("~/.vim/bundle/asyncrun.vim"))
-            if &filetype == 'c'
-                exec ":AsyncRun g++ % -o %<"
-                exec ":AsyncRun ./%<"
-            elseif &filetype == 'cpp'
-                exec ":AsyncRun g++ % -o %<"
-                exec ":AsyncRun ./%<"
-            elseif &filetype == 'java'
-                exec ":AsyncRun javac %"
-                exec ":AsyncRun java %<"
-            elseif &filetype == 'sh'
-                exec ":AsyncRun bash %"
-            elseif &filetype == 'python'
-                exec ":AsyncRun python %"
-            elseif &filetype == 'perl'
-                exec ":AsyncRun perl %"
-            elseif &filetype == 'go'
-                exec ":AsyncRun go run %"
-            endif
-        else
-            if &filetype == 'c'
-                exec "!g++ % -o %<"
-                exec "!time ./%<"
-            elseif &filetype == 'cpp'
-                exec "!g++ % -o %<"
-                exec "!time ./%<"
-            elseif &filetype == 'java'
-                exec "!javac %"
-                exec "!time java %<"
-            elseif &filetype == 'sh'
-                exec "!time bash %"
-            elseif &filetype == 'python'
-                exec "!time python %"
-            elseif &filetype == 'perl'
-                exec "!time perl %"
-            elseif &filetype == 'go'
-                exec "!time go run %"
-            endif
-        endif
-    endfunc
+
     " buffer switch
     nnoremap <F6> :bn<CR>
     nnoremap <leader><F6> :bp<CR>
@@ -266,11 +200,11 @@ if !exists('g:no_leoatchina_config')
     nmap <leader>\ :vsplit<Space>
     nmap <leader>= <C-W>=
     "设置垂直高度减增
-    nmap <Leader>< :resize -3<CR>
-    nmap <Leader>> :resize +3<CR>
+    nmap <Leader>,, :resize -3<CR>
+    nmap <Leader>.. :resize +3<CR>
     "设置水平宽度减增
-    nmap <Leader>[ :vertical resize -3<CR>
-    nmap <Leader>] :vertical resize +3<CR>
+    nmap <Leader>[[ :vertical resize -3<CR>
+    nmap <Leader>]] :vertical resize +3<CR>
     "至左方的子窗口
     nnoremap <Leader>HH <C-W>H
     nnoremap <Leader>hh <C-W>h
@@ -295,8 +229,7 @@ aug QFClose
     au!
     au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
 aug END
-"set number                      " show line number
-au BufWinEnter * set number
+set number                      " set number"
 set autoindent                  " Indent at the same level of the previous line
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 set splitright                  " Puts new vsplit windows to the right of the current
@@ -507,6 +440,11 @@ if !exists('g:spf13_no_keyfixes')
     cmap Tabe tabe
 endif
 " Plugins
+" quickrun
+if isdirectory(expand("~/.vim/bundle/vim-quickrun"))
+    nnoremap <Leader>R <Plug>(quickrun)
+    nnoremap <F5> <Plug>(quickrun)
+endif
 " ywvim,vim里的中文输入法
 if isdirectory(expand("~/.vim/bundle/ywvim"))
     let g:ywvim_ims=[
@@ -659,13 +597,6 @@ if isdirectory(expand("~/.vim/bundle/tabular"))
     vmap <C-t>. :Tabularize /\.<CR>
     vmap <C-t><Bar> :Tabularize /<Bar><CR>
 endif
-" Session List
-set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-if isdirectory(expand("~/.vim/bundle/sessionman.vim/"))
-    nmap <leader>sl : SessionList<CR>
-    nmap <leader>ss : SessionSave<CR>
-    nmap <leader>sc : SessionClose<CR>n
-endif
 " Nvim-R
 if isdirectory(expand("~/.vim/bundle/Nvim-R"))
     let R_rconsole_width = 0
@@ -686,28 +617,8 @@ if isdirectory(expand("~/.vim/bundle/Nvim-R"))
     nmap <leader>rr <localleader>rf<localleader>ro<C-w>h
     nmap <leader>rq <localleader>rq
 endif
-" GoLang
-if count(g:spf13_bundle_groups, 'go')
-    let g:go_highlight_functions = 1
-    let g:go_highlight_methods = 1
-    let g:go_highlight_structs = 1
-    let g:go_highlight_operators = 1
-    let g:go_highlight_build_constraints = 1
-    let g:go_fmt_command = "goimports"
-    let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-    let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-    au FileType go nmap <Leader>S <Plug>(go-implements)
-    au FileType go nmap <Leader>S <Plug>(go-info)
-    au FileType go nmap <Leader>E <Plug>(go-rename)
-    au FileType go nmap <leader>R <Plug>(go-run)
-    au FileType go nmap <leader>B <Plug>(go-build)
-    au FileType go nmap <leader>T <Plug>(go-test)
-    au FileType go nmap <Leader>gd <Plug>(go-doc)
-    au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-    au FileType go nmap <leader>co <Plug>(go-coverage)
-endif
 " JSON
-nmap <leader>jst <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
+nmap <leader>JS <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
 let g:vim_json_syntax_conceal = 0
 " PyMode
 if isdirectory(expand("~/.vim/bundle/python-mode"))
