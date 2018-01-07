@@ -141,10 +141,10 @@ if !exists('g:no_leoatchina_config')
     endif
     " tab contral
     set tabpagemax=10 " Only show 10 tabs
-    nnoremap <silent>_  :tabprevious<CR>
-    nnoremap <silent>-  :tabnext<CR>
-    nnoremap <silent><S-F7> :tabm -1<CR>
-    nnoremap <silent><F7>   :tabm +1<CR>
+    nnoremap <silent><F7>   :tabprevious<CR>
+    nnoremap <silent><F8>   :tabnext<CR>
+    nnoremap <leader><F7> :tabm -1<CR>
+    nnoremap <leader><F8> :tabm +1<CR>
     nnoremap <leader>tn :tabnew<CR>
     nnoremap <Leader>ts :tabs<CR>
     nnoremap <Leader>tp :tab split<CR>
@@ -247,10 +247,8 @@ if !exists('g:no_leoatchina_config')
         endif
     endfunc
     " buffer switch
-    nnoremap <leader>bn :bn<CR>
-    nmap <F6> :bn<CR>
-    nnoremap <leader>bp :bp<CR>
-    nmap <S-F6> :bp<CR>
+    nnoremap <F6> :bn<CR>
+    nnoremap <leader><F6> :bp<CR>
     " 定义快捷键保存当前窗口内容
     nmap <Leader>w :w<CR>
     nmap <Leader>W :wq!<CR>
@@ -620,9 +618,7 @@ if isdirectory(expand("~/.vim/bundle/PIV"))
 endif
 " fugitive
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
-    nmap <F8> :Git<Space>
-    nmap <S-F8> :Git add -A
-    nmap <leader>gi :Git<Space>
+    nmap <leader>GG :Git<Space>
 endif
 " AsyncRun
 if isdirectory(expand("~/.vim/bundle/asyncrun.vim"))
@@ -673,6 +669,7 @@ endif
 if isdirectory(expand("~/.vim/bundle/Nvim-R"))
     let R_rconsole_width = 0
     let R_objbr_place = "script,right"
+    " R console windows
     au VimResized * let R_rconsole_height = winheight(0) /3
     let R_objbr_h = 25
     let R_objbr_opendf = 1    " Show data.frames elements
@@ -724,7 +721,6 @@ if isdirectory(expand("~/.vim/bundle/python-mode"))
         let g:pymode_python = 'python'
     endif
     " pymode check
-    " disable pymode check for default
     let g:pymode_lint = 1
     nmap <F9> :PymodeLint<CR>
     let g:pymode_lint_signs = 1
@@ -762,6 +758,7 @@ if isdirectory(expand("~/.vim/bundle/python-mode"))
     let g:pymode_breakpoint = 1
     let g:pymode_breakpoint_bind = '<C-g>'
     let g:pymode_breakpoint_cmd = 'import pdb;pdb.set_trace()'
+    " disable pymode_rope and pymode_folding for slow problem
     let g:pymode_rope = 0
     let g:pymode_folding = 0
 endif
