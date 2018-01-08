@@ -21,7 +21,7 @@ debug_mode='0'
 [ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://github.com/VundleVim/Vundle.vim.git"
 ############################  BASIC SETUP TOOLS
 msg() {
-    printf '%b\n' "$1" >&2:
+    printf '%b\n' "$1" >&2
 }
 success() {
     if [ "$ret" -eq '0' ]; then
@@ -142,7 +142,7 @@ setup_vundle() {
 variable_set "$HOME"
 program_must_exist "vim"
 program_must_exist "git"
-mkdir -p "~/.vim/session"
+mkdir -p "$HOME/.vim/session"
 create_symlinks "$APP_PATH" \
                 "$HOME"
 
