@@ -556,6 +556,8 @@ if isdirectory(expand("~/.vim/bundle/vim-startify"))
         \ '|  Welcome to use leoatchina vim config forked from spf13  |',
         \ '|                                                          |',
         \ '|  https://github.com/leoatchina/spf13-vim-leoathina       |',
+        \ '|                                                          |',
+        \ '|  https://github.com/spf13/spf13-vim                      |',
         \ '+----------------------------------------------------------+',
         \ ]
     let g:startify_session_dir = '~/.vim/session'
