@@ -17,8 +17,8 @@ set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
 
 " Use before config
-if filereadable(expand("~/.vimrc.before"))
-    source ~/.vimrc.before
+if filereadable(expand("~/.vimrc.local"))
+    source ~/.vimrc.local
 endif
 " Use bundles config
 if filereadable(expand("~/.vimrc.bundles"))
@@ -61,7 +61,6 @@ endif
 " Key (re)Mappings
 " The default leader is '\', spf13 prefer ';' as it's in a standard location
 " But leatchina prefer space. To override this behavior and set it back to '\'
-" (or any other character) add the following to your .vimrc.before.local file:
 if !exists('g:spf13_leader')
     let mapleader=' '
 else
@@ -82,7 +81,6 @@ au! bufwritepost .vimrc source %
 au! bufwritepost .vimrc.before source %
 au! bufwritepost .vimrc.bundles source %
 au! bufwritepost .vimrc.local source %
-au! bufwritepost .vimrc.before.local source %
 au! bufwritepost .vimrc.bundles.local source %
 " Some useful shortcuts by spf13
 " Find merge conflict markers
@@ -140,10 +138,10 @@ if !exists('g:no_leoatchina_config')
     endif
     " tab contral
     set tabpagemax=10 " Only show 10 tabs
-    nnoremap <silent><F7>   :tabprevious<CR>
-    nnoremap <silent><F8>   :tabnext<CR>
-    nnoremap <leader><F7> :tabm -1<CR>
-    nnoremap <leader><F8> :tabm +1<CR>
+    nnoremap <PageUp>   :tabprevious<CR>
+    nnoremap <PageDown>   :tabnext<CR>
+    nnoremap <leader><PageUp> :tabm -1<CR>
+    nnoremap <leader><PageDown> :tabm +1<CR>
     nnoremap <leader>tn :tabnew<CR>
     nnoremap <Leader>ts :tabs<CR>
     nnoremap <Leader>tp :tab split<CR>
@@ -321,16 +319,12 @@ au FileType haskell,rust setlocal nospell
 " General
 " Most prefer to automatically switch to the current file directory when
 " a new buffer is opened; to prevent this behavior, add the following to
-" your .vimrc.before.local file:
-"   let g:spf13_no_autochdir = 1
 if !exists('g:spf13_no_autochdir')
     au BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
     " Always switch to the current file directory
 endif
 " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
 " Restore cursor to file position in previous editing session
-" To disable this, add the following to your .vimrc.before.local file:
-"   let g:spf13_no_restore_cursor = 1
 if !exists('g:spf13_no_restore_cursor')
     function! ResCur()
         if line("'\"") <= line("$")
@@ -343,7 +337,7 @@ if !exists('g:spf13_no_restore_cursor')
         au BufWinEnter * call ResCur()
     augroup END
 endif
-" To disable views add the following to your .vimrc.before.local file:
+" To disable views add the following to your .vimrc.local file:
 "   let g:spf13_no_views = 1
 if !exists('g:spf13_no_views')
     " Add exclusions to mkview and loadview
@@ -391,7 +385,7 @@ endif
 " presence of `:set wrap`, and relative to line for `:set nowrap`.
 " Default vim behaviour is to act relative to text line in both cases
 " If you prefer the default behaviour, add the following to your
-" .vimrc.before.local file:
+" .vimrc.local file:
 "   let g:spf13_no_wrapRelMotion = 1
 if !exists('g:spf13_no_wrapRelMotion')
     " Same for 0, home, end, etc
@@ -1070,7 +1064,7 @@ function! InitializeDirectories()
     endif
     " To specify a different directory in which to place the vimbackup,
     " vimviews, vimundo, and vimswap files/directories, add the following to
-    " your .vimrc.before.local file:
+    " your .vimrc.local file:
     "   let g:spf13_consolidated_directory = <full path to desired directory>
     "   eg: let g:spf13_consolidated_directory = $HOME . '/.vim/'
     if exists('g:spf13_consolidated_directory')

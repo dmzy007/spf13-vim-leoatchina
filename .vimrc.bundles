@@ -71,7 +71,7 @@ elseif executable('ack-grep')
 elseif executable('ack')
     Bundle 'mileszs/ack.vim'
 endif
-" In your .vimrc.before.local file
+" In your .vimrc.local file
 " list only the plugin groups you will use
 if !exists('g:spf13_bundle_groups')
     let g:spf13_bundle_groups=['smartcomplete','programming', 'python', 'php', 'javascript', 'html',]
