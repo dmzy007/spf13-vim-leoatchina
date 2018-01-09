@@ -26,7 +26,6 @@ if filereadable(expand("~/.vimrc.bundles"))
 endif
 
 set noimdisable
-set shortmess+=c
 set encoding=utf-8
 scriptencoding utf-8
 set fileencodings=utf-8,chinese,latin-1,gbk,gb18030,gk2312
@@ -901,7 +900,7 @@ endif
 " smart completion use neosnippet to expand
 if g:completable>0
     " menu style
-    set completeopt=menuone,noselect
+    set completeopt=menuone,menu
     "set completeopt=menu,menuone,noinsert,noselect
     " For snippet_complete marker.
     if !exists("g:spf13_no_conceal")
