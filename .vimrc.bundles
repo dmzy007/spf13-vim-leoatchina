@@ -62,6 +62,17 @@ com! -nargs=+   UnBundle
 
 " Bundles
 Bundle 'gmarik/vundle'
+" General Programming
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'tpope/vim-commentary'
+Bundle 'mattn/webapi-vim'
+if executable('git')
+    Bundle 'tpope/vim-fugitive'
+endif
+if executable('ctags')
+    Bundle 'majutsushi/tagbar'
+endif
+Bundle 'mhinz/vim-startify'
 if executable('ag')
     Bundle 'rking/ag.vim'
     let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
@@ -74,179 +85,156 @@ endif
 " In your .vimrc.local file
 " list only the plugin groups you will use
 if !exists('g:spf13_bundle_groups')
-    let g:spf13_bundle_groups=['smartcomplete','programming', 'python', 'php', 'javascript', 'html',]
+    let g:spf13_bundle_groups=['smartcomplete', 'python', 'php', 'javascript', 'html',]
 endif
 
-" To override all the included bundles, add the following to your
-" .vimrc.bundles.local file:
-"  let g:override_spf13_bundles = 1
-if !exists("g:override_spf13_bundles")
-    " General
-    Bundle 'scrooloose/nerdtree'
-    Bundle 'jistr/vim-nerdtree-tabs'
-    Bundle 'Xuyuanp/nerdtree-git-plugin'
-    Bundle 'vim-voom/VOoM'
-    Bundle 'easymotion/vim-easymotion'
-    Bundle 'tyrannicaltoucan/vim-quantum'
-    Bundle 'altercation/vim-colors-solarized'
-    Bundle 'spf13/vim-colors'
-    Bundle 'tpope/vim-repeat'
-    Bundle 'tpope/vim-surround'
-    if OSX()
-        Bundle 'CodeFalling/fcitx-vim-osx'
+" General
+Bundle 'scrooloose/nerdtree'
+Bundle 'jistr/vim-nerdtree-tabs'
+Bundle 'Xuyuanp/nerdtree-git-plugin'
+Bundle 'vim-voom/VOoM'
+Bundle 'easymotion/vim-easymotion'
+Bundle 'tyrannicaltoucan/vim-quantum'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'spf13/vim-colors'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
+
+" input method
+if OSX()
+    Bundle 'CodeFalling/fcitx-vim-osx'
+else
+    Bundle 'lilydjwg/fcitx.vim'
+endif
+if count(g:spf13_bundle_groups, 'chinese')
+    Bundle 'leoatchina/ywvim'
+endif
+Bundle 'powerline/fonts'
+Bundle 'rhysd/conflict-marker.vim'
+Bundle 'jiangmiao/auto-pairs'
+Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'tacahiroy/ctrlp-funky'
+Bundle 'junegunn/vim-easy-align'
+Bundle 'mbbill/undotree'
+Bundle 'bling/vim-bufferline'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'drmingdrmer/vim-toggle-quickfix'
+Bundle 'mhinz/vim-signify'
+Bundle 'tamlok/vim-markdown'
+Bundle 'terryma/vim-multiple-cursors'
+
+" powerline
+if (has("python") || has("python3")) && exists('g:spf13_use_powerline') && !exists('g:spf13_use_old_powerline')
+    Bundle 'Lokaltog/powerline', 'rtp':'/powerline/bindings/vim'
+elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
+    Bundle 'Lokaltog/vim-powerline'
+else
+    Bundle 'vim-airline/vim-airline'
+    Bundle 'vim-airline/vim-airline-themes'
+endif
+" vimshell
+if count(g:spf13_bundle_groups, 'shell') && !has('nvim')
+    Bundle 'shougo/vimproc.vim'
+    Bundle 'shougo/vimshell.vim'
+endif
+" PHP
+if count(g:spf13_bundle_groups, 'php')
+    Bundle 'arnaud-lb/vim-php-namespace'
+endif
+" Python
+if count(g:spf13_bundle_groups, 'python')
+    Bundle 'hdima/python-syntax'
+    Bundle 'python-mode/python-mode'
+endif
+" Perl
+if count(g:spf13_bundle_groups, 'perl')
+    Bundle 'vim-perl/vim-perl'
+    Bundle 'perl-support.vim'
+endif
+" Javascript
+if count(g:spf13_bundle_groups, 'javascript')
+    Bundle 'elzr/vim-json'
+    Bundle 'pangloss/vim-javascript'
+    Bundle 'briancollins/vim-jst'
+    Bundle 'kchmck/vim-coffee-script'
+endif
+" R
+if count(g:spf13_bundle_groups, 'R') && executable('R')
+    Bundle 'jalvesaq/Nvim-R'
+endif
+" Scala
+if count(g:spf13_bundle_groups, 'scala')
+    Bundle 'derekwyatt/vim-scala'
+    Bundle 'derekwyatt/vim-sbt'
+    Bundle 'xptemplate'
+endif
+" HTML
+if count(g:spf13_bundle_groups, 'html')
+    Bundle 'hail2u/vim-css3-syntax'
+    Bundle 'gorodinskiy/vim-coloresque'
+    Bundle 'tpope/vim-haml'
+    Bundle 'mattn/emmet-vim'
+endif
+
+
+" Snippets & AutoComplete
+" use comletable flag to set config
+let g:completable=0
+if count(g:spf13_bundle_groups, 'youcompleteme')
+    if executable('cmake')
+        let g:completable = 1
+        Bundle 'Valloric/YouCompleteMe'
     else
-        Bundle 'lilydjwg/fcitx.vim'
+        echom "Inorder to install YCM , you should intall `cmake` first"
     endif
-    if count(g:spf13_bundle_groups, 'chinese')
-        Bundle 'leoatchina/ywvim'
-    endif
-    Bundle 'powerline/fonts'
-    Bundle 'rhysd/conflict-marker.vim'
-    Bundle 'jiangmiao/auto-pairs'
-    Bundle 'ctrlpvim/ctrlp.vim'
-    Bundle 'tacahiroy/ctrlp-funky'
-    Bundle 'junegunn/vim-easy-align'
-    Bundle 'mbbill/undotree'
-    Bundle 'bling/vim-bufferline'
-    Bundle 'nathanaelkane/vim-indent-guides'
-    Bundle 'drmingdrmer/vim-toggle-quickfix'
-    Bundle 'mhinz/vim-signify'
-    Bundle 'tamlok/vim-markdown'
-    Bundle 'terryma/vim-multiple-cursors'
-    if (has("python") || has("python3")) && exists('g:spf13_use_powerline') && !exists('g:spf13_use_old_powerline')
-        Bundle 'Lokaltog/powerline', 'rtp':'/powerline/bindings/vim'
-    elseif exists('g:spf13_use_powerline') && exists('g:spf13_use_old_powerline')
-        Bundle 'Lokaltog/vim-powerline'
+elseif count(g:spf13_bundle_groups,'nvimcomplete')
+    if has('python3') && (has('nvim') || version > 799)
+        " pip3 install neovim first
+        let g:completable = 2
+        Bundle 'roxma/nvim-completion-manager'
+        if !(has('nvim'))
+            Bundle 'roxma/vim-hug-neovim-rpc'
+            Bundle 'roxma/nvim-yarp'
+        endif
     else
-        Bundle 'vim-airline/vim-airline'
-        Bundle 'vim-airline/vim-airline-themes'
+        echom "Inorder to install NVM, you should has `python3` support &&  vim8/neovim installed"
     endif
-    if !exists('g:spf13_no_views')
-        Bundle 'vim-scripts/restore_view.vim'
-    endif
-    if count(g:spf13_bundle_groups, 'markdown')
-        Bundle 'iamcco/mathjax-support-for-mkdp'
-        Bundle 'iamcco/markdown-preview.vim'
-    endif
-   " General Programming
-    if count(g:spf13_bundle_groups, 'programming')
-        Bundle 'scrooloose/nerdcommenter'
-        Bundle 'tpope/vim-commentary'
-        Bundle 'mattn/webapi-vim'
-        Bundle 'thinca/vim-quickrun'
-        if executable('git')
-          Bundle 'tpope/vim-fugitive'
+" use completion plugins accoding to enviroment
+elseif count(g:spf13_bundle_groups, 'smartcomplete')
+    if has('python3') && (has('nvim') || version>799) && has('timers')
+        " pip3 install neovim first
+        let g:completable = 3
+        Bundle 'Shougo/deoplete.nvim'
+        if !has('nvim')
+            Bundle 'roxma/vim-hug-neovim-rpc'
+            Bundle 'roxma/nvim-yarp'
         endif
-        if executable('ctags')
-            Bundle 'majutsushi/tagbar'
-        endif
-        Bundle 'mhinz/vim-startify'
-    endif
-    " Snippets & AutoComplete
-    " use comletable flag to set config
-    let g:completable=0
-    if count(g:spf13_bundle_groups, 'youcompleteme')
-        if executable('cmake')
-            let g:completable = 1
-            Bundle 'Valloric/YouCompleteMe'
-        else
-            echom "Inorder to install YCM , you should intall `cmake` first"
-        endif
-    elseif count(g:spf13_bundle_groups,'nvimcomplete')
-        if has('python3') && (has('nvim') || version > 799)
-            " pip3 install neovim first
-            let g:completable = 2
-            Bundle 'roxma/nvim-completion-manager'
-            if !(has('nvim'))
-                Bundle 'roxma/vim-hug-neovim-rpc'
-                Bundle 'roxma/nvim-yarp'
-            endif
-        else
-            echom "Inorder to install NVM, you should has `python3` support &&  vim8/neovim installed"
-        endif
-    " use completion plugins accoding to enviroment
-    elseif count(g:spf13_bundle_groups, 'smartcomplete')
-        if has('python3') && (has('nvim') || version>799) && has('timers')
-            " pip3 install neovim first
-            let g:completable = 3
-            Bundle 'Shougo/deoplete.nvim'
-            if !has('nvim')
-                Bundle 'roxma/vim-hug-neovim-rpc'
-                Bundle 'roxma/nvim-yarp'
-            endif
-        elseif has('lua') && (has('nvim') || version>703)
-            let g:completable = 4
-            Bundle 'Shougo/neocomplete.vim'
-        elseif version>703
-            let g:completable = 5
-            Bundle 'Shougo/neocomplcache.vim'
-            Bundle 'JazzCore/neocomplcache-ultisnips'
-        endif
-    endif
-    if g:completable>0
-        " use honza's snippets collection"
-        Bundle 'honza/vim-snippets'
-        if count(g:spf13_bundle_groups,'ultisnips')
-            let g:use_ultisnips = 1
-            Bundle 'SirVer/ultisnips'
-        elseif count(g:spf13_bundle_groups,'neosnippet')
-            let g:use_ultisnips = 0
-            Bundle 'Shougo/neosnippet'
-            Bundle 'Shougo/neosnippet-snippets'
-        elseif !has('nvim') && ((executable('python3') && has('python3')) || (executable('python') && has('python')))
-            let g:use_ultisnips = 1
-            Bundle 'SirVer/ultisnips'
-        else
-            let g:use_ultisnips = 0
-            Bundle 'Shougo/neosnippet'
-            Bundle 'Shougo/neosnippet-snippets'
-        endif
-    endif
-    " vimshell
-    if count(g:spf13_bundle_groups, 'shell') && !has('nvim')
-        Bundle 'shougo/vimproc.vim'
-        Bundle 'shougo/vimshell.vim'
-    endif
-    " PHP
-    if count(g:spf13_bundle_groups, 'php')
-        Bundle 'arnaud-lb/vim-php-namespace'
-    endif
-    " Python
-    if count(g:spf13_bundle_groups, 'python')
-        Bundle 'hdima/python-syntax'
-        Bundle 'python-mode/python-mode'
-    endif
-    " Perl
-    if count(g:spf13_bundle_groups, 'perl')
-        Bundle 'vim-perl/vim-perl'
-        Bundle 'perl-support.vim'
-    endif
-    " Javascript
-    if count(g:spf13_bundle_groups, 'javascript')
-        Bundle 'elzr/vim-json'
-        Bundle 'pangloss/vim-javascript'
-        Bundle 'briancollins/vim-jst'
-        Bundle 'kchmck/vim-coffee-script'
-    endif
-    " R
-    if count(g:spf13_bundle_groups, 'R') && executable('R')
-        Bundle 'jalvesaq/Nvim-R'
-    endif
-    " Scala
-    if count(g:spf13_bundle_groups, 'scala')
-        Bundle 'derekwyatt/vim-scala'
-        Bundle 'derekwyatt/vim-sbt'
-        Bundle 'xptemplate'
-    endif
-    " HTML
-    if count(g:spf13_bundle_groups, 'html')
-        Bundle 'hail2u/vim-css3-syntax'
-        Bundle 'gorodinskiy/vim-coloresque'
-        Bundle 'tpope/vim-haml'
-        Bundle 'mattn/emmet-vim'
+    elseif has('lua') && (has('nvim') || version>703)
+        let g:completable = 4
+        Bundle 'Shougo/neocomplete.vim'
+    elseif version>703
+        let g:completable = 5
+        Bundle 'Shougo/neocomplcache.vim'
+        Bundle 'JazzCore/neocomplcache-ultisnips'
     endif
 endif
-" Use local bundles config if available
-if filereadable(expand("~/.vimrc.bundles.local"))
-    source ~/.vimrc.bundles.local
+
+if g:completable>0
+    " use honza's snippets collection"
+    Bundle 'honza/vim-snippets'
+    if count(g:spf13_bundle_groups,'ultisnips')
+        let g:use_ultisnips = 1
+        Bundle 'SirVer/ultisnips'
+    elseif count(g:spf13_bundle_groups,'neosnippet')
+        let g:use_ultisnips = 0
+        Bundle 'Shougo/neosnippet'
+        Bundle 'Shougo/neosnippet-snippets'
+    elseif !has('nvim') && ((executable('python3') && has('python3')) || (executable('python') && has('python')))
+        let g:use_ultisnips = 1
+        Bundle 'SirVer/ultisnips'
+    else
+        let g:use_ultisnips = 0
+        Bundle 'Shougo/neosnippet'
+        Bundle 'Shougo/neosnippet-snippets'
+    endif
 endif

@@ -120,106 +120,104 @@ endif
 set pastetoggle=<F12>      " pastetoggle (sane indentation on pastes)
 noremap <leader>fp :set nopaste! nopaste?<CR>
 
-" shortcuts by leatchina
-if !exists('g:no_leoatchina_config')
-    " move to last or first position of a line
-    nmap <silent><C-e> $
-    vmap <silent><C-e> $
-    inoremap <silent><expr> <C-e> pumvisible()? "\<C-e>":"\<ESC>A"
+" move to last or first position of a line
+nmap <silent><C-e> $
+vmap <silent><C-e> $
+inoremap <silent><expr> <C-e> pumvisible()? "\<C-e>":"\<ESC>A"
 
-    nmap <silent><C-y> ^
-    vmap <silent><C-y> ^
-    inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>I"
-    nmap <silent><C-m> %
-    vmap <silent><C-m> %
-    if isdirectory(expand("~/.vim/bundle/vim-toggle-quickfix"))
-        nmap <F10> <Plug>window:quickfix:toggle
-        imap <F10> <Plug>window:quickfix:toggle
-    endif
-    " tab contral
-    set tabpagemax=10 " Only show 10 tabs
-    nnoremap <PageUp>   :tabprevious<CR>
-    nnoremap <PageDown>   :tabnext<CR>
-    nnoremap <leader><PageUp> :tabm -1<CR>
-    nnoremap <leader><PageDown> :tabm +1<CR>
-    nnoremap <leader>tn :tabnew<CR>
-    nnoremap <Leader>ts :tabs<CR>
-    nnoremap <Leader>tp :tab split<CR>
-    nnoremap <Leader>te :tabe<SPACE>
-    nnoremap <Leader>tm :tabm<SPACE>
-    " 设置快捷键将选中文本块复制至系统剪贴板
-    vnoremap  <leader>y  "+y
-    nnoremap  <leader>y  "+y
-    nnoremap  <leader>Y  "+yg
-    nnoremap  <leader>yy  "+yy
-    " Yank from the cursor to the end of the line, to be consistent with C and D.
-    nnoremap Y y$
-    " p and P for paste
-    nnoremap <leader>p "+p
-    nnoremap <leader>P "+P
-    vnoremap <leader>p "+p
-    vnoremap <leader>P "+P
-    " Easier horizontal scrolling
-    map zl zL
-    map zh zH
-    " Wrapped lines goes down/up to next row, rather than next line in file.
-    noremap j gj
-    noremap k gk
-    "F1 help
-    nmap <F1> :tab help<SPACE>
-    "F2 toggleFold
-    noremap <F2> :set nofoldenable! nofoldenable?<CR>
-    noremap <leader>fd :set nofoldenable! nofoldenable?<CR>
-    "F3 toggleWrap
-    noremap <F3> :set nowrap! nowrap?<CR>
-    noremap <leader>fr :set nowrap! nowrap?<CR>
-    "F4 toggle hlsearch
-    noremap <F4> :set nohlsearch! nohlsearch?<CR>
-    noremap <leader>fh :set nohlsearch! nohlsearch?<CR>
-
-    " buffer switch
-    nnoremap <F6> :bn<CR>
-    nnoremap <leader><F6> :bp<CR>
-    " 定义快捷键保存当前窗口内容
-    nmap <Leader>w :w<CR>
-    nmap <Leader>W :wq!<CR>
-    " 定义快捷键保存所有窗口内容并退出 vim
-    nmap <Leader>WQ :wa<CR>:q<CR>
-    " 定义快捷键关闭当前窗口
-    nmap <Leader>q :q<CR>
-    " 不做任何保存，直接退出 vim
-    nmap <Leader>Q :qa!
-    " Q
-    nnoremap ~ Q
-    nmap Q :q!
-    " 设置分割页面
-    nmap <Leader>- :split<Space>
-    nmap <leader>\ :vsplit<Space>
-    nmap <leader>= <C-W>=
-    "设置垂直高度减增
-    nmap <Leader>,, :resize -3<CR>
-    nmap <Leader>.. :resize +3<CR>
-    "设置水平宽度减增
-    nmap <Leader>[[ :vertical resize -3<CR>
-    nmap <Leader>]] :vertical resize +3<CR>
-    "至左方的子窗口
-    nnoremap <Leader>HH <C-W>H
-    nnoremap <Leader>hh <C-W>h
-    "至右方的子窗口
-    nnoremap <Leader>LL <C-W>L
-    nnoremap <Leader>ll <C-W>l
-    "至上方的子窗口
-    nnoremap <Leader>KK <C-W>K
-    nnoremap <Leader>kk <C-W>k
-    "至下方的子窗口
-    nnoremap <Leader>JJ <C-W>J
-    nnoremap <Leader>jj <C-W>j
-    " Visual shifting (does not exit Visual mode)
-    vnoremap < <gv
-    vnoremap > >gv
-    " Ctrl-m for switch between brackets
-    map <C-m> %
+nmap <silent><C-y> ^
+vmap <silent><C-y> ^
+inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>I"
+nmap <silent><C-m> %
+vmap <silent><C-m> %
+if isdirectory(expand("~/.vim/bundle/vim-toggle-quickfix"))
+    nmap <F10> <Plug>window:quickfix:toggle
+    imap <F10> <Plug>window:quickfix:toggle
 endif
+
+" tab contral
+set tabpagemax=10 " Only show 10 tabs
+nnoremap <PageUp>   :tabprevious<CR>
+nnoremap <PageDown>   :tabnext<CR>
+nnoremap <leader><PageUp> :tabm -1<CR>
+nnoremap <leader><PageDown> :tabm +1<CR>
+nnoremap <leader>tn :tabnew<CR>
+nnoremap <Leader>ts :tabs<CR>
+nnoremap <Leader>tp :tab split<CR>
+nnoremap <Leader>te :tabe<SPACE>
+nnoremap <Leader>tm :tabm<SPACE>
+" 设置快捷键将选中文本块复制至系统剪贴板
+vnoremap  <leader>y  "+y
+nnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg
+nnoremap  <leader>yy  "+yy
+" Yank from the cursor to the end of the line, to be consistent with C and D.
+nnoremap Y y$
+" p and P for paste
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+" Easier horizontal scrolling
+map zl zL
+map zh zH
+" Wrapped lines goes down/up to next row, rather than next line in file.
+noremap j gj
+noremap k gk
+"F1 help
+nmap <F1> :tab help<SPACE>
+"F2 toggleFold
+noremap <F2> :set nofoldenable! nofoldenable?<CR>
+noremap <leader>fd :set nofoldenable! nofoldenable?<CR>
+"F3 toggleWrap
+noremap <F3> :set nowrap! nowrap?<CR>
+noremap <leader>fr :set nowrap! nowrap?<CR>
+"F4 toggle hlsearch
+noremap <F4> :set nohlsearch! nohlsearch?<CR>
+noremap <leader>fh :set nohlsearch! nohlsearch?<CR>
+
+" buffer switch
+nnoremap <F6> :bn<CR>
+nnoremap <leader><F6> :bp<CR>
+" 定义快捷键保存当前窗口内容
+nmap <Leader>w :w<CR>
+nmap <Leader>W :wq!<CR>
+" 定义快捷键保存所有窗口内容并退出 vim
+nmap <Leader>WQ :wa<CR>:q<CR>
+" 定义快捷键关闭当前窗口
+nmap <Leader>q :q<CR>
+" 不做任何保存，直接退出 vim
+nmap <Leader>Q :qa!
+" Q
+nnoremap ~ Q
+nmap Q :q!
+" 设置分割页面
+nmap <Leader>- :split<Space>
+nmap <leader>\ :vsplit<Space>
+nmap <leader>= <C-W>=
+"设置垂直高度减增
+nmap <Leader>,, :resize -3<CR>
+nmap <Leader>.. :resize +3<CR>
+"设置水平宽度减增
+nmap <Leader>[[ :vertical resize -3<CR>
+nmap <Leader>]] :vertical resize +3<CR>
+"至左方的子窗口
+nnoremap <Leader>HH <C-W>H
+nnoremap <Leader>hh <C-W>h
+"至右方的子窗口
+nnoremap <Leader>LL <C-W>L
+nnoremap <Leader>ll <C-W>l
+"至上方的子窗口
+nnoremap <Leader>KK <C-W>K
+nnoremap <Leader>kk <C-W>k
+"至下方的子窗口
+nnoremap <Leader>JJ <C-W>J
+nnoremap <Leader>jj <C-W>j
+" Visual shifting (does not exit Visual mode)
+vnoremap < <gv
+vnoremap > >gv
+" Ctrl-m for switch between brackets
+map <C-m> %
 " Formatting
 " auto close qfixwindows when leave vim
 aug QFClose
@@ -241,10 +239,10 @@ set nospell
 " 关闭声音
 set noeb
 set vb
-" 关闭列光标加亮
+" 列光标加亮
 set nocursorcolumn
-" 关闭行光标加亮
-set nocursorline
+" 光标加亮
+set cursorline
 " 允许折行
 set wrap
 " 不折叠
