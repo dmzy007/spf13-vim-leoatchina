@@ -781,12 +781,15 @@ if g:completable == 1
     nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
     smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-    " nvim completion
+    " ale
 elseif g:completable == 2
+    """""""
+    " nvim completion
+elseif g:completable == 3
     imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
     smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
     " deoplete
-elseif g:completable == 3
+elseif g:completable == 4
     let g:deoplete#enable_at_startup = 1
     if !has('nvim')
         let g:deoplete#enable_yarp=1
@@ -816,7 +819,7 @@ elseif g:completable == 3
         call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
     endif
     " neocomplete
-elseif g:completable == 4
+elseif g:completable == 5
     let g:acp_enableAtStartup = 1
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
@@ -852,7 +855,7 @@ elseif g:completable == 4
     imap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
     smap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
     " neocomplcache
-elseif g:completable == 5
+elseif g:completable == 6
     let g:neocomplcache_enable_insert_char_pre = 1
     let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_auto_select = 0
