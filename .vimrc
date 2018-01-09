@@ -78,10 +78,8 @@ filetype plugin on          " 根据侦测到的不同类型:加载对应的插�
 syntax on
 " take config into effect after saving
 au! bufwritepost .vimrc source %
-au! bufwritepost .vimrc.before source %
 au! bufwritepost .vimrc.bundles source %
 au! bufwritepost .vimrc.local source %
-au! bufwritepost .vimrc.bundles.local source %
 " Some useful shortcuts by spf13
 " Find merge conflict markers
 map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>

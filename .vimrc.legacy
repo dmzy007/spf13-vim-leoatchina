@@ -1,2 +1,12 @@
 
 Bundle 'thinca/vim-quickrun'
+if count(g:spf13_bundle_groups, 'smartcomplete') && g:completable == 0
+    if has('lua')
+        let g:completable = 4
+        Bundle 'Shougo/neocomplete.vim'
+    elseif
+        let g:completable = 5
+        Bundle 'Shougo/neocomplcache.vim'
+        Bundle 'JazzCore/neocomplcache-ultisnips'
+    endif
+endif

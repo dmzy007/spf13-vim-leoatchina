@@ -1,0 +1,34 @@
+
+Bundle 'w0rp/ale'
+Bundle 'skywind3000/asyncrun.vim'
+
+if g:completable == 0
+    if has('python3')
+        if count(g:spf13_bundle_groups,'nvimcomplete')
+            let g:completable = 2
+            Bundle 'roxma/nvim-completion-manager'
+            if !(has('nvim'))
+                Bundle 'roxma/vim-hug-neovim-rpc'
+                Bundle 'roxma/nvim-yarp'
+            endif
+        elseif count(g:spf13_bundle_groups, 'smartcomplete')
+            let g:completable = 3
+            Bundle 'Shougo/deoplete.nvim'
+            if !has('nvim')
+                Bundle 'roxma/vim-hug-neovim-rpc'
+                Bundle 'roxma/nvim-yarp'
+            endif
+        endif
+    else
+        if count(g:spf13_bundle_groups, 'smartcomplete')
+            if has('lua')
+                let g:completable = 4
+                Bundle 'Shougo/neocomplete.vim'
+            elseif
+                let g:completable = 5
+                Bundle 'Shougo/neocomplcache.vim'
+                Bundle 'JazzCore/neocomplcache-ultisnips'
+            endif
+        endif
+    endif
+endif

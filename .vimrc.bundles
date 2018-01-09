@@ -178,8 +178,6 @@ endif
 
 
 
-
-
 if version>703
     " Snippets & AutoComplete
     " use comletable flag to set config
@@ -191,36 +189,14 @@ if version>703
         else
             echom "Inorder to install YCM , you should intall `cmake` first"
         endif
-    elseif count(g:spf13_bundle_groups,'nvimcomplete')
-        if has('python3') && (has('nvim') || version > 799)
-            " pip3 install neovim first
-            let g:completable = 2
-            Bundle 'roxma/nvim-completion-manager'
-            if !(has('nvim'))
-                Bundle 'roxma/vim-hug-neovim-rpc'
-                Bundle 'roxma/nvim-yarp'
-            endif
-        else
-            echom "Inorder to install NVM, you should has `python3` support &&  vim8/neovim installed"
-        endif
-    " use completion plugins accoding to enviroment
-    elseif count(g:spf13_bundle_groups, 'smartcomplete')
-        if has('python3') && (has('nvim') || version>799) && has('timers')
-            " pip3 install neovim first
-            let g:completable = 3
-            Bundle 'Shougo/deoplete.nvim'
-            if !has('nvim')
-                Bundle 'roxma/vim-hug-neovim-rpc'
-                Bundle 'roxma/nvim-yarp'
-            endif
-        elseif has('lua') && (has('nvim') || version>703)
-            let g:completable = 4
-            Bundle 'Shougo/neocomplete.vim'
-        elseif version>703
-            let g:completable = 5
-            Bundle 'Shougo/neocomplcache.vim'
-            Bundle 'JazzCore/neocomplcache-ultisnips'
-        endif
+    endif
+
+    if has('nvim') || version>799
+        let g:vim_advance = 1
+        source ~/.vimrc.advance
+    else
+        let g:vim_advance = 0
+        source ~/.vimrc.legacy
     endif
 
     if g:completable>0
