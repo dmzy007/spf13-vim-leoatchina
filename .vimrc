@@ -605,6 +605,7 @@ if isdirectory(expand("~/.vim/bundle/matchit.zip"))
 endif
 " TagBar
 if isdirectory(expand("~/.vim/bundle/tagbar/"))
+    let g:tagbar_sort = 0
     set tags=./tags;/,~/.vimtags
     " Make tags placed in .git/tags file available in all levels of a repository
     let gitroot = substitute(system('git rev-parse --show-toplevel'), '[\n\r]', '', 'g')
@@ -612,8 +613,7 @@ if isdirectory(expand("~/.vim/bundle/tagbar/"))
         let &tags = &tags . ',' . gitroot . '/.git/tags'
     endif
     nmap <silent><leader>tt :TagbarToggle<CR>
-    nnoremap <silent><leader>jt :TagbarOpen j<CR>
-    let g:tagbar_sort = 0
+    nnoremap <silent><leader>tj :TagbarOpen j<CR>
     " AutoCloseTag
     " Make it so AutoCloseTag works for xml and xhtml files as well
     au FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
@@ -628,18 +628,33 @@ if isdirectory(expand("~/.vim/bundle/vim-easy-align"))
     endif
     let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
 endif
+
+" Tabularize
+if isdirectory(expand("~/.vim/bundle/tabular"))
+    vmap <C-t>& :Tabularize /&<CR>
+    vmap <C-t>% :Tabularize /%<CR>
+    vmap <C-t>$ :Tabularize /\$<CR>
+    vmap <C-t>= :Tabularize /^[^=]*\zs=<CR>
+    vmap <C-t>=> :Tabularize /=><CR>
+    vmap <C-t>: :Tabularize /:<CR>
+    vmap <C-t>:: :Tabularize /:\zs<CR>
+    vmap <C-t>, :Tabularize /,<CR>
+    vmap <C-t>,, :Tabularize /,\zs<CR>
+    vmap <C-t>. :Tabularize /\.<CR>
+    vmap <C-t><Bar> :Tabularize /<Bar><CR>
+endif
 " Nvim-R
 if isdirectory(expand("~/.vim/bundle/Nvim-R"))
     let R_rconsole_width = 0
     let R_objbr_place = "script,right"
     " R console windows
     au VimResized * let R_rconsole_height = winheight(0) /3
-    let R_objbr_h         = 25
-    let R_objbr_opendf    = 1    " Show data.frames elements
-    let R_objbr_openlist  = 1  " Show lists elements
-    let R_objbr_allnames  = 0  " Show .GlobalEnv hidden objects
-    let R_objbr_labelerr  = 1  " Warn if label is not a valid text
-    let R_in_buffer       = 1
+    let R_objbr_h        = 25
+    let R_objbr_opendf   = 1    " Show data.frames elements
+    let R_objbr_openlist = 1  " Show lists elements
+    let R_objbr_allnames = 0  " Show .GlobalEnv hidden objects
+    let R_objbr_labelerr = 1  " Warn if label is not a valid text
+    let R_in_buffer      = 1
     let R_hl_term         = 1
     let R_close_term      = 1
     let Rout_more_colors  = 1
@@ -648,9 +663,6 @@ if isdirectory(expand("~/.vim/bundle/Nvim-R"))
     nmap <leader>rr <localleader>rf<localleader>ro<C-w>h
     nmap <leader>rq <localleader>rq
 endif
-" JSON
-nmap <leader>JS <Esc>:%!python -m json.tool<CR><Esc>:set filetype=json<CR>
-let g:vim_json_syntax_conceal = 0
 " PyMode
 if isdirectory(expand("~/.vim/bundle/python-mode"))
     " Disable if python support not present
@@ -705,6 +717,7 @@ if isdirectory(expand("~/.vim/bundle/python-mode"))
     let g:pymode_rope = 0
     let g:pymode_folding = 0
 endif
+" pytthon syntax highlight
 if isdirectory(expand("~/.vim/bundle/python-syntax"))
     let g:python_highlight_all = 1
 endif
@@ -756,7 +769,6 @@ if isdirectory(expand("~/.vim/bundle/undotree/"))
     " If undotree is opened, it is likely one wants to interact with it.
     let g:undotree_SetFocusWhenToggle=1
 endif
-
 
 
 " language support

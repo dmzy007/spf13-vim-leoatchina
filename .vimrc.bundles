@@ -114,6 +114,7 @@ Bundle 'jiangmiao/auto-pairs'
 Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'tacahiroy/ctrlp-funky'
 Bundle 'junegunn/vim-easy-align'
+Bundle 'godlygeek/tabular'
 Bundle 'mbbill/undotree'
 Bundle 'bling/vim-bufferline'
 Bundle 'nathanaelkane/vim-indent-guides'
@@ -177,11 +178,10 @@ endif
 
 
 let g:vim_advance = 0
-
+let g:completable=0
 if version>703
     " Snippets & AutoComplete
     " use comletable flag to set config
-    let g:completable=0
     if count(g:spf13_bundle_groups, 'youcompleteme')
         if executable('cmake')
             let g:completable = 1
