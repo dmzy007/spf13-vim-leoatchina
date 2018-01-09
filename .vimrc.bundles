@@ -62,7 +62,6 @@ com! -nargs=+   UnBundle
 
 " Bundles
 Bundle 'gmarik/vundle'
-" General Programming
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'tpope/vim-commentary'
 Bundle 'mattn/webapi-vim'
@@ -177,6 +176,7 @@ if count(g:spf13_bundle_groups, 'html')
 endif
 
 
+let g:vim_advance = 0
 
 if version>703
     " Snippets & AutoComplete
@@ -195,7 +195,6 @@ if version>703
         let g:vim_advance = 1
         source ~/.vimrc.advance
     else
-        let g:vim_advance = 0
         source ~/.vimrc.legacy
     endif
 

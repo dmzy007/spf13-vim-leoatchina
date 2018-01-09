@@ -16,6 +16,9 @@ set background=dark     " Assume a dark background
 set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
 
+map gt <Nop>
+map gT <Nop>
+
 " Use before config
 if filereadable(expand("~/.vimrc.local"))
     source ~/.vimrc.local
@@ -44,6 +47,10 @@ elseif WINDOWS()
     set guifont=YaHei\ Consolas\ Hybrid:h11
 endif
 
+" GUI Settings
+if has('gui_running')
+    set lines=40                " 40 lines of text instead of 24
+endif
 " Arrow Key Fix
 " https://github.com/spf13/spf13-vim/issues/780
 if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
@@ -128,10 +135,6 @@ vmap <silent><C-y> ^
 inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>I"
 nmap <silent><C-m> %
 vmap <silent><C-m> %
-if isdirectory(expand("~/.vim/bundle/vim-toggle-quickfix"))
-    nmap <F10> <Plug>window:quickfix:toggle
-    imap <F10> <Plug>window:quickfix:toggle
-endif
 
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
@@ -174,43 +177,41 @@ noremap <leader>fr :set nowrap! nowrap?<CR>
 noremap <F4> :set nohlsearch! nohlsearch?<CR>
 noremap <leader>fh :set nohlsearch! nohlsearch?<CR>
 
-" buffer switch
-nnoremap <F6> :bn<CR>
-nnoremap <leader><F6> :bp<CR>
+
 " 定义快捷键保存当前窗口内容
 nmap <Leader>w :w<CR>
 nmap <Leader>W :wq!<CR>
 " 定义快捷键保存所有窗口内容并退出 vim
 nmap <Leader>WQ :wa<CR>:q<CR>
 " 定义快捷键关闭当前窗口
-nmap <Leader>q :q<CR>
+nmap <Leader>q :q!
 " 不做任何保存，直接退出 vim
 nmap <Leader>Q :qa!
 " Q
 nnoremap ~ Q
-nmap Q :q!
+nmap Q :q!<CR>
 " 设置分割页面
 nmap <Leader>- :split<Space>
 nmap <leader>\ :vsplit<Space>
 nmap <leader>= <C-W>=
 "设置垂直高度减增
-nmap <Leader>,, :resize -3<CR>
-nmap <Leader>.. :resize +3<CR>
+nmap <Leader><Down> :resize -3<CR>
+nmap <Leader><Up>   :resize +3<CR>
 "设置水平宽度减增
-nmap <Leader>[[ :vertical resize -3<CR>
-nmap <Leader>]] :vertical resize +3<CR>
+nmap <Leader><Left> :vertical resize -3<CR>
+nmap <Leader><Right>:vertical resize +3<CR>
 "至左方的子窗口
-nnoremap <Leader>HH <C-W>H
-nnoremap <Leader>hh <C-W>h
+nnoremap <Leader>H <C-W>H
+nnoremap <Leader>h <C-W>h
 "至右方的子窗口
-nnoremap <Leader>LL <C-W>L
-nnoremap <Leader>ll <C-W>l
+nnoremap <Leader>L <C-W>L
+nnoremap <Leader>l <C-W>l
 "至上方的子窗口
-nnoremap <Leader>KK <C-W>K
-nnoremap <Leader>kk <C-W>k
+nnoremap <Leader>K <C-W>K
+nnoremap <Leader>k <C-W>k
 "至下方的子窗口
-nnoremap <Leader>JJ <C-W>J
-nnoremap <Leader>jj <C-W>j
+nnoremap <Leader>J <C-W>J
+nnoremap <Leader>j <C-W>j
 " Visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
@@ -266,9 +267,7 @@ set wildmode=list:longest,full  " Command <Tab> completion, list matches, then l
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
 set scrolljump=5                " Lines to scroll when cursor leaves screen
 set scrolloff=3                 " Minimum lines to keep above and below cursor
-set list
-set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespacetextwidth=200
-set formatoptions-=tc           " Not aut break a line into multiple lines
+set nolist
 set shiftwidth=4                " Use indents of 4 spaces
 set expandtab                   " Tabs are spaces, not tabs
 set tabstop=4                   " An indentation every four columns
@@ -285,21 +284,21 @@ set guioptions-=T
 set laststatus=2
 " sepcial setting for different type of files
 au BufNewFile,BufRead *.py
-            \set shiftwidth=4
-            \set tabstop=4
-            \set softtabstop=4
-            \set expandtab
-            \set autoindent
-            \set foldmethod=indent
+    \set shiftwidth=4
+    \set tabstop=4
+    \set softtabstop=4
+    \set expandtab
+    \set autoindent
+    \set foldmethod=indent
 au FileType python au BufWritePost <buffer> :%retab
 " yaml
 au BufNewFile,BufRead *.yml
-            \set shiftwidth=2
-            \set tabstop=2
-            \set softtabstop=2
-            \set expandtab
-            \set autoindent
-            \set foldmethod=indent
+    \set shiftwidth=2
+    \set tabstop=2
+    \set softtabstop=2
+    \set expandtab
+    \set autoindent
+    \set foldmethod=indent
 " Remove trailing whitespaces and ^M chars
 au FileType markdown,vim,c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql,vim au BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
 au BufNewFile,BufRead *.html.twig set filetype=html.twig
@@ -339,8 +338,8 @@ if !exists('g:spf13_no_views')
     " Add exclusions to mkview and loadview
     " eg: *.*, svn-commit.tmp
     let g:skipview_files = [
-                \ '\[example pattern\]'
-                \ ]
+        \ '\[example pattern\]'
+        \ ]
 endif
 " Vim UI
 if !exists('g:override_spf13_bundles') && !exists('g:no_colorscheme')
@@ -355,6 +354,30 @@ if !exists('g:override_spf13_bundles') && !exists('g:no_colorscheme')
             let g:solarized_visibility="normal"
             colorscheme solarized
             color solarized
+        endif
+    endif
+endif
+" indent_guides
+if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
+    let g:indent_guides_start_level = 2
+    let g:indent_guides_guide_size = 1
+    let g:indent_guides_enable_on_vim_startup = 1
+endif
+" vim-airline
+" Default in terminal vim is 'dark'
+if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
+    if !exists('g:no_colorscheme')
+        if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/vim-quantum"))
+            let g:airline_theme = 'quantum'
+        else
+            if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+                let g:airline_theme = 'solarized'
+            endif
+        endif
+        if !exists('g:airline_powerline_fonts')
+            " Use the default set of separators with a few customizations
+            let g:airline_left_sep='›'  " Slightly fancier than '>'
+            let g:airline_right_sep='‹' " Slightly fancier than '<'
         endif
     endif
 endif
@@ -396,7 +419,6 @@ if !exists('g:spf13_no_wrapRelMotion')
             execute "normal!" vis_sel . a:key
         endif
     endfunction
-
     " Map g* keys in Normal, Operator-pending, and Visual+select
     noremap $ :call WrapRelativeMotion("$")<CR>
     noremap 0 :call WrapRelativeMotion("0")<CR>
@@ -577,10 +599,6 @@ if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     nnoremap <leader>GG :Git<Space>
     nnoremap <F10> :Git<Space>
 endif
-" AsyncRun
-if isdirectory(expand("~/.vim/bundle/asyncrun.vim"))
-    nmap <Leader><F5> :AsyncRun<Space>
-endif
 " Misc
 if isdirectory(expand("~/.vim/bundle/matchit.zip"))
     let b:match_ignorecase = 1
@@ -604,7 +622,7 @@ endif
 " easy-align
 if isdirectory(expand("~/.vim/bundle/vim-easy-align"))
     vmap <Cr> <Plug>(EasyAlign)
-    nmap <Leader>A <Plug>(EasyAlign)
+    nmap ga <Plug>(EasyAlign)
     if !exists('g:easy_align_delimiters')
         let g:easy_align_delimiters = {}
     endif
@@ -690,6 +708,10 @@ endif
 if isdirectory(expand("~/.vim/bundle/python-syntax"))
     let g:python_highlight_all = 1
 endif
+" Rainbow
+if isdirectory(expand("~/.vim/bundle/rainbow/"))
+    let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+endif
 " ctrlp
 if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
     let g:ctrlp_working_path_mode = 'ar'
@@ -727,327 +749,300 @@ if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
         nnoremap <Leader>fu :CtrlPFunky<Cr>
     endif
 endif
-" Rainbow
-if isdirectory(expand("~/.vim/bundle/rainbow/"))
-    let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
-endif
-" Youcompleteme
-if g:completable == 1
-    au InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后关闭预览窗口
-    let g:ycm_python_binary_path = 'python'
-    let g:acp_enableAtStartup = 0
-    let g:ycm_add_preview_to_completeopt = 1
-    "  补全后关键窗口
-    let g:ycm_autoclose_preview_window_after_completion = 1
-    "  插入后关键窗口
-    let g:ycm_autoclose_preview_window_after_insertion = 1
-    " enable completion from tags
-    let g:ycm_collect_identifiers_from_tags_files = 1
-    let g:ycm_key_invoke_completion = '<Tab>'
-    let g:ycm_key_list_select_completion = ['<C-n>','<Down>']
-    let g:ycm_key_list_previous_completion = ['<C-p','<Up>']
-    let g:ycm_filetype_blacklist = {
-                \ 'tagbar' : 1,
-                \ 'nerdtree' : 1,
-                \}
-    let g:ycm_filetype_whitelist = {
-                \ 'cpp': 1,
-                \ 'c': 1,
-                \ 'perl':1,
-                \ 'python':1,
-                \ 'vim':1,
-                \ 'js':1,
-                \ 'html':1,
-                \ 'php':1,
-                \}
-    " Haskell post write lint and check with ghcmod
-    " $ `cabal install ghcmod` if missing and ensure
-    " ~/.cabal/bin is in your $PATH.
-    if !executable("ghcmod")
-        au BufWritePost *.hs GhcModCheckAndLintAsync
-    endif
-    let g:ycm_confirm_extra_conf=1 "加载.ycm_extra_conf.py提示
-    let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YC基于标签引擎
-    let g:ycm_min_num_of_chars_for_completion=2   " 从第2个键入字符就开始罗列匹配项
-    let g:ycm_cache_omnifunc=0 " 禁止缓存匹配项,每次都重新生成匹配项
-    let g:ycm_seed_identifiers_with_syntax=1   " 语法关键字补全
-    ""在注释输入中也能补全
-    let g:ycm_complete_in_comments = 1
-    "在字符串输入中也能补全
-    let g:ycm_complete_in_strings = 1
-    "注释和字符串中的文字也会被收入补全
-    let g:ycm_collect_identifiers_from_comments_and_strings = 0
-    " 跳转到定义处
-    nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-    imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-    smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-    " ale
-elseif g:completable == 2
-    """""""
-    " nvim completion
-elseif g:completable == 3
-    imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-    smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-    " deoplete
-elseif g:completable == 4
-    let g:deoplete#enable_at_startup = 1
-    if !has('nvim')
-        let g:deoplete#enable_yarp=1
-    endif
-    let g:deoplete#enable_camel_case=1
-    " Enable heavy omni completion.
-    if !exists('g:deoplete#keyword_patterns')
-        let g:deoplete#keyword_patterns = {}
-        let g:deoplete#keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
-    endif
-    if !exists('g:deoplete#omni_patterns')
-        let g:deoplete#omni_patterns = {}
-        let g:deoplete#omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-        let g:deoplete#omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-        let g:deoplete#omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-        let g:deoplete#omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-        let g:deoplete#omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-        let g:deoplete#omni_patterns.go = '\h\w*\.\?'
-        let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
-    endif
-    " <BS>: close popup and delete backword char.
-    inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
-    " c-j to complete pum
-    imap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
-    smap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
-    if g:use_ultisnips
-        call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
-    endif
-    " neocomplete
-elseif g:completable == 5
-    let g:acp_enableAtStartup = 1
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#enable_auto_select = 0
-    let g:neocomplete#enable_camel_case = 1
-    let g:neocomplete#enable_auto_delimiter = 0
-    let g:neocomplete#max_list = 15
-    let g:neocomplete#force_overwrite_completefunc = 1
-    " Define keyword.
-    if !exists('g:neocomplete_keyword_patterns')
-        let g:neocomplete_keyword_patterns = {}
-        let g:neocomplete_keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
-    endif
-    " Define dictionary.
-    let g:neocomplete_dictionary_filetype_lists = {
-                \ 'default' : '',
-                \ 'vimshell' : $HOME.'/.vimshell_hist',
-                \ 'scheme' : $HOME.'/.gosh_completions'
-                \ }
-    " Enable heavy omni completion.
-    if !exists('g:neocomplete_omni_patterns')
-        let g:neocomplete_omni_patterns = {}
-        let g:neocomplete_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-        let g:neocomplete_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-        let g:neocomplete_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-        let g:neocomplete_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-        let g:neocomplete_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-        let g:neocomplete_omni_patterns.go = '\h\w*\.\?'
-    endif
-    " <BS>: close popup and delete backword char.
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-    "   to complete pum
-    imap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
-    smap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
-    " neocomplcache
-elseif g:completable == 6
-    let g:neocomplcache_enable_insert_char_pre = 1
-    let g:neocomplcache_enable_at_startup = 1
-    let g:neocomplcache_enable_auto_select = 0
-    let g:neocomplcache_enable_camel_case_completion = 1
-    let g:neocomplcache_enable_smart_case = 1
-    let g:neocomplcache_enable_auto_delimiter = 0
-    let g:neocomplcache_max_list = 15
-    let g:neocomplcache_force_overwrite_completefunc = 1
-    if !exists('g:neocomplcache_keyword_patterns')
-        let g:neocomplcache_keyword_patterns = {}
-        let g:neocomplcache_keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
-    endif
-    " Define dictionary.
-    let g:neocomplcache_dictionary_filetype_lists = {
-                \ 'default' : '',
-                \ 'vimshell' : $HOME.'/.vimshell_hist',
-                \ 'scheme' : $HOME.'/.gosh_completions'
-                \ }
-    " Enable heavy omni completion.
-    if !exists('g:neocomplcache_omni_patterns')
-        let g:neocomplcache_omni_patterns = {}
-        let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-        let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-        let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-        let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-        let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-        let g:neocomplcache_omni_patterns.go = '\h\w*\.\?'
-    endif
-    " <BS>: close popup and delete backword char.
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    " c-j to complete pum
-    imap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
-    smap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
-endif
-" smart completion use neosnippet to expand
-if g:completable>0
-    " menu style
-    set completeopt=menuone,menu
-    "set completeopt=menu,menuone,noinsert,noselect
-    " For snippet_complete marker.
-    if !exists("g:spf13_no_conceal")
-        if has('conceal')
-            set conceallevel=2 concealcursor=i
-        endif
-    endif
 
-    if g:use_ultisnips
-        " remap Ultisnips for compatibility
-        let g:UltiSnipsListSnippets="<C-l>"
-        let g:UltiSnipsExpandTrigger = '<C-k>'
-        let g:UltiSnipsJumpForwardTrigger = '<C-f>'
-        let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
-        " Ulti python version
-        if has('python3')
-            let g:UltiSnipsUsePythonVersion = 3
-        else
-            let g:UltiSnipsUsePythonVersion = 2
-        endif
-        " Ulti的代码片段的文件夹
-        let g:UtiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/UltiSnips","~/.vim/bundle/vim-snippets/snipets"]
-        inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
-        inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
-        inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
-        inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-        inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-        snoremap <expr> <S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-        " tab for ExpandTrigger
-        function! s:UltiSnips_Tab()
-            if pumvisible()
-                call UltiSnips#ExpandSnippet()
-                " 0:ExpandSnippet failed
-                if g:ulti_expand_res
-                    return "\<Right>"
-                else
-                    if empty(v:completed_item) || !len(get(v:completed_item,'menu'))
-                        return "\<C-n>"
-                    else
-                        return "\<C-y>"
-                    endif
-                endif
-            else
-                return "\<Tab>"
-            endif
-        endfunction
-        au BufEnter * exec "inoremap <silent> <Tab> <C-R>=<SID>UltiSnips_Tab()<cr>"
-        au BufEnter * exec "snoremap <silent> <Tab> <C-R>=<SID>UltiSnips_Tab()<cr>"
-        inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-        snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-        function! s:UltiSnips_Cr()
-            if pumvisible()
-                call UltiSnips#ExpandSnippet()
-                " 0:ExpandSnippet failed
-                if g:ulti_expand_res
-                    return "\<Right>"
-                else
-                    return "\<C-y>"
-                endif
-            else
-                return "\<CR>"
-            endif
-        endfunction
-        au BufEnter * exec "inoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
-        au BufEnter * exec "snoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
-    else
-        let g:neosnippet#enable_completed_snippet=1
-        " c-k to expand
-        imap <C-k> <Plug>(neosnippet_expand)
-        smap <C-k> <Plug>(neosnippet_expand)
-        xmap <C-k> <Plug>(neosnippet_expand_target)
-        " c-f to jump
-        imap <C-f> <Right><Plug>(neosnippet_jump)
-        smap <C-f> <Right><Plug>(neosnippet_jump)
-        inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
-        inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
-        inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
-        inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
-        function! s:Neo_Snippet_Tab()
-            if pumvisible() "popup menu apeared
-                if neosnippet#expandable()
-                    return neosnippet#mappings#expand_impl()
-                else
-                    if empty(v:completed_item) || !len(get(v:completed_item,'menu'))
-                        "if !len(get(v:completed_item,'menu'))
-                        return "\<C-n>"
-                    else
-                        return "\<C-j>"
-                    endif
-                endif
-            else
-                return "\<Tab>"
-            endif
-        endfunction
-        inoremap <expr><Tab> <SID>Neo_Snippet_Tab()
-        snoremap <expr><Tab> <SID>Neo_Snippet_Tab()
-        inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-        snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-        function! s:Neo_Snippet_Cr()
-            if pumvisible() "popup menu apeared
-                if neosnippet#expandable()
-                    return neosnippet#mappings#expand_impl()
-                else
-                    return "\<C-j>"
-                endif
-            else
-                return "\<Cr>"
-            endif
-        endfunction
-        inoremap <expr><CR> <SID>Neo_Snippet_Cr()
-        snoremap <expr><CR> <SID>Neo_Snippet_Cr()
-        " Use honza's snippets.
-        let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-        " Enable neosnippet snipmate compatibility mode
-        let g:neosnippet#enable_snipmate_compatibility = 1
-        " Enable neosnippets when using go
-        let g:go_snippet_engine = "neosnippet"
-    endif
-endif
 " UndoTree
 if isdirectory(expand("~/.vim/bundle/undotree/"))
     nnoremap <silent><Leader>u :UndotreeToggle<CR>
     " If undotree is opened, it is likely one wants to interact with it.
     let g:undotree_SetFocusWhenToggle=1
 endif
-" indent_guides
-if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
-    let g:indent_guides_start_level = 2
-    let g:indent_guides_guide_size = 1
-    let g:indent_guides_enable_on_vim_startup = 1
-endif
-" vim-airline
-" Default in terminal vim is 'dark'
-if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
-    if !exists('g:no_colorscheme')
-        if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/vim-quantum"))
-            let g:airline_theme = 'quantum'
-        else
-            if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-                let g:airline_theme = 'solarized'
+
+
+
+" language support
+if version > 703
+    " Youcompleteme
+    if g:completable == 1
+        au InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后关闭预览窗口
+        let g:ycm_python_binary_path = 'python'
+        let g:acp_enableAtStartup = 0
+        let g:ycm_add_preview_to_completeopt = 1
+        "  补全后关键窗口
+        let g:ycm_autoclose_preview_window_after_completion = 1
+        "  插入后关键窗口
+        let g:ycm_autoclose_preview_window_after_insertion = 1
+        " enable completion from tags
+        let g:ycm_collect_identifiers_from_tags_files = 1
+        let g:ycm_key_invoke_completion = '<Tab>'
+        let g:ycm_key_list_select_completion = ['<C-n>','<Down>']
+        let g:ycm_key_list_previous_completion = ['<C-p','<Up>']
+        let g:ycm_filetype_blacklist = {
+                    \ 'tagbar' : 1,
+                    \ 'nerdtree' : 1,
+                    \}
+        let g:ycm_filetype_whitelist = {
+                    \ 'cpp': 1,
+                    \ 'c': 1,
+                    \ 'perl':1,
+                    \ 'python':1,
+                    \ 'vim':1,
+                    \ 'js':1,
+                    \ 'html':1,
+                    \ 'php':1,
+                    \}
+        " Haskell post write lint and check with ghcmod
+        " $ `cabal install ghcmod` if missing and ensure
+        " ~/.cabal/bin is in your $PATH.
+        if !executable("ghcmod")
+            au BufWritePost *.hs GhcModCheckAndLintAsync
+        endif
+        let g:ycm_confirm_extra_conf=1 "加载.ycm_extra_conf.py提示
+        let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YC基于标签引擎
+        let g:ycm_min_num_of_chars_for_completion=2   " 从第2个键入字符就开始罗列匹配项
+        let g:ycm_cache_omnifunc=0 " 禁止缓存匹配项,每次都重新生成匹配项
+        let g:ycm_seed_identifiers_with_syntax=1   " 语法关键字补全
+        ""在注释输入中也能补全
+        let g:ycm_complete_in_comments = 1
+        "在字符串输入中也能补全
+        let g:ycm_complete_in_strings = 1
+        "注释和字符串中的文字也会被收入补全
+        let g:ycm_collect_identifiers_from_comments_and_strings = 0
+        " 跳转到定义处
+        nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        " ale
+    elseif g:completable == 2
+        """""""
+        " nvim completion
+    elseif g:completable == 3
+        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        " deoplete
+    elseif g:completable == 4
+        let g:deoplete#enable_at_startup = 1
+        if !has('nvim')
+            let g:deoplete#enable_yarp=1
+        endif
+        let g:deoplete#enable_camel_case=1
+        " Enable heavy omni completion.
+        if !exists('g:deoplete#keyword_patterns')
+            let g:deoplete#keyword_patterns = {}
+            let g:deoplete#keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
+        endif
+        if !exists('g:deoplete#omni_patterns')
+            let g:deoplete#omni_patterns = {}
+            let g:deoplete#omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+            let g:deoplete#omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+            let g:deoplete#omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+            let g:deoplete#omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+            let g:deoplete#omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+            let g:deoplete#omni_patterns.go = '\h\w*\.\?'
+            let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
+        endif
+        " <BS>: close popup and delete backword char.
+        inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+        " c-j to complete pum
+        imap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
+        smap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
+        if g:use_ultisnips
+            call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
+        endif
+        " neocomplete
+    elseif g:completable == 5
+        let g:acp_enableAtStartup = 1
+        let g:neocomplete#enable_at_startup = 1
+        let g:neocomplete#enable_smart_case = 1
+        let g:neocomplete#enable_auto_select = 0
+        let g:neocomplete#enable_camel_case = 1
+        let g:neocomplete#enable_auto_delimiter = 0
+        let g:neocomplete#max_list = 15
+        let g:neocomplete#force_overwrite_completefunc = 1
+        " Define keyword.
+        if !exists('g:neocomplete_keyword_patterns')
+            let g:neocomplete_keyword_patterns = {}
+            let g:neocomplete_keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
+        endif
+        " Define dictionary.
+        let g:neocomplete_dictionary_filetype_lists = {
+                    \ 'default' : '',
+                    \ 'vimshell' : $HOME.'/.vimshell_hist',
+                    \ 'scheme' : $HOME.'/.gosh_completions'
+                    \ }
+        " Enable heavy omni completion.
+        if !exists('g:neocomplete_omni_patterns')
+            let g:neocomplete_omni_patterns = {}
+            let g:neocomplete_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+            let g:neocomplete_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+            let g:neocomplete_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+            let g:neocomplete_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+            let g:neocomplete_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+            let g:neocomplete_omni_patterns.go = '\h\w*\.\?'
+        endif
+        " <BS>: close popup and delete backword char.
+        inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+        "   to complete pum
+        imap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
+        smap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
+        " neocomplcache
+    elseif g:completable == 6
+        let g:neocomplcache_enable_insert_char_pre = 1
+        let g:neocomplcache_enable_at_startup = 1
+        let g:neocomplcache_enable_auto_select = 0
+        let g:neocomplcache_enable_camel_case_completion = 1
+        let g:neocomplcache_enable_smart_case = 1
+        let g:neocomplcache_enable_auto_delimiter = 0
+        let g:neocomplcache_max_list = 15
+        let g:neocomplcache_force_overwrite_completefunc = 1
+        if !exists('g:neocomplcache_keyword_patterns')
+            let g:neocomplcache_keyword_patterns = {}
+            let g:neocomplcache_keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
+        endif
+        " Define dictionary.
+        let g:neocomplcache_dictionary_filetype_lists = {
+                    \ 'default' : '',
+                    \ 'vimshell' : $HOME.'/.vimshell_hist',
+                    \ 'scheme' : $HOME.'/.gosh_completions'
+                    \ }
+        " Enable heavy omni completion.
+        if !exists('g:neocomplcache_omni_patterns')
+            let g:neocomplcache_omni_patterns = {}
+            let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+            let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+            let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+            let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+            let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+            let g:neocomplcache_omni_patterns.go = '\h\w*\.\?'
+        endif
+        " <BS>: close popup and delete backword char.
+        inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+        " c-j to complete pum
+        imap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
+        smap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
+    endif
+    " smart completion use neosnippet to expand
+    if g:completable>0
+        " menu style
+        set completeopt=menuone,menu
+        "set completeopt=menu,menuone,noinsert,noselect
+        " For snippet_complete marker.
+        if !exists("g:spf13_no_conceal")
+            if has('conceal')
+                set conceallevel=2 concealcursor=i
             endif
         endif
-        if !exists('g:airline_powerline_fonts')
-            " Use the default set of separators with a few customizations
-            let g:airline_left_sep='›'  " Slightly fancier than '>'
-            let g:airline_right_sep='‹' " Slightly fancier than '<'
+
+        if g:use_ultisnips
+            " remap Ultisnips for compatibility
+            let g:UltiSnipsListSnippets="<C-l>"
+            let g:UltiSnipsExpandTrigger = '<C-k>'
+            let g:UltiSnipsJumpForwardTrigger = '<C-f>'
+            let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
+            " Ulti python version
+            if has('python3')
+                let g:UltiSnipsUsePythonVersion = 3
+            else
+                let g:UltiSnipsUsePythonVersion = 2
+            endif
+            " Ulti的代码片段的文件夹
+            let g:UtiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/UltiSnips","~/.vim/bundle/vim-snippets/snipets"]
+            inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+            inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
+            inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
+            inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+            inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+            snoremap <expr> <S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+            " tab for ExpandTrigger
+            function! s:UltiSnips_Tab()
+                if pumvisible()
+                    call UltiSnips#ExpandSnippet()
+                    " 0:ExpandSnippet failed
+                    if g:ulti_expand_res
+                        return "\<Right>"
+                    else
+                        if empty(v:completed_item) || !len(get(v:completed_item,'menu'))
+                            return "\<C-n>"
+                        else
+                            return "\<C-y>"
+                        endif
+                    endif
+                else
+                    return "\<Tab>"
+                endif
+            endfunction
+            au BufEnter * exec "inoremap <silent> <Tab> <C-R>=<SID>UltiSnips_Tab()<cr>"
+            au BufEnter * exec "snoremap <silent> <Tab> <C-R>=<SID>UltiSnips_Tab()<cr>"
+            inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+            snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+            function! s:UltiSnips_Cr()
+                if pumvisible()
+                    call UltiSnips#ExpandSnippet()
+                    " 0:ExpandSnippet failed
+                    if g:ulti_expand_res
+                        return "\<Right>"
+                    else
+                        return "\<C-y>"
+                    endif
+                else
+                    return "\<CR>"
+                endif
+            endfunction
+            au BufEnter * exec "inoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
+            au BufEnter * exec "snoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
+        else
+            let g:neosnippet#enable_completed_snippet=1
+            " c-k to expand
+            imap <C-k> <Plug>(neosnippet_expand)
+            smap <C-k> <Plug>(neosnippet_expand)
+            xmap <C-k> <Plug>(neosnippet_expand_target)
+            " c-f to jump
+            imap <C-f> <Right><Plug>(neosnippet_jump)
+            smap <C-f> <Right><Plug>(neosnippet_jump)
+            inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+            inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
+            inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
+            inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
+            function! s:Neo_Snippet_Tab()
+                if pumvisible() "popup menu apeared
+                    if neosnippet#expandable()
+                        return neosnippet#mappings#expand_impl()
+                    else
+                        if empty(v:completed_item) || !len(get(v:completed_item,'menu'))
+                            "if !len(get(v:completed_item,'menu'))
+                            return "\<C-n>"
+                        else
+                            return "\<C-j>"
+                        endif
+                    endif
+                else
+                    return "\<Tab>"
+                endif
+            endfunction
+            inoremap <expr><Tab> <SID>Neo_Snippet_Tab()
+            snoremap <expr><Tab> <SID>Neo_Snippet_Tab()
+            inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+            snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
+            function! s:Neo_Snippet_Cr()
+                if pumvisible() "popup menu apeared
+                    if neosnippet#expandable()
+                        return neosnippet#mappings#expand_impl()
+                    else
+                        return "\<C-j>"
+                    endif
+                else
+                    return "\<Cr>"
+                endif
+            endfunction
+            inoremap <expr><CR> <SID>Neo_Snippet_Cr()
+            snoremap <expr><CR> <SID>Neo_Snippet_Cr()
+            " Use honza's snippets.
+            let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+            " Enable neosnippet snipmate compatibility mode
+            let g:neosnippet#enable_snipmate_compatibility = 1
+            " Enable neosnippets when using go
+            let g:go_snippet_engine = "neosnippet"
         endif
     endif
-endif
-" GUI Settings
-" GVIM- (here instead of .gvimrc)
-if has('gui_running')
-    set guioptions-=T           " Remove the toolbar
-    set lines=40                " 40 lines of text instead of 24
 endif
 " Functions
 " Initialize directories
