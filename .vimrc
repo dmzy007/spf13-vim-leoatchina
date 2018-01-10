@@ -649,12 +649,12 @@ if isdirectory(expand("~/.vim/bundle/Nvim-R"))
     let R_objbr_place = "script,right"
     " R console windows
     au VimResized * let R_rconsole_height = winheight(0) /3
-    let R_objbr_h        = 25
-    let R_objbr_opendf   = 1    " Show data.frames elements
-    let R_objbr_openlist = 1  " Show lists elements
-    let R_objbr_allnames = 0  " Show .GlobalEnv hidden objects
-    let R_objbr_labelerr = 1  " Warn if label is not a valid text
-    let R_in_buffer      = 1
+    let R_objbr_h         = 25
+    let R_objbr_opendf    = 1    " Show data.frames elements
+    let R_objbr_openlist  = 1  " Show lists elements
+    let R_objbr_allnames  = 0  " Show .GlobalEnv hidden objects
+    let R_objbr_labelerr  = 1  " Warn if label is not a valid text
+    let R_in_buffer       = 1
     let R_hl_term         = 1
     let R_close_term      = 1
     let Rout_more_colors  = 1
@@ -675,34 +675,6 @@ if isdirectory(expand("~/.vim/bundle/python-mode"))
     else
         let g:pymode_python = 'python'
     endif
-    " pymode check
-    let g:pymode_lint = 1
-    nmap <F9> :PymodeLint<CR>
-    let g:pymode_lint_signs = 1
-    let g:pymode_trim_whitespaces = 1
-    let g:pymode_options = 0
-    " no check when white
-    let g:pymode_lint_on_write = 0
-    " check when save
-    let g:pymode_lint_unmodified = 0
-    " not check of fly
-    let g:pymode_lint_on_fly = 0
-    " show message of error line
-    let g:pymode_lint_message = 1
-    " checkers
-    let g:pymode_lint_checkers = ['pyflakes','pep8']
-    "let g:pymode_lint_checkers = ['pep8']
-    let g:pymode_lint_ignore = "E128,E2,E3,E501"
-    " not Auto open cwindow (quickfix) if any errors have been found
-    let g:pymode_lint_cwindow = 0
-    " python syntax highlight
-    if isdirectory(expand("~/.vim/bundle/python-syntax"))
-        let g:pymode_syntax = 0
-        let g:pymode_syntax_all = 0
-    else
-        let g:pymode_syntax = 1
-        let g:pymode_syntax_all = 1
-    endif
     " doc for python
     let g:pymode_doc = 0
     " motion
@@ -713,6 +685,8 @@ if isdirectory(expand("~/.vim/bundle/python-mode"))
     let g:pymode_breakpoint = 1
     let g:pymode_breakpoint_bind = '<C-g>'
     let g:pymode_breakpoint_cmd = 'import pdb;pdb.set_trace()'
+    " pymode check disable
+    let g:pymode_lint = 0
     " disable pymode_rope and pymode_folding for slow problem
     let g:pymode_rope = 0
     let g:pymode_folding = 0
@@ -823,15 +797,22 @@ if version > 703
         nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-        " ale
-    elseif g:completable == 2
-        """""""
+        function! SpecialCR()
+            if pumvisible()
+                return "\<ESC>i\<Right>"
+            else
+                return "\<Cr>"
+        endfunction
+        imap <expr><Cr> SpecialCR()
+        smap <expr><Cr> SpecialCR()
         " nvim completion
-    elseif g:completable == 3
+    elseif g:completable == 2
+        imap <expr><Cr> pumvisible()? "\<C-y>":"\<CR>"
+        smap <expr><Cr> pumvisible()? "\<C-y>":"\<CR>"
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         " deoplete
-    elseif g:completable == 4
+    elseif g:completable == 3
         let g:deoplete#enable_at_startup = 1
         if !has('nvim')
             let g:deoplete#enable_yarp=1
@@ -856,12 +837,14 @@ if version > 703
         inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
         " c-j to complete pum
         imap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
-        smap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
+        imap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
+        smap <expr><Cr> pumvisible()? deoplete#close_popup():'\<CR>'
+        smap <expr><Cr> pumvisible()? deoplete#close_popup():'\<CR>'
         if g:use_ultisnips
             call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
         endif
         " neocomplete
-    elseif g:completable == 5
+    elseif g:completable == 4
         let g:acp_enableAtStartup = 1
         let g:neocomplete#enable_at_startup = 1
         let g:neocomplete#enable_smart_case = 1
@@ -896,8 +879,10 @@ if version > 703
         "   to complete pum
         imap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
         smap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
+        imap <expr><Cr> pumvisible()? neocomplete#close_popup():"\<CR>"
+        smap <expr><Cr> pumvisible()? neocomplete#close_popup():"\<CR>"
         " neocomplcache
-    elseif g:completable == 6
+    elseif g:completable == 5
         let g:neocomplcache_enable_insert_char_pre = 1
         let g:neocomplcache_enable_at_startup = 1
         let g:neocomplcache_enable_auto_select = 0
@@ -931,6 +916,8 @@ if version > 703
         " c-j to complete pum
         imap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
         smap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
+        imap <expr><Cr> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
+        smap <expr><Cr> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
     endif
     " smart completion use neosnippet to expand
     if g:completable>0
@@ -938,11 +925,14 @@ if version > 703
         set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
         " For snippet_complete marker.
-        if !exists("g:spf13_no_conceal")
-            if has('conceal')
-                set conceallevel=2 concealcursor=i
-            endif
+        if has('conceal')
+            set conceallevel=2 concealcursor=i
         endif
+
+        inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"\<S-Tab>"
+        snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"\<S-Tab>"
+        "au BufEnter * exec "inoremap <silent> <Cr> <C-R>=<SID>SpecialCR()<cr>"
+        "au BufEnter * exec "snoremap <silent> <Cr> <C-R>=<SID>SpecialCR()<cr>"
 
         if g:use_ultisnips
             " remap Ultisnips for compatibility
@@ -962,10 +952,8 @@ if version > 703
             inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
             inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
             inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-            inoremap <expr> <S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-            snoremap <expr> <S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
             " tab for ExpandTrigger
-            function! s:UltiSnips_Tab()
+            function! s:UltiSnips()
                 if pumvisible()
                     call UltiSnips#ExpandSnippet()
                     " 0:ExpandSnippet failed
@@ -982,25 +970,8 @@ if version > 703
                     return "\<Tab>"
                 endif
             endfunction
-            au BufEnter * exec "inoremap <silent> <Tab> <C-R>=<SID>UltiSnips_Tab()<cr>"
-            au BufEnter * exec "snoremap <silent> <Tab> <C-R>=<SID>UltiSnips_Tab()<cr>"
-            inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-            snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-            function! s:UltiSnips_Cr()
-                if pumvisible()
-                    call UltiSnips#ExpandSnippet()
-                    " 0:ExpandSnippet failed
-                    if g:ulti_expand_res
-                        return "\<Right>"
-                    else
-                        return "\<C-y>"
-                    endif
-                else
-                    return "\<CR>"
-                endif
-            endfunction
-            au BufEnter * exec "inoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
-            au BufEnter * exec "snoremap <silent> <Cr> <C-R>=<SID>UltiSnips_Cr()<cr>"
+            inoremap <expr><Tab> <SID>UltiSnips()
+            snoremap <expr><Tab> <SID>Ultisnips()
         else
             let g:neosnippet#enable_completed_snippet=1
             " c-k to expand
@@ -1014,7 +985,7 @@ if version > 703
             inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
             inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
             inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
-            function! s:Neo_Snippet_Tab()
+            function! s:Neo_Snippet()
                 if pumvisible() "popup menu apeared
                     if neosnippet#expandable()
                         return neosnippet#mappings#expand_impl()
@@ -1030,23 +1001,8 @@ if version > 703
                     return "\<Tab>"
                 endif
             endfunction
-            inoremap <expr><Tab> <SID>Neo_Snippet_Tab()
-            snoremap <expr><Tab> <SID>Neo_Snippet_Tab()
-            inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-            snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"<S-Tab>"
-            function! s:Neo_Snippet_Cr()
-                if pumvisible() "popup menu apeared
-                    if neosnippet#expandable()
-                        return neosnippet#mappings#expand_impl()
-                    else
-                        return "\<C-j>"
-                    endif
-                else
-                    return "\<Cr>"
-                endif
-            endfunction
-            inoremap <expr><CR> <SID>Neo_Snippet_Cr()
-            snoremap <expr><CR> <SID>Neo_Snippet_Cr()
+            inoremap <expr><Tab> <SID>Neo_Snippet()
+            snoremap <expr><Tab> <SID>Neo_Snippet()
             " Use honza's snippets.
             let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
             " Enable neosnippet snipmate compatibility mode
@@ -1054,6 +1010,25 @@ if version > 703
             " Enable neosnippets when using go
             let g:go_snippet_engine = "neosnippet"
         endif
+    endif
+    if isdirectory(expand("~/.vim/bundle/ale"))
+        let g:ale_completion_enabled = 0
+        let g:ale_sign_column_always = 1
+        let g:ale_sign_error = '>>'
+        let g:ale_sign_warning = '--'
+        let g:ale_echo_msg_error_str = 'E'
+        let g:ale_echo_msg_warning_str = 'W'
+        let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+        nmap <silent> <leader>[ <Plug>(ale_previous_wrap)
+        nmap <silent> <leader>] <Plug>(ale_next_wrap)
+        let g:ale_fix_on_save = 1
+        highlight clear ALEErrorSign
+        highlight clear ALEWarningSign
+        let g:ale_lint_on_enter = 0
+        let g:ale_lint_on_text_changed = 'always'
+        nmap <F9> :ALELint<CR>
+        let g:ale_set_loclist = 0
+        let g:ale_set_quickfix = 1
     endif
 endif
 " Functions

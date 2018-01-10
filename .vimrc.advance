@@ -4,18 +4,16 @@ Bundle 'skywind3000/asyncrun.vim'
 
 if g:completable == 0
     " use ale for completion
-    if count(g:spf13_bundle_groups,'ale')
-        let g:completable = 2
-    elseif has('python3')
+    if has('python3')
         if count(g:spf13_bundle_groups,'nvimcomplete')
-            let g:completable = 3
+            let g:completable = 2
             Bundle 'roxma/nvim-completion-manager'
             if !(has('nvim'))
                 Bundle 'roxma/vim-hug-neovim-rpc'
                 Bundle 'roxma/nvim-yarp'
             endif
         elseif count(g:spf13_bundle_groups, 'smartcomplete')
-            let g:completable = 4
+            let g:completable = 3
             Bundle 'Shougo/deoplete.nvim'
             if !has('nvim')
                 Bundle 'roxma/vim-hug-neovim-rpc'
@@ -25,10 +23,10 @@ if g:completable == 0
     else
         if count(g:spf13_bundle_groups, 'smartcomplete')
             if has('lua')
-                let g:completable = 5
+                let g:completable = 4
                 Bundle 'Shougo/neocomplete.vim'
             elseif
-                let g:completable = 6
+                let g:completable = 5
                 Bundle 'Shougo/neocomplcache.vim'
                 Bundle 'JazzCore/neocomplcache-ultisnips'
             endif
