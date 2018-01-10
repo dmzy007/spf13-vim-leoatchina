@@ -30,8 +30,7 @@ endif
 
 set noimdisable
 set encoding=utf-8
-scriptencoding utf-8
-set fileencodings=utf-8,chinese,latin-1,gbk,gb18030,gk2312
+
 
 " set timeout
 set timeout
@@ -138,6 +137,7 @@ vmap <silent><C-m> %
 
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
+cmap Tabe tabe
 nnoremap <PageUp>   :tabprevious<CR>
 nnoremap <PageDown>   :tabnext<CR>
 nnoremap <leader><PageUp> :tabm -1<CR>
@@ -363,42 +363,49 @@ if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
     let g:indent_guides_guide_size = 1
     let g:indent_guides_enable_on_vim_startup = 1
 endif
+" statusline
+" powerline
+if isdirectory(expand("~/.vim/bundle/powerline/"))
+    set laststatus=2
+    set t_Co=256
+    let g:Powerline_symbols= 'unicode'
+    set encoding=utf8
 " vim-airline
-" Default in terminal vim is 'dark'
-if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
-    if !exists('g:no_colorscheme')
-        if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/vim-quantum"))
-            let g:airline_theme = 'quantum'
-        else
-            if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-                let g:airline_theme = 'solarized'
-            endif
-        endif
-        if !exists('g:airline_powerline_fonts')
-            " Use the default set of separators with a few customizations
-            let g:airline_left_sep='›'  " Slightly fancier than '>'
-            let g:airline_right_sep='‹' " Slightly fancier than '<'
+elseif isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
+    if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/vim-quantum"))
+        let g:airline_theme = 'quantum'
+    else
+        if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+            let g:airline_theme = 'solarized'
         endif
     endif
-endif
-if has('cmdline_info')
-    set ruler                   " Show the ruler
-    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
-    set showcmd                 " Show partial commands in status line and
-endif
-if has('statusline')
+    if !exists('g:airline_powerline_fonts')
+        " Use the default set of separators with a few customizations
+        let g:airline_left_sep='›'  " Slightly fancier than '>'
+        let g:airline_right_sep='‹' " Slightly fancier than '<'
+    endif
+
+elseif has('statusline')
     set laststatus=2
     " Broken down into easily includeable segments
     set statusline=%<%f\                     " Filename
     set statusline+=%w%h%m%r                 " Options
-    if !exists('g:override_spf13_bundles')
-        if isdirectory(expand("~/.vim/bundle/fugitive"))
-            set statusline+=%{fugitive#statusline()} " Git Hotness
-        endif
+    if isdirectory(expand("~/.vim/bundle/fugitive"))
+        set statusline+=%{fugitive#statusline()} " Git Hotness
+    endif
+    if isdirectory(expand("~/.vim/bundle/ale"))
+        set statusline+=%{ALEGetStatusLine()} " AleCheckinfo
     endif
     set statusline+=\ [%{&ff}/%Y]            " Filetype
     set statusline+=\ [%{getcwd()}]          " Current dir
     set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
+
+endif
+
+if has('cmdline_info')
+    set ruler                   " Show the ruler
+    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
+    set showcmd                 " Show partial commands in status line and
 endif
 " End/Start of line motion keys act relative to row/wrap width in the
 " presence of `:set wrap`, and relative to line for `:set nowrap`.
@@ -406,49 +413,44 @@ endif
 " If you prefer the default behaviour, add the following to your
 " .vimrc.local file:
 "   let g:spf13_no_wrapRelMotion = 1
-if !exists('g:spf13_no_wrapRelMotion')
-    " Same for 0, home, end, etc
-    function! WrapRelativeMotion(key, ...)
-        let vis_sel=""
-        if a:0
-            let vis_sel="gv"
-        endif
-        if &wrap
-            execute "normal!" vis_sel . "g" . a:key
-        else
-            execute "normal!" vis_sel . a:key
-        endif
-    endfunction
-    " Map g* keys in Normal, Operator-pending, and Visual+select
-    noremap $ :call WrapRelativeMotion("$")<CR>
-    noremap 0 :call WrapRelativeMotion("0")<CR>
-    noremap ^ :call WrapRelativeMotion("^")<CR>
-    " Overwrite the operator pending $/<End> mappings from above
-    " to force inclusive motion with :execute normal!
-    onoremap $ v:call WrapRelativeMotion("$")<CR>
-    onoremap <End> v:call WrapRelativeMotion("$")<CR>
-    " Overwrite the Visual+select mode mappings from above
-    " to ensuwe the correct vis_sel flag is passed to function
-    vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR>
-    vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR>
-    vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
-    vnoremap <Home> :<C-U>call WrapRelativeMotion("^", 1)<CR>
-    vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
-endif
-" Stupid shift key fixes
-if !exists('g:spf13_no_keyfixes')
-    if has("user_commands")
-        command! -bang -nargs=* -complete=file E e<bang> <args>
-        command! -bang -nargs=* -complete=file W w<bang> <args>
-        command! -bang -nargs=* -complete=file Wq wq<bang> <args>
-        command! -bang -nargs=* -complete=file WQ wq<bang> <args>
-        command! -bang Wa wa<bang>
-        command! -bang WA wa<bang>
-        command! -bang Q q<bang>
-        command! -bang QA qa<bang>
-        command! -bang Qa qa<bang>
+" Same for 0, home, end, etc
+function! WrapRelativeMotion(key, ...)
+    let vis_sel=""
+    if a:0
+        let vis_sel="gv"
     endif
-    cmap Tabe tabe
+    if &wrap
+        execute "normal!" vis_sel . "g" . a:key
+    else
+        execute "normal!" vis_sel . a:key
+    endif
+endfunction
+" Map g* keys in Normal, Operator-pending, and Visual+select
+noremap $ :call WrapRelativeMotion("$")<CR>
+noremap 0 :call WrapRelativeMotion("0")<CR>
+noremap ^ :call WrapRelativeMotion("^")<CR>
+" Overwrite the operator pending $/<End> mappings from above
+" to force inclusive motion with :execute normal!
+onoremap $ v:call WrapRelativeMotion("$")<CR>
+onoremap <End> v:call WrapRelativeMotion("$")<CR>
+" Overwrite the Visual+select mode mappings from above
+" to ensuwe the correct vis_sel flag is passed to function
+vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR>
+vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR>
+vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
+vnoremap <Home> :<C-U>call WrapRelativeMotion("^", 1)<CR>
+vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
+" Stupid shift key fixes
+if has("user_commands")
+    command! -bang -nargs=* -complete=file E e<bang> <args>
+    command! -bang -nargs=* -complete=file W w<bang> <args>
+    command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+    command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+    command! -bang Wa wa<bang>
+    command! -bang WA wa<bang>
+    command! -bang Q q<bang>
+    command! -bang QA qa<bang>
+    command! -bang Qa qa<bang>
 endif
 " Plugins
 " quickrun
@@ -1011,7 +1013,7 @@ if version > 703
             let g:go_snippet_engine = "neosnippet"
         endif
     endif
-    if isdirectory(expand("~/.vim/bundle/ale"))
+    if isdirectory(expand("~/.vim/bundle/ale")) && g:vim_advance == 1
         let g:ale_completion_enabled = 0
         let g:ale_sign_column_always = 1
         let g:ale_sign_error = '>>'
@@ -1019,16 +1021,30 @@ if version > 703
         let g:ale_echo_msg_error_str = 'E'
         let g:ale_echo_msg_warning_str = 'W'
         let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-        nmap <silent> <leader>[ <Plug>(ale_previous_wrap)
-        nmap <silent> <leader>] <Plug>(ale_next_wrap)
         let g:ale_fix_on_save = 1
-        highlight clear ALEErrorSign
-        highlight clear ALEWarningSign
-        let g:ale_lint_on_enter = 0
+        let g:ale_lint_on_enter = 1
         let g:ale_lint_on_text_changed = 'always'
-        nmap <F9> :ALELint<CR>
         let g:ale_set_loclist = 0
         let g:ale_set_quickfix = 1
+        let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
+        "highlight clear ALEErrorSign
+        "highlight clear ALEWarningSign
+        nmap <F9> :ALELint<CR>
+        nmap <silent> <leader>[ <Plug>(ale_previous_wrap)
+        nmap <silent> <leader>] <Plug>(ale_next_wrap)
+        let g:ale_pattern_options_enabled = 1
+        let g:ale_lnters= {'csh': ['shell'],
+                  \   'go':     ['gofmt', 'golint', 'go vet'],
+                  \   'help':   [],
+                  \   'perl':   ['perlcritic'],
+                  \   'python': ['python','flake8', 'mypy', 'pylint'],
+                  \   'rust':   ['cargo'],
+                  \   'spec':   [],
+                  \   'text':   [],
+                  \   'zsh':    ['shell'],
+              \}
+    elseif isdirectory(expand("~/.vim/bundle/syntastic")) && g:vim_advance ==0
+        "pass
     endif
 endif
 " Functions
