@@ -1089,7 +1089,7 @@ if version > 703
         nmap <F5> :call RUNIT()<CR>
         nmap <leader><F5> :call asyncrun#quickfix_toggle(8)<CR>
     elseif isdirectory(expand("~/.vim/bundle/vim-quickrun")) && g:vim_advance == 0
-        nnoremap <F5> <Plug>(quickrun)
+        nnoremap <F5> :QuickRun<Cr>
         let g:quickrun_config={"_":{"outputter":"message"}}
     endif
 endif
