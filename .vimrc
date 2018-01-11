@@ -163,8 +163,8 @@ vnoremap <leader>P "+P
 map zl zL
 map zh zH
 " Wrapped lines goes down/up to next row, rather than next line in file.
-noremap j gj
-noremap k gk
+noremap <silent>j gj
+noremap <silent>k gk
 "F1 help
 nmap <F1> :tab help<SPACE>
 "F2 toggleFold
@@ -363,15 +363,8 @@ if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
     let g:indent_guides_guide_size = 1
     let g:indent_guides_enable_on_vim_startup = 1
 endif
-" statusline
-" powerline
-if isdirectory(expand("~/.vim/bundle/powerline/"))
-    set laststatus=2
-    set t_Co=256
-    let g:Powerline_symbols= 'unicode'
-    set encoding=utf8
 " vim-airline
-elseif isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
+if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
     set laststatus=2
     if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/vim-quantum"))
         let g:airline_theme = 'quantum'
@@ -379,11 +372,6 @@ elseif isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
         if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
             let g:airline_theme = 'solarized'
         endif
-    endif
-    if !exists('g:airline_powerline_fonts')
-        " Use the default set of separators with a few customizations
-        let g:airline_left_sep='›'  " Slightly fancier than '>'
-        let g:airline_right_sep='‹' " Slightly fancier than '<'
     endif
 elseif has('statusline')
     set laststatus=2

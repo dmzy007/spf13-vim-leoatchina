@@ -123,15 +123,11 @@ Bundle 'mhinz/vim-signify'
 Bundle 'tamlok/vim-markdown'
 Bundle 'terryma/vim-multiple-cursors'
 
-" powerline
-if count(g:spf13_bundle_groups, 'powerline')
-    Bundle 'powerline/powerline'
-    Bundle 'powerline/fonts'
-elseif count(g:spf13_bundle_groups, 'airline')
+" airline
+if count(g:spf13_bundle_groups, 'airline')
     Bundle 'vim-airline/vim-airline'
     Bundle 'vim-airline/vim-airline-themes'
 endif
-"
 " vimshell
 if count(g:spf13_bundle_groups, 'shell') && !has('nvim')
     Bundle 'shougo/vimproc.vim'
