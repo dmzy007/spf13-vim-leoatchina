@@ -1,6 +1,7 @@
-
+if count(g:spf13_bundle_groups, 'syntax')
+    Bundle 'vim-syntastic/syntastic'
+endif
 Bundle 'thinca/vim-quickrun'
-Bundle 'vim-syntastic/syntastic'
 if count(g:spf13_bundle_groups, 'smartcomplete') && g:completable == 0
     if has('lua')
         let g:completable = 5

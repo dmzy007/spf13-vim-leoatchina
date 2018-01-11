@@ -1,5 +1,6 @@
-
-Bundle 'w0rp/ale'
+if count(g:spf13_bundle_groups, 'syntax')
+    Bundle 'w0rp/ale'
+endif
 Bundle 'skywind3000/asyncrun.vim'
 
 if g:completable == 0

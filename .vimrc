@@ -792,12 +792,12 @@ if version > 703
         "注释和字符串中的文字也会被收入补全
         let g:ycm_collect_identifiers_from_comments_and_strings = 0
         " 跳转到定义处
-        nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+        nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         function! SpecialCR()
             if pumvisible()
-                return "\<ESC>i\<Right>"
+                return "\<ESC>a"
             else
                 return "\<Cr>"
         endfunction
@@ -1010,37 +1010,42 @@ if version > 703
         endif
     endif
     if isdirectory(expand("~/.vim/bundle/ale")) && g:vim_advance == 1
-        let g:ale_completion_enabled = 0
-        let g:ale_sign_column_always = 1
-        let g:ale_sign_error = '>>'
-        let g:ale_sign_warning = '--'
-        let g:ale_echo_msg_error_str = 'E'
-        let g:ale_echo_msg_warning_str = 'W'
-        let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-        let g:ale_fix_on_save = 1
-        let g:ale_lint_on_enter = 1
+        let g:ale_completion_enabled   = 0
+        let g:ale_lint_on_enter        = 0
         let g:ale_lint_on_text_changed = 'always'
-        let g:ale_set_loclist = 0
-        let g:ale_set_quickfix = 1
-        let g:ale_statusline_format = ['E•%d', 'W•%d', 'OK']
-        "highlight clear ALEErrorSign
-        "highlight clear ALEWarningSign
-        nmap <F9> :ALELint<CR>
+        nmap <F9> :ALEToggle<CR>
+        " signs fo
+        let g:ale_sign_column_always   = 1
+        let g:ale_set_signs            = 1
+        let g:ale_set_highlights       = 0
+        let g:ale_sign_error           = 'E'
+        let g:ale_sign_warning         = 'w'
+        " message format
+        let g:ale_echo_msg_error_str   = 'E'
+        let g:ale_echo_msg_warning_str = 'W'
+        let g:ale_echo_msg_format      = '[%linter%] %s [%severity%]'
+
+        let g:ale_fix_on_save          = 0
+        let g:ale_set_loclist          = 0
+        let g:ale_set_quickfix         = 0
+        let g:ale_statusline_format    = ['E%d', 'W%d', '']
+        highlight clear ALEErrorSign
+        highlight clear ALEWarningSign
         nmap <silent> <leader>[ <Plug>(ale_previous_wrap)
         nmap <silent> <leader>] <Plug>(ale_next_wrap)
+        " 特定后缀指定lint方式
         let g:ale_pattern_options_enabled = 1
-        let g:ale_lnters= {'csh': ['shell'],
-                  \   'go':     ['gofmt', 'golint', 'go vet'],
-                  \   'help':   [],
-                  \   'perl':   ['perlcritic'],
-                  \   'python': ['python','flake8', 'mypy', 'pylint'],
-                  \   'rust':   ['cargo'],
-                  \   'spec':   [],
-                  \   'text':   [],
-                  \   'zsh':    ['shell'],
-              \}
+        let b:ale_warn_about_trailing_whitespace = 0
+        let g:ale_fixers ={}
+        nmap <leader>jd :ALEGoToDefinition<CR>
     elseif isdirectory(expand("~/.vim/bundle/syntastic")) && g:vim_advance ==0
         "pass
+    endif
+
+    if isdirectory(expand("~/.vim/bundle/asyncrun.vim")) && g:vim_advance == 1
+
+    elseif isdirectory(expand("~/.vim/bundle/vim-quickrun")) && g:vim_advance == 0
+
     endif
 endif
 " Functions

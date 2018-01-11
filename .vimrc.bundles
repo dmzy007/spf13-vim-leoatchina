@@ -125,7 +125,6 @@ Bundle 'terryma/vim-multiple-cursors'
 
 " powerline
 if count(g:spf13_bundle_groups, 'powerline')
-    ½P½P½P½P
     Bundle 'powerline/powerline'
     Bundle 'powerline/fonts'
 elseif count(g:spf13_bundle_groups, 'airline')
