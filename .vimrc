@@ -577,9 +577,10 @@ if isdirectory(expand("~/.vim/bundle/vim-startify"))
         \ 'bookmarks',
         \ ]
     let g:startify_commands = [
-    \ {'h': ['帮助', 'help howto']},
-    \ {'v': ['版本', 'version']}
-    \ ]
+        \ {'r': ['说明', '!vim -p ~/.vimrc.md']},
+        \ {'h': ['帮助', 'help howto']},
+        \ {'v': ['版本', 'version']}
+        \ ]
 endif
 " PIV
 if isdirectory(expand("~/.vim/bundle/PIV"))

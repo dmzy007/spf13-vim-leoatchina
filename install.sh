@@ -119,12 +119,14 @@ create_symlinks() {
     lnif "$source_path/.vimrc.legacy"      "$target_path/.vimrc.legacy"
     lnif "$source_path/.vim-clean"          "$target_path/.vim-clean"
     lnif "$source_path/.ycm_extra_conf.py"  "$target_path/.ycm_extra_conf.py"
+    lnif "$source_path/README.markdown"     "$target_path/.vimrc.md"
     if program_exists "nvim"; then
         mkdir -p "$target_path/.config"
         lnif "$HOME/.vim"                   "$target_path/.config/nvim"
         lnif "$source_path/.vimrc"          "$target_path/.config/nvim/init.vim"
     fi
     touch  "$target_path/.vimrc.local"
+
     ret="$?"
     success "Setting up vim symlinks."
     debug
