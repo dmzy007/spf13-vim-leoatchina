@@ -384,22 +384,17 @@ elseif isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
         let g:airline_left_sep='›'  " Slightly fancier than '>'
         let g:airline_right_sep='‹' " Slightly fancier than '<'
     endif
-
 elseif has('statusline')
     set laststatus=2
-    " Broken down into easily includeable segments
-    set statusline=%<%f\                     " Filename
-    set statusline+=%w%h%m%r                 " Options
-    if isdirectory(expand("~/.vim/bundle/fugitive"))
-        set statusline+=%{fugitive#statusline()} " Git Hotness
+    set statusline=%F%m%r%h%w
+    set statusline+=\ [%{&ff}/%Y]
+    if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
+        set statusline+=\ %{fugitive#statusline()} " Git Hotness
     endif
     if isdirectory(expand("~/.vim/bundle/ale"))
-        set statusline+=%{ALEGetStatusLine()} " AleCheckinfo
+        set statusline+=\ %{ALEGetStatusLine()} " AleCheckinfo
     endif
-    set statusline+=\ [%{&ff}/%Y]            " Filetype
-    set statusline+=\ [%{getcwd()}]          " Current dir
-    set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
-
+    set statusline+=%=%-14.(%l,%c%V%)%p%%\ \ \ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}  " Right aligned file nav info
 endif
 
 if has('cmdline_info')
