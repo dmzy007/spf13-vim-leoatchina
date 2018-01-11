@@ -372,6 +372,7 @@ if isdirectory(expand("~/.vim/bundle/powerline/"))
     set encoding=utf8
 " vim-airline
 elseif isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
+    set laststatus=2
     if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/vim-quantum"))
         let g:airline_theme = 'quantum'
     else
@@ -389,12 +390,12 @@ elseif has('statusline')
     set statusline=%F%m%r%h%w
     set statusline+=\ [%{&ff}/%Y]
     if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
-        set statusline+=\ %{fugitive#statusline()} " Git Hotness
+        set statusline+=\ %{fugitive#statusline()}
     endif
     if isdirectory(expand("~/.vim/bundle/ale"))
-        set statusline+=\ %{ALEGetStatusLine()} " AleCheckinfo
+        set statusline+=\ %{ALEGetStatusLine()}
     endif
-    set statusline+=%=%-14.(%l,%c%V%)%p%%\ \ \ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}  " Right aligned file nav info
+    set statusline+=%=%-14.(%l,%c%V%)%p%%\ \ \ %{strftime(\"%Y/%m/%d\ %H:%M\")}  " Right aligned file nav info
 endif
 
 if has('cmdline_info')
