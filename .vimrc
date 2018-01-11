@@ -449,12 +449,6 @@ if has("user_commands")
     command! -bang Qa qa<bang>
 endif
 " Plugins
-" quickrun
-if isdirectory(expand("~/.vim/bundle/vim-quickrun"))
-    nnoremap <Leader>R <Plug>(quickrun)
-    nnoremap <F5> <Plug>(quickrun)
-    let g:quickrun_config={"_":{"outputter":"message"}}
-endif
 " ywvim,vim里的中文输入法
 if isdirectory(expand("~/.vim/bundle/ywvim"))
     let g:ywvim_ims=[
@@ -1095,7 +1089,8 @@ if version > 703
         nmap <F5> :call RUNIT()<CR>
         nmap <leader><F5> :call asyncrun#quickfix_toggle(8)<CR>
     elseif isdirectory(expand("~/.vim/bundle/vim-quickrun")) && g:vim_advance == 0
-
+        nnoremap <F5> <Plug>(quickrun)
+        let g:quickrun_config={"_":{"outputter":"message"}}
     endif
 endif
 " Functions
