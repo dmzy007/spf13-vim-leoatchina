@@ -663,31 +663,56 @@ if isdirectory(expand("~/.vim/bundle/Nvim-R"))
 endif
 " PyMode
 if isdirectory(expand("~/.vim/bundle/python-mode"))
-    " Disable if python support not present
-    if !has('python') && !has('python3')
-        let g:pymode = 0
-    endif
     " python version
     if has('python3')
         let g:pymode_python = 'python3'
     else
         let g:pymode_python = 'python'
     endif
+    " disable pymode_rope and pymode_folding for slow problem
+    let g:pymode_rope = 0
+    let g:pymode_folding = 0
+    let g:pymode_trim_whitespaces = 1
+    let g:pymode_options = 0
     " doc for python
     let g:pymode_doc = 0
     " motion
     let g:pymode_motion = 1
     " run python
-    let g:pymode_run_bind = '<F5>'
+    let g:pymode_run_bind = '<leader>R'
     " breakpoint
     let g:pymode_breakpoint = 1
     let g:pymode_breakpoint_bind = '<C-g>'
     let g:pymode_breakpoint_cmd = 'import pdb;pdb.set_trace()'
     " pymode check disable
-    let g:pymode_lint = 0
-    " disable pymode_rope and pymode_folding for slow problem
-    let g:pymode_rope = 0
-    let g:pymode_folding = 0
+    if count(g:spf13_bundle_groups, 'syntax')
+        let g:pymode_lint = 0
+    else
+        let g:pymode_lint = 1
+        nmap <F9> :PymodeLint<CR>
+        let g:pymode_lint_signs = 1
+        " no check when white
+        let g:pymode_lint_on_write = 0
+        " check when save
+        let g:pymode_lint_unmodified = 0
+        " not check of fly
+        let g:pymode_lint_on_fly = 0
+        " show message of error line
+        let g:pymode_lint_message = 1
+        " checkers
+        let g:pymode_lint_checkers = ['pyflakes','pep8']
+        "let g:pymode_lint_checkers = ['pep8']
+        let g:pymode_lint_ignore = "E128,E2,E3,E501"
+        " not Auto open cwindow (quickfix) if any errors have been found
+        let g:pymode_lint_cwindow = 0
+    endif
+    if isdirectory(expand("~/.vim/bundle/python-syntax"))
+        let g:pymode_syntax = 0
+        let g:pymode_syntax_all = 0
+    else
+        let g:pymode_syntax = 1
+        let g:pymode_syntax_all = 1
+    endif
 endif
 " pytthon syntax highlight
 if isdirectory(expand("~/.vim/bundle/python-syntax"))
@@ -792,7 +817,7 @@ if version > 703
         "注释和字符串中的文字也会被收入补全
         let g:ycm_collect_identifiers_from_comments_and_strings = 0
         " 跳转到定义处
-        nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+        nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         function! SpecialCR()
@@ -1037,13 +1062,38 @@ if version > 703
         let g:ale_pattern_options_enabled = 1
         let b:ale_warn_about_trailing_whitespace = 0
         let g:ale_fixers ={}
-        nmap <leader>jd :ALEGoToDefinition<CR>
+        nmap <leader>gt :ALEGoToDefinition<CR>
     elseif isdirectory(expand("~/.vim/bundle/syntastic")) && g:vim_advance ==0
         "pass
     endif
 
     if isdirectory(expand("~/.vim/bundle/asyncrun.vim")) && g:vim_advance == 1
-
+        nmap <Leader>tr :AsyncRun
+        function! RUNIT()
+            exec "w"
+            cclose
+            call asyncrun#quickfix_toggle(8)
+            if &filetype == 'c'
+                exec ":AsyncRun g++ % -o %<"
+                exec ":AsyncRun ./%<"
+            elseif &filetype == 'cpp'
+                exec ":AsyncRun g++ % -o %<"
+                exec ":AsyncRun ./%<"
+            elseif &filetype == 'java'
+                exec ":AsyncRun javac %"
+                exec ":AsyncRun java %<"
+            elseif &filetype == 'sh'
+                exec ":AsyncRun bash %"
+            elseif &filetype == 'python'
+                exec ":AsyncRun python %"
+            elseif &filetype == 'perl'
+                exec ":AsyncRun perl %"
+            elseif &filetype == 'go'
+                exec ":AsyncRun go run %"
+            endif
+        endfunction
+        nmap <F5> :call RUNIT()<CR>
+        nmap <leader><F5> :call asyncrun#quickfix_toggle(8)<CR>
     elseif isdirectory(expand("~/.vim/bundle/vim-quickrun")) && g:vim_advance == 0
 
     endif
