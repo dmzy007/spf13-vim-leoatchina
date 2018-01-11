@@ -1048,8 +1048,8 @@ if version > 703
         let g:ale_set_loclist          = 0
         let g:ale_set_quickfix         = 0
         let g:ale_statusline_format    = ['E%d', 'W%d', '']
-        highlight clear ALEErrorSign
-        highlight clear ALEWarningSign
+        "highlight clear ALEErrorSign
+        "highlight clear ALEWarningSign
         nmap <silent> <leader>[ <Plug>(ale_previous_wrap)
         nmap <silent> <leader>] <Plug>(ale_next_wrap)
         " 特定后缀指定lint方式
@@ -1058,7 +1058,28 @@ if version > 703
         let g:ale_fixers ={}
         nmap <leader>gt :ALEGoToDefinition<CR>
     elseif isdirectory(expand("~/.vim/bundle/syntastic")) && g:vim_advance ==0
-        "pass
+        let g:syntastic_error_symbol             = 'E'
+        let g:syntastic_warning_symbol           = 'W'
+        let g:syntastic_check_on_open            = 0
+        let g:syntastic_check_on_wq              = 0
+        let g:syntastic_python_checkers          = ['pyflakes'] " 使用pyflakes,速度比pylint快
+        let g:syntastic_javascript_checkers      = ['jsl', 'jshint']
+        let g:syntastic_html_checkers            = ['tidy', 'jshint']
+        let g:syntastic_enable_highlighting      = 0
+        " to see error location list
+        let g:syntastic_always_populate_loc_list = 0
+        let g:syntastic_auto_loc_list            = 0
+        let g:syntastic_loc_list_height          = 5
+        function! ToggleErrors()
+            let old_last_winnr                    = winnr('$')
+            lclose
+            if old_last_winnr == winnr('$')
+                Errors
+            endif
+        endfunction
+        nnoremap <F9> :call ToggleErrors()<cr>
+        nnoremap <Leader>] :lnext<cr>
+        nnoremap <Leader>[ :lprevious<cr>>
     endif
 
     if isdirectory(expand("~/.vim/bundle/asyncrun.vim")) && g:vim_advance == 1
