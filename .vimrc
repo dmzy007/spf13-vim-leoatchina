@@ -407,15 +407,17 @@ if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
     let g:airline_right_sep = '◀'
     let g:airline_right_alt_sep = '❮'
 elseif has('statusline')
-    set statusline=%F%m%r%h%w
-    set statusline+=\ [%{&ff}/%Y]
     if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
-        set statusline+=\ %{fugitive#statusline()}
+        set statusline=\ %{fugitive#statusline()}
+    else
+        set statusline=%>
     endif
+    set statusline+=%F%=%{strftime(\"%Y/%m/%d\ %H:%M\")}\ %<
     if isdirectory(expand("~/.vim/bundle/ale"))
         set statusline+=\ %{ALEGetStatusLine()}
     endif
-	set statusline+=%=%-14.(%l,%c%V%)%p%%
+    "set statusline+=\ [%{&ff}/%Y]
+	set statusline+=%=%25([%{&ff}/%Y]\ %p%%\ \ %l/%L:\ %c%)\ %<
 endif
 
 if has('cmdline_info')
