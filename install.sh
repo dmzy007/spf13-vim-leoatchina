@@ -13,7 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 ############################  SETUP PARAMETERS
-app_name='spf13-vim'
+app_name='spf13-vim-leoatchina'
 [ -z "$APP_PATH" ] && APP_PATH="$PWD"
 [ -z "$REPO_URI" ] && REPO_URI='https://github.com/leoatchina/spf13-vim-leoatchina.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='3.0'
@@ -155,4 +155,4 @@ sync_repo       "$HOME/.vim/bundle/vundle" \
                 "vundle"
 setup_vundle
 msg             "\nThanks for installing $app_name."
-msg             "© `date +%Y` http://vim.spf13.com/"
+msg             "© `date +%Y` http://vim.spf13.com/ && http://github.com/leoatchina/spf13-vim=leoatchina"
