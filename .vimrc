@@ -410,9 +410,9 @@ elseif has('statusline')
     if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
         set statusline=\ %{fugitive#statusline()}
     else
-        set statusline=%>
+        set statusline=%<
     endif
-    set statusline+=%F%=%{strftime(\"%Y/%m/%d\ %H:%M\")}\ %<
+    set statusline+=%F
     if isdirectory(expand("~/.vim/bundle/ale"))
         set statusline+=\ %{ALEGetStatusLine()}
     endif
