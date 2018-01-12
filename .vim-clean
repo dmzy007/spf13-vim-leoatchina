@@ -1,4 +1,4 @@
-#/bin/bash
+#/bin/sbh
 
 rm -rf ~/.vimswap
 rm -rf ~/.vimviews

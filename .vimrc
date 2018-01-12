@@ -16,6 +16,8 @@ set background=dark     " Assume a dark background
 set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
 
+set laststatus=2
+set t_Co=256
 map gt <Nop>
 map gT <Nop>
 
@@ -147,6 +149,9 @@ nnoremap <Leader>ts :tabs<CR>
 nnoremap <Leader>tp :tab split<CR>
 nnoremap <Leader>te :tabe<SPACE>
 nnoremap <Leader>tm :tabm<SPACE>
+" buffer swithc
+ nnoremap <localleader>] :bn<CR>
+ nnoremap <localleader>[ :bp<CR>
 " 设置快捷键将选中文本块复制至系统剪贴板
 vnoremap  <leader>y  "+y
 nnoremap  <leader>y  "+y
@@ -363,18 +368,45 @@ if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
     let g:indent_guides_guide_size = 1
     let g:indent_guides_enable_on_vim_startup = 1
 endif
+
+
+
 " vim-airline
 if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
-    set laststatus=2
-    if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/vim-quantum"))
-        let g:airline_theme = 'quantum'
-    else
-        if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-            let g:airline_theme = 'solarized'
-        endif
+    let g:airline_theme="bubblegum"
+    let g:airline_powerline_fonts = 0
+    let g:airline_symbols_ascii = 1
+    let g:airline_exclude_preview = 0
+    let g:airline_highlighting_cache = 1
+    let g:airline#extensions#whitespace#enabled = 0
+    " tab序号
+    let g:airline#extensions#tabline#tab_nr_type = 1
+    let g:airline#extensions#tabline#enabled = 1
+    " disable buffers on topright
+    let g:airline#extensions#tabline#tabs_label = ''
+    let g:airline#extensions#tabline#show_splits = 0
+    let g:airline#extensions#tabline#show_close_button = 0
+
+    let g:airline#extensions#tabline#buffer_nr_show = 0
+    let g:airline#extensions#bufferline#enabled = 1
+
+    " full_path of the file
+    let g:airline_section_c = "%F"
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
     endif
+    let g:airline_symbols.crypt = '🔒'
+    let g:airline_symbols.linenr = '☰'
+    let g:airline_symbols.maxlinenr = ''
+    let g:airline_symbols.branch = '⎇'
+    let g:airline_symbols.paste = 'ρ'
+    let g:airline_symbols.notexists = '∄'
+    let g:airline_symbols.whitespace = 'Ξ'
+    let g:airline_left_sep = '▶'
+    let g:airline_left_alt_sep = '❯'
+    let g:airline_right_sep = '◀'
+    let g:airline_right_alt_sep = '❮'
 elseif has('statusline')
-    set laststatus=2
     set statusline=%F%m%r%h%w
     set statusline+=\ [%{&ff}/%Y]
     if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
@@ -383,7 +415,7 @@ elseif has('statusline')
     if isdirectory(expand("~/.vim/bundle/ale"))
         set statusline+=\ %{ALEGetStatusLine()}
     endif
-    set statusline+=%=%-14.(%l,%c%V%)%p%%\ \ \ %{strftime(\"%Y/%m/%d\ %H:%M\")}  " Right aligned file nav info
+	set statusline+=%=%-14.(%l,%c%V%)%p%%
 endif
 
 if has('cmdline_info')
@@ -928,18 +960,16 @@ if version > 703
     " smart completion use neosnippet to expand
     if g:completable>0
         " menu style
-        set completeopt=menuone,menu
+        set completeopt=menuone,menu,noselect
         "set completeopt=menu,menuone,noinsert,noselect
         " For snippet_complete marker.
         if has('conceal')
             set conceallevel=2 concealcursor=i
         endif
-
         inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"\<S-Tab>"
         snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"\<S-Tab>"
         "au BufEnter * exec "inoremap <silent> <Cr> <C-R>=<SID>SpecialCR()<cr>"
         "au BufEnter * exec "snoremap <silent> <Cr> <C-R>=<SID>SpecialCR()<cr>"
-
         if g:use_ultisnips
             " remap Ultisnips for compatibility
             let g:UltiSnipsListSnippets="<C-l>"
@@ -1018,7 +1048,7 @@ if version > 703
         endif
     endif
     if isdirectory(expand("~/.vim/bundle/ale")) && g:vim_advance == 1
-        let g:ale_completion_enabled   = 0
+        let g:ale_completion_enabled   = 1
         let g:ale_lint_on_enter        = 0
         let g:ale_lint_on_text_changed = 'always'
         nmap <F9> :ALEToggle<CR>
@@ -1036,7 +1066,7 @@ if version > 703
         let g:ale_fix_on_save          = 0
         let g:ale_set_loclist          = 0
         let g:ale_set_quickfix         = 0
-        let g:ale_statusline_format    = ['E%d', 'W%d', '']
+        let g:ale_statusline_format    = ['E:%d', 'W:%d', '']
         "highlight clear ALEErrorSign
         "highlight clear ALEWarningSign
         nmap <silent> <leader>[ <Plug>(ale_previous_wrap)
