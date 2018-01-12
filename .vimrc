@@ -962,7 +962,11 @@ if version > 703
     " smart completion use neosnippet to expand
     if g:completable>0
         " menu style
-        set completeopt=menuone,menu,noselect
+        if g:vim_advance
+            set completeopt=menuone,menu,noselect
+        else
+            set completeopt=menuone,menu
+        endif
         "set completeopt=menu,menuone,noinsert,noselect
         " For snippet_complete marker.
         if has('conceal')
