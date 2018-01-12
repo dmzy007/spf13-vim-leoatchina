@@ -116,7 +116,7 @@ create_symlinks() {
     lnif "$source_path/.vimrc"              "$target_path/.vimrc"
     lnif "$source_path/.vimrc.bundles"      "$target_path/.vimrc.bundles"
     lnif "$source_path/.vimrc.advance"      "$target_path/.vimrc.advance"
-    lnif "$source_path/.vimrc.legacy"      "$target_path/.vimrc.legacy"
+    lnif "$source_path/.vimrc.legacy"       "$target_path/.vimrc.legacy"
     lnif "$source_path/.vim-clean"          "$target_path/.vim-clean"
     lnif "$source_path/.ycm_extra_conf.py"  "$target_path/.ycm_extra_conf.py"
     lnif "$source_path/README.markdown"     "$target_path/.vimrc.md"
@@ -125,7 +125,6 @@ create_symlinks() {
         lnif "$HOME/.vim"                   "$target_path/.config/nvim"
         lnif "$source_path/.vimrc"          "$target_path/.config/nvim/init.vim"
     fi
-    touch  "$target_path/.vimrc.local"
 
     ret="$?"
     success "Setting up vim symlinks."
@@ -146,6 +145,7 @@ variable_set "$HOME"
 program_must_exist "vim"
 program_must_exist "git"
 mkdir -p "$HOME/.vim/session"
+touch  "$HOME/.vimrc.local"
 create_symlinks "$APP_PATH" \
                 "$HOME"
 
