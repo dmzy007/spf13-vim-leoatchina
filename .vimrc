@@ -391,7 +391,7 @@ if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
     let g:airline#extensions#bufferline#enabled = 1
 
     " full_path of the file
-    let g:airline_section_c = "%F"
+    let g:airline_section_c = "\ %{strftime(\"%Y/%m/%d\ %H:%M\")}\ \ %F"
     if !exists('g:airline_symbols')
         let g:airline_symbols = {}
     endif
@@ -412,7 +412,7 @@ elseif has('statusline')
     else
         set statusline=%<
     endif
-    set statusline+=%F
+    set statusline+=\ %{strftime(\"%Y/%m/%d\ %H:%M\")}\ \ %F
     if isdirectory(expand("~/.vim/bundle/ale"))
         set statusline+=\ %{ALEGetStatusLine()}
     endif
