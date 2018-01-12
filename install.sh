@@ -155,4 +155,4 @@ sync_repo       "$HOME/.vim/bundle/vundle" \
                 "vundle"
 setup_vundle
 msg             "\nThanks for installing $app_name."
-msg             "© `date +%Y` http://vim.spf13.com/ && http://github.com/leoatchina/spf13-vim=leoatchina"
+msg             "© `date +%Y` http://vim.spf13.com/ && http://github.com/leoatchina/spf13-vim-leoatchina/"
