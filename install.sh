@@ -16,7 +16,7 @@
 app_name='spf13-vim-leoatchina'
 [ -z "$APP_PATH" ] && APP_PATH="$PWD"
 [ -z "$REPO_URI" ] && REPO_URI='https://github.com/leoatchina/spf13-vim-leoatchina.git'
-[ -z "$REPO_BRANCH" ] && REPO_BRANCH='3.0'
+[ -z "$REPO_BRANCH" ] && REPO_BRANCH='master'
 debug_mode='0'
 [ -z "$VUNDLE_URI" ] && VUNDLE_URI="https://github.com/VundleVim/Vundle.vim.git"
 ############################  BASIC SETUP TOOLS
@@ -77,18 +77,6 @@ lnif() {
 
 ############################ SETUP FUNCTIONS
 
-do_backup() {
-    if [ -e "$1" ] || [ -e "$2" ] || [ -e "$3" ]; then
-        msg "Attempting to back up your original vim configuration."
-        today=`date +%Y%m%d_%s`
-        for i in "$1" "$2" "$3"; do
-            [ -e "$i" ] && [ ! -L "$i" ] && mv -v "$i" "$i.$today";
-        done
-        ret="$?"
-        success "Your original vim configuration has been backed up."
-        debug
-   fi
-}
 
 sync_repo() {
     local repo_path="$1"
