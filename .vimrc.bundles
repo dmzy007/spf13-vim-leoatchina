@@ -76,11 +76,17 @@ Bundle 'mhinz/vim-startify'
 if executable('ag')
     Bundle 'rking/ag.vim'
     let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
+    let g:ag_working_path_mode="r"
+    set runtimepath^=~/.vim/bundle/ag.vim"
+    nnoremap <leader>fs :Ag<space>
+    nnoremap <leader>ff :AgFile<space>
 elseif executable('ack-grep')
     let g:ackprg="ack-grep -H --nocolor --nogroup --column"
     Bundle 'mileszs/ack.vim'
+    nnoremap <leader>fs :Ack<space>
 elseif executable('ack')
     Bundle 'mileszs/ack.vim'
+    nnoremap <leader>fs :Ack<space>
 endif
 " In your .vimrc.local file
 " list only the plugin groups you will use
