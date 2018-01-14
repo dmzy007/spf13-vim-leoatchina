@@ -113,7 +113,7 @@ if OSX()
 else
     Bundle 'lilydjwg/fcitx.vim'
 endif
-if count(g:spf13_bundle_groups, 'chinese')
+if count(g:spf13_bundle_groups, 'pinyin') || count(g:spf13_bundle_groups, 'wubi')
     Bundle 'leoatchina/ywvim'
 endif
 Bundle 'rhysd/conflict-marker.vim'

@@ -473,10 +473,17 @@ endif
 " Plugins
 " ywvim,vim里的中文输入法
 if isdirectory(expand("~/.vim/bundle/ywvim"))
-    let g:ywvim_ims=[
+    if count(g:spf13_bundle_groups, 'pinyin')
+        let g:ywvim_ims=[
+                \['py', '拼音', 'pinyin.ywvim'],
+                \['wb', '五笔', 'wubi.ywvim'],
+            \]
+    elseif count(g:spf13_bundle_groups, 'wubi')
+        let g:ywvim_ims=[
                 \['wb', '五笔', 'wubi.ywvim'],
                 \['py', '拼音', 'pinyin.ywvim'],
-                \]
+            \]
+    endif
     let g:ywvim_py = { 'helpim':'wb', 'gb':0 }
     let g:ywvim_zhpunc = 0
     let g:ywvim_listmax = 8
