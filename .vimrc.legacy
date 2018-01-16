@@ -1,3 +1,15 @@
+" This is leoatchina's vim config forked from https://github.com/spf13/spf13-vim
+" Sincerely thank him for his great job, and I have made some change according to own requires.
+" These ones whole use this config can also make changes,
+" For my pool English , I sometimes type in Chines comments
+"                    __ _ _____              _
+"         ___ _ __  / _/ |___ /      __   __(_)_ __ ___
+"        / __| '_ \| |_| | |_ \ _____\ \ / /| | '_ ` _ \
+"        \__ \ |_) |  _| |___) |_____|\ V / | | | | | | |
+"        |___/ .__/|_| |_|____/        \_/  |_|_| |_| |_|
+"            |_|
+" You can find spf13's origin config at http://spf13.com
+
 if count(g:spf13_bundle_groups, 'syntax')
     Bundle 'vim-syntastic/syntastic'
 endif

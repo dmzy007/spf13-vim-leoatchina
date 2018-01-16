@@ -20,13 +20,15 @@ REM    limitations under the License.
 echo "%APP_PATH%"
 call del "%HOME%\.vimrc"
 call del "%HOME%\_vimrc"
-call del "%HOME%\.vimrc.before"
 call del "%HOME%\.vimrc.bundles"
+call del "%HOME%\.vimrc.legacy"
+call del "%HOME%\.vimrc.legacy"
 
 call mklink "%HOME%\.vimrc"                 "%APP_PATH%\.vimrc"
 call mklink "%HOME%\_vimrc"                 "%APP_PATH%\.vimrc"
 call mklink "%HOME%\.vimrc.bundles"         "%APP_PATH%\.vimrc.bundles"
-call mklink "%HOME%\.vimrc.before"          "%APP_PATH%\.vimrc.before"
+call mklink "%HOME%\.vimrc.legacy"          "%APP_PATH%\.vimrc.legacy"
+call mklink "%HOME%\.vimrc.advance"         "%APP_PATH%\.vimrc.advance"
 call mklink "%HOME%\.ycm_extra_conf.py"     "%APP_PATH%\.ycm_extra_conf.py"
 
 

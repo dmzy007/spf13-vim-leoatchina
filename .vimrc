@@ -8,8 +8,10 @@
 "        \__ \ |_) |  _| |___) |_____|\ V / | | | | | | |
 "        |___/ .__/|_| |_|____/        \_/  |_|_| |_| |_|
 "            |_|
-" You can find spf13's greate config at http://spf13.com
-" Os detect functions have been move to .vimrc.bundles
+" You can find spf13's origin config at http://spf13.com
+
+
+
 " Basics
 set nocompatible        " Must be first line
 set background=dark     " Assume a dark background
@@ -571,15 +573,6 @@ if isdirectory(expand("~/.vim/bundle/VOom"))
     let g:voom_ft_modes = {'md':'markdown','markdown': 'markdown', 'pandoc': 'pandoc','c':'fmr2', 'cpp':'fmr2', 'python':'python','vim':'vimwiki'}
     nmap <silent><leader>vt :VoomToggle<CR>
     nmap <leader>vo :Voom<Space>
-endif
-" markdown
-if isdirectory(expand("~/.vim/bundle/markdown-preview.vim"))
-    nmap <leader>mk <Plug>MarkdownPreview
-    if OSX()
-        let g:mkdp_path_to_chrome = "OPEN -a Google\\ Chrome"
-    else
-        let g:mkdp_path_to_chrome = "google-chrome"
-    endif
 endif
 " startify
 if isdirectory(expand("~/.vim/bundle/vim-startify"))

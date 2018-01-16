@@ -9,7 +9,7 @@
 "        \__ \ |_) |  _| |___) |_____|\ V / | | | | | | |
 "        |___/ .__/|_| |_|____/        \_/  |_|_| |_| |_|
 "            |_|
-" You can find spf13's gread config  at http://spf13.com
+" You can find spf13's origin config  at http://spf13.com
 
 " Identify platform
 silent function! OSX()
