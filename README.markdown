@@ -1,5 +1,7 @@
 # leoatchina的vim配置文件
 This is leoatchina's vim config forked from [spf13-vim:steve francia's vim distribution](https://github.com/spf13/spf13-vim).I sincerely thank him for great job. To meet my needs,I have changed lots of settings and plugins.
+ You can find spf13's origin config at http://spf13.com
+
 
 [spf13]()对他自己作品的介绍
 > spf13-vim is a distribution of vim plugins and resources for Vim, Gvim and MacVim.
@@ -69,16 +71,15 @@ This is leoatchina's vim config forked from [spf13-vim:steve francia's vim distr
 
 ## 主要改动
 我在spf13的基础上，做了一些*微小*的工作
-1. 去除了一些比较冗余的插件，如[wildfire](wildfire)。
-2. 修改了安装代码，变成直接从clone的目录中软链接到用户目录下，**不再支持XP**
-3. 按自己习惯修改了大量插件的快捷键
-4. 去除了原来定义的一些函数
-5. 去除了fork文件功能，仅保留before文件功能
-6. 增加对R和Markdown的支持,要在`~/.vimrc.before.local`里加入`markdown`和`R`开启，支持语法高亮，不过暂时这两个语言的支持都有一些问题，要改动。
-7. 加入了5种补全插件：youcompleteme,deoplete,nvim-complete-manager,neocomplete,neocomplcache,默认会在nvim-complete-manager,necomplate,neocomplcace中选择一种。
-8. 我的`~/.vimrc.before.local`,可以看到有对`python`,`R`,`markdown`的支持
+- 去除了一些比较冗余的插件，
+- 修改了安装代码，变成直接从clone的目录中软链接到用户目录下，**不再支持XP**
+- 按自己习惯修改了大量插件的快捷键
+- 去除了原来定义的一些函数
+- 去除了fork文件功能，仅保留before文件功能
+- 加入了5种补全插件：youcompleteme,deoplete,nvim-complete-manager,neocomplete,neocomplcache,默认会在nvim-complete-manager,necomplate,neocomplcace中选择一种。
+- 我的`~/.vimrc.local`
 ```
-  let g:spf13_bundle_groups=['general',  'programming', 'python', 'youcompleteme','php', 'javascript', 'html','R','markdown','material']
+  let g:spf13_bundle_groups=[ 'python', 'youcompleteme','php', 'javascript', 'html','wubi','markdown','material']
 ```
 
 ## 基本快捷键
