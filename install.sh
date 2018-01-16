@@ -13,7 +13,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 ############################  SETUP PARAMETERS
-app_name='spf13-vim-leoatchina'
+app_name='spf13-vim'
 [ -z "$APP_PATH" ] && APP_PATH="$PWD"
 [ -z "$REPO_URI" ] && REPO_URI='https://github.com/leoatchina/spf13-vim-leoatchina.git'
 [ -z "$REPO_BRANCH" ] && REPO_BRANCH='master'
@@ -133,7 +133,12 @@ variable_set "$HOME"
 program_must_exist "vim"
 program_must_exist "git"
 mkdir -p "$HOME/.vim/session"
-touch  "$HOME/.vimrc.local"
+if [ -f $HOME/.vimrc.local ];then
+    echo "$HOME/.vimrc.local exists."
+else
+    echo "$HOME/.vimrc.local does not exist, create it."
+    cp $APP_PATH/.vimrc.local $HOME/
+fi
 create_symlinks "$APP_PATH" \
                 "$HOME"
 
@@ -143,4 +148,4 @@ sync_repo       "$HOME/.vim/bundle/vundle" \
                 "vundle"
 setup_vundle
 msg             "\nThanks for installing $app_name."
-msg             "© `date +%Y` http://vim.spf13.com/ && http://github.com/leoatchina/spf13-vim-leoatchina/"
+msg             "© `date +%Y` http://vim.spf13.com/"
