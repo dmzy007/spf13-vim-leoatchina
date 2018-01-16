@@ -1,35 +1,29 @@
 # leoatchina的vim配置文件
 This is leoatchina's vim config forked from [spf13-vim:steve francia's vim distribution](https://github.com/spf13/spf13-vim).I sincerely thank him for great job. To meet my needs,I have changed lots of settings and plugins.
 
-                    __ _ _____              _
-         ___ _ __  / _/ |___ /      __   __(_)_ __ ___
-        / __| '_ \| |_| | |_ \ _____\ \ / /| | '_ ` _ \
-        \__ \ |_) |  _| |___) |_____|\ V / | | | | | | |
-        |___/ .__/|_| |_|____/        \_/  |_|_| |_| |_|
-            |_|
 [spf13]()对他自己作品的介绍
 > spf13-vim is a distribution of vim plugins and resources for Vim, Gvim and MacVim.
 > It is a good starting point for anyone intending to use VIM for development running equally well on Windows, Linux, \*nix and Mac.
 > The distribution is completely customisable using a `~/.vimrc.local`, `~/.vimrc.bundles.local`, and `~/.vimrc.before.local` Vim RC files.
 
 ## 背景
-本人是生信工程师,主要使用的语言是`python`,`R`,`perl`,`shell`,经常要ssh到远程服务器上写代码,因此学习了vim,后来发现了[spf13-vim:steve francia's vim distribution](https://github.com/spf13/spf13-vim),大大提高了写代码的效率。但是,原配置仍然有很多插件和配置不符合我的需要,因此,fork后进行了大量的修改.请访问[leoatchina的vim配置文件](https://github.com/leoatchina/spf13-vim-leoatchina).由于本人水平所限,一定有很多错误和bug,望各位指正.
-**注意**使本配置文件后可能会影响vim运行流畅度.
+本人是生信工程师,主要使用的语言是`python`,`perl`,`shell`,经常要ssh到远程服务器上写代码,因此学习了vim,后来发现了[spf13-vim:steve francia's vim distribution](https://github.com/spf13/spf13-vim),大大提高了写代码的效率。
+但是,原配置仍然有很多插件和配置不符合我的需要,因此,fork后进行了大量的修改.请访问[leoatchina的vim配置文件](https://github.com/leoatchina/spf13-vim-leoatchina).由于本人水平所限,一定有很多错误和bug,望各位指正.
+**注意**使本配置文件后可能会影响vim运行流畅度,介意者要通过学习后,关闭某些特性以提高速度.
 
 ## 对使用者的要求
 掌握vim的大部分操作,了解`leader`,`map`,`hjkl`,`d`,`w`,`s`,`i`,`u`,`:`,`\`等操作命令
 
 ## 配置文件
-**各配置文件执行次序**
-* `.vimrc.before`  # 参数配置文件
-* `.vimrc.before.local`
-* `.vimrc.bundles` # 插件管理文件
-* `.vimrc.bundles.local`
+**各配置文件**
 * `.vimrc`      # 最主要的配置文件,配色、快捷键、显示方式等参数都在这里设置
-* `.vimrc.local`
+* `.vimrc.local` # 自定义配置
+* `.vimrc.bundles` # 插件管理文件
+* `.vimrc.advance` # 在高版本vim(>=8.0)或者nvim下加载的插件
+* `.vimrc.legacy` # 在低版本的vim下加载的插件
 
 ## 安装
-*安装本配置 需要 Git 1.7+ 和 Vim 7.3+，部分插件如`Nvim-R`,`AsyncRun`,需要Vim8.0*
+*安装本配置 需要 Git 1.7+ 和 Vim 7.4+，部分插件如`ale`,`AsyncRun`,需要Vim8.0*
 
 ### Linux, \*nix, Mac OSX 下的安装
 ```bash
