@@ -959,11 +959,11 @@ if version > 703
     " smart completion use neosnippet to expand
     if g:completable>0
         " menu style
-        if g:vim_advance
-            set completeopt=menuone,menu,noselect
-        else
-            set completeopt=menuone,menu
-        endif
+        "if g:vim_advance
+            "set completeopt=menuone,menu,noselect
+        "else
+        "endif
+        set completeopt=menuone
         "set completeopt=menu,menuone,noinsert,noselect
         " For snippet_complete marker.
         if has('conceal')
@@ -992,10 +992,9 @@ if version > 703
             inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
             inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
             " tab for ExpandTrigger
-            function! s:UltiSnips()
+            function! g:UltiSnips_Tab()
                 if pumvisible()
                     call UltiSnips#ExpandSnippet()
-                    " 0:ExpandSnippet failed
                     if g:ulti_expand_res
                         return "\<Right>"
                     else
@@ -1009,8 +1008,7 @@ if version > 703
                     return "\<Tab>"
                 endif
             endfunction
-            inoremap <expr><Tab> <SID>UltiSnips()
-            snoremap <expr><Tab> <SID>Ultisnips()
+            au BufEnter * exec "inoremap <silent> <Tab> <C-R>=g:UltiSnips_Tab()<cr>"
         else
             let g:neosnippet#enable_completed_snippet=1
             " c-k to expand
@@ -1024,7 +1022,7 @@ if version > 703
             inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
             inoremap <expr> <PageDown>  pumvisible() ? "\<C-n>" : "\<PageDown>"
             inoremap <expr> <PageUp> pumvisible() ? "\<C-p>" : "\<PageUp>"
-            function! s:Neo_Snippet()
+            function! g:Neo_Snippet_Tab()
                 if pumvisible() "popup menu apeared
                     if neosnippet#expandable()
                         return neosnippet#mappings#expand_impl()
@@ -1040,8 +1038,7 @@ if version > 703
                     return "\<Tab>"
                 endif
             endfunction
-            inoremap <expr><Tab> <SID>Neo_Snippet()
-            snoremap <expr><Tab> <SID>Neo_Snippet()
+            au BufEnter * exec "inoremap <silent> <Tab> <C-R>=g:Neo_Snippet_Tab()<cr>"
             " Use honza's snippets.
             let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
             " Enable neosnippet snipmate compatibility mode
