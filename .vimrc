@@ -184,8 +184,6 @@ noremap <leader>fr :set nowrap! nowrap?<CR>
 "F4 toggle hlsearch
 noremap <F4> :set nohlsearch! nohlsearch?<CR>
 noremap <leader>fh :set nohlsearch! nohlsearch?<CR>
-
-
 " 定义快捷键保存当前窗口内容
 nmap <Leader>w :w<CR>
 nmap <Leader>W :wq!<CR>
@@ -835,20 +833,8 @@ if version > 703
         let g:ycm_collect_identifiers_from_comments_and_strings = 0
         " 跳转到定义处
         nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-        imap <expr><Cr> pumvisible()? "\<ESC>a":"\<CR>"
-        smap <expr><Cr> pumvisible()? "\<ESC>a":"\<CR>"
-        imap <expr><C-c> pumvisible()? "\<ESC>a":"\<C-[>"
-        smap <expr><C-c> pumvisible()? "\<ESC>a":"\<C-[>"
     " nvim completion
     elseif g:completable == 2
-        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-        imap <expr><Cr> pumvisible()? "\<C-y>":"\<CR>"
-        smap <expr><Cr> pumvisible()? "\<C-y>":"\<CR>"
-        imap <expr><C-c> pumvisible()? "\<ESC>a":"\<C-[>"
-        smap <expr><C-c> pumvisible()? "\<ESC>a":"\<C-[>"
     " deoplete
     elseif g:completable == 3
         let g:deoplete#enable_at_startup = 1
@@ -874,16 +860,10 @@ if version > 703
         " <BS>: close popup and delete backword char.
         inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
         " c-j to complete pum
-        imap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
-        imap <expr><C-j> pumvisible()? deoplete#close_popup():'\<CR>'
-        smap <expr><Cr> pumvisible()? deoplete#close_popup():'\<CR>'
-        smap <expr><Cr> pumvisible()? deoplete#close_popup():'\<CR>'
-        imap <expr><C-c> pumvisible()? deoplete#close_popup():"\<C-[>"
-        smap <expr><C-c> pumvisible()? deoplete#close_popup():"\<C-[>"
         if g:use_ultisnips
             call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
         endif
-        " neocomplete
+    " neocomplete
     elseif g:completable == 4
         let g:acp_enableAtStartup = 1
         let g:neocomplete#enable_at_startup = 1
@@ -916,14 +896,7 @@ if version > 703
         endif
         " <BS>: close popup and delete backword char.
         inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-        "   to complete pum
-        imap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
-        smap <expr><C-j> pumvisible()? neocomplete#close_popup():"\<CR>"
-        imap <expr><Cr> pumvisible()? neocomplete#close_popup():"\<CR>"
-        smap <expr><Cr> pumvisible()? neocomplete#close_popup():"\<CR>"
-        imap <expr><C-c> pumvisible()? neocomplete#close_popup():"\<C-[>"
-        smap <expr><C-c> pumvisible()? neocomplete#close_popup():"\<C-[>"
-        " neocomplcache
+    " neocomplcache
     elseif g:completable == 5
         let g:neocomplcache_enable_insert_char_pre = 1
         let g:neocomplcache_enable_at_startup = 1
@@ -955,29 +928,22 @@ if version > 703
         endif
         " <BS>: close popup and delete backword char.
         inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-        " c-j to complete pum
-        imap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
-        smap <expr><C-j> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
-        imap <expr><Cr> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
-        smap <expr><Cr> pumvisible() ? neocomplcache#close_popup():"\<Cr>"
-        imap <expr><C-c> pumvisible()? neocomplcache#close_popup():"\<C-[>"
-        smap <expr><C-c> pumvisible()? neocomplcache#close_popup():"\<C-[>"
     endif
     " smart completion use neosnippet to expand
     if g:completable>0
+        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
+        smap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
+        inoremap <expr><C-c> pumvisible()? "\<ESC>a\<Space>\<ESC>":"\<C-[>"
+        snoremap <expr><C-c> pumvisible()? "\<ESC>a\<Space>\<ESC>":"\<C-[>"
         " menu style
-        "if g:vim_advance
-            "set completeopt=menuone,menu,noselect
-        "else
-        "endif
-        set completeopt=menuone
+        set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
         " For snippet_complete marker.
         if has('conceal')
             set conceallevel=2 concealcursor=i
         endif
-        inoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"\<S-Tab>"
-        snoremap <expr><S-Tab> pumvisible() ? "\<C-n>":"\<S-Tab>"
         if g:use_ultisnips
             " remap Ultisnips for compatibility
             let g:UltiSnipsListSnippets="<C-l>"
