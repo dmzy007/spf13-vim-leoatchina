@@ -935,8 +935,8 @@ if version > 703
         smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
         smap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
-        inoremap <expr><C-c> pumvisible()? "\<ESC>a\<Space>\<ESC>":"\<C-[>"
-        snoremap <expr><C-c> pumvisible()? "\<ESC>a\<Space>\<ESC>":"\<C-[>"
+        imap <expr><C-c> pumvisible()? "\<ESC>l":"\<C-[>"
+        smap <expr><C-c> pumvisible()? "\<ESC>l":"\<C-[>"
         " menu style
         set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
