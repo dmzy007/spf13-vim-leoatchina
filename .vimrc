@@ -140,14 +140,17 @@ vmap <silent><C-m> %
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
 cmap Tabe tabe
-nnoremap <PageUp>   :tabprevious<CR>
-nnoremap <PageDown>   :tabnext<CR>
-nnoremap <leader><PageUp> :tabm -1<CR>
-nnoremap <leader><PageDown> :tabm +1<CR>
-nnoremap <leader>tn :tabnew<CR>
+nnoremap 1 :tabprevious<CR>
+nnoremap 2 :tabnext<CR>
+nnoremap <leader>1  :tabm -1<CR>
+nnoremap <leader>2  :tabm +1<CR>
+nnoremap <leader>t1 :tabfirst<CR>
+nnoremap <leader>t2 :tablast<CR>
+nnoremap <Leader>tp :tabprevious<SPACE>
+nnoremap <Leader>tn :tabnext<SPACE>
+nnoremap <Leader>te :tabe<SPACE>
 nnoremap <Leader>ts :tabs<CR>
 nnoremap <Leader>tp :tab split<CR>
-nnoremap <Leader>te :tabe<SPACE>
 nnoremap <Leader>tm :tabm<SPACE>
 " buffer swithc
  nnoremap <localleader>] :bn<CR>
