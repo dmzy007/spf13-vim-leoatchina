@@ -918,16 +918,30 @@ if version > 703
     " smart completion use neosnippet to expand
     if g:completable>0
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-        imap <expr><C-c> pumvisible()? "\<C-y>":"\<C-[>"
         if g:completable==1
             imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
         else
             imap <expr><Cr>  pumvisible()? "\<C-y>":"\<CR>"
         endif
-        " menu style
+        function! g:Smart_CtrlC()
+            if pumvisible()
+                call feedkeys("\<C-y>")
+                call feedkeys("\<ESC>")
+                let s:temp_col = col("$")-1
+                if s:temp_col == 0 || col(".") == s:temp_col
+                    return "\<ESC>"
+                else
+                    return "\<Right>"
+                endif
+            else
+                return "\<ESC>"
+            endif
+        endfunction
+        au BufEnter * exec "imap <silent> <C-c> <C-R>=g:Smart_CtrlC()<cr>"
+        "imap <expr><C-c> pumvisible()? "\<C-y>":"\<C-[>"
+
         set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
-        " For snippet_complete marker.
         if has('conceal')
             set conceallevel=2 concealcursor=i
         endif
@@ -943,12 +957,6 @@ if version > 703
             else
                 let g:UltiSnipsUsePythonVersion = 2
             endif
-            " Ulti的代码片段的文件夹
-            let g:UtiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/UltiSnips","~/.vim/bundle/vim-snippets/snipets"]
-            inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
-            inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
-            inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
-            inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
             " tab for ExpandTrigger
             function! g:UltiSnips_Tab()
                 if pumvisible()
@@ -967,6 +975,12 @@ if version > 703
                 endif
             endfunction
             au BufEnter * exec "inoremap <silent> <Tab> <C-R>=g:UltiSnips_Tab()<cr>"
+            " Ulti的代码片段的文件夹
+            let g:UtiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/UltiSnips","~/.vim/bundle/vim-snippets/snipets"]
+            inoremap <expr> <Down>  pumvisible() ? "\<C-n>" : "\<Down>"
+            inoremap <expr> <Up> pumvisible() ? "\<C-p>" : "\<Up>"
+            inoremap <expr> <PageDown>  pumvisible() ? "\<PageDown>\<C-n>\<C-p>" : "\<PageDown>"
+            inoremap <expr> <PageUp> pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
         else
             let g:neosnippet#enable_completed_snippet=1
             " c-k to expand
