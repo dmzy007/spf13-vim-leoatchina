@@ -917,9 +917,9 @@ if version > 703
     endif
     " smart completion use neosnippet to expand
     if g:completable>0
-        imap <expr><C-j> pumvisible()? "\<ESC>a":"\<CR>"
+        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        imap <expr><C-c> pumvisible()? "\<C-y>":"\<C-[>"
         imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
-        imap <expr><C-c> pumvisible()? "\<ESC>a":"\<C-[>"
         " menu style
         set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
