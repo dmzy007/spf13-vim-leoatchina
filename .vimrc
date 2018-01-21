@@ -933,11 +933,11 @@ if version > 703
     if g:completable>0
         function! g:Smart_ctrlc()
             if pumvisible()
+                call feedkeys("\<ESC>")
                 if col(".") != col("$")-1
-                    call feedkeys("\<ESC>")
                     return "\<Right>"
                 else
-                    return "\<ESC>"
+                    return ""
                 endif
             else
                 return "\<ESC>"
