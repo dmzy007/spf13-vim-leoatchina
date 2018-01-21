@@ -912,26 +912,6 @@ if version > 703
         else
             imap <expr><Cr>  pumvisible()? "\<C-y>":"\<CR>"
         endif
-        function! g:Smart_CtrlC()
-            if pumvisible()
-                if g:completable==1
-                    call feedkeys("\<C-y>")
-                endif
-                call feedkeys("\<C-[>")
-                let s:end_col = col("$")-1
-                let s:cur_col = col(".")
-                if s:end_col == 0 || s:cur_col == s:end_col
-                    return "\$"
-                else
-                    return "\<Right>"
-                endif
-            else
-                return "\<C-[>"
-            endif
-        endfunction
-        au BufEnter * exec "inoremap <silent> <C-c> <C-R>=g:Smart_CtrlC()<cr>"
-        "imap <expr><C-c> pumvisible()? "\<C-y>":"\<C-[>"
-
         set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
         if has('conceal')
