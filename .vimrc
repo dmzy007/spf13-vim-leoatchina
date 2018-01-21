@@ -91,17 +91,6 @@ cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
 " Map <Leader>fw to display all lines with keyword under cursor
 " and ask which one to jump to
 nmap <Leader>fw [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
-" Code folding options
-nmap <leader>f0 :set foldlevel=0<CR>
-nmap <leader>f1 :set foldlevel=1<CR>
-nmap <leader>f2 :set foldlevel=2<CR>
-nmap <leader>f3 :set foldlevel=3<CR>
-nmap <leader>f4 :set foldlevel=4<CR>
-nmap <leader>f5 :set foldlevel=5<CR>
-nmap <leader>f6 :set foldlevel=6<CR>
-nmap <leader>f7 :set foldlevel=7<CR>
-nmap <leader>f8 :set foldlevel=8<CR>
-nmap <leader>f9 :set foldlevel=9<CR>
 " fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
 if !WINDOWS()
     map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
@@ -126,12 +115,12 @@ vmap <silent><C-m> %
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
 cmap Tabe tabe
-nnoremap 1 :tabprevious<CR>
-nnoremap 2 :tabnext<CR>
-nnoremap <leader>1  :tabm -1<CR>
-nnoremap <leader>2  :tabm +1<CR>
-nnoremap <leader>t1 :tabfirst<CR>
-nnoremap <leader>t2 :tablast<CR>
+nnoremap <F1> :tabprevious<CR>
+nnoremap <F2> :tabnext<CR>
+nnoremap <leader><F1>  :tabm -1<CR>
+nnoremap <leader><F2>  :tabm +1<CR>
+nnoremap <leader>t<F1> :tabfirst<CR>
+nnoremap <leader>t<F2> :tablast<CR>
 nnoremap <Leader>tp :tabprevious<SPACE>
 nnoremap <Leader>tn :tabnext<SPACE>
 nnoremap <Leader>te :tabe<SPACE>
@@ -159,16 +148,16 @@ map zh zH
 " Wrapped lines goes down/up to next row, rather than next line in file.
 noremap <silent>j gj
 noremap <silent>k gk
-"F1 help
-nmap <F1> :tab help<SPACE>
-"F2 toggleFold
-noremap <F2> :set nofoldenable! nofoldenable?<CR>
+"F4 help
+nmap <F4> :tab help<SPACE>
+"F6 toggleFold
+noremap <F6> :set nofoldenable! nofoldenable?<CR>
 noremap <leader>fd :set nofoldenable! nofoldenable?<CR>
-"F3 toggleWrap
-noremap <F3> :set nowrap! nowrap?<CR>
+"F7 toggleWrap
+noremap <F7> :set nowrap! nowrap?<CR>
 noremap <leader>fr :set nowrap! nowrap?<CR>
-"F4 toggle hlsearch
-noremap <F4> :set nohlsearch! nohlsearch?<CR>
+"F8 toggle hlsearch
+noremap <F8> :set nohlsearch! nohlsearch?<CR>
 noremap <leader>fh :set nohlsearch! nohlsearch?<CR>
 " 定义快捷键保存当前窗口内容
 nmap <Leader>w :w<CR>
@@ -597,7 +586,7 @@ endif
 " fugitive
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     nnoremap <leader>GG :Git<Space>
-    nnoremap <F10> :Git<Space>
+    nnoremap <F3> :Git<Space>
 endif
 " Misc
 if isdirectory(expand("~/.vim/bundle/matchit.zip"))
@@ -919,25 +908,28 @@ if version > 703
     if g:completable>0
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         if g:completable==1
-            imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
+            imap <expr><Cr>  pumvisible()? "\<C-[>a":"\<CR>"
         else
             imap <expr><Cr>  pumvisible()? "\<C-y>":"\<CR>"
         endif
         function! g:Smart_CtrlC()
             if pumvisible()
-                call feedkeys("\<C-y>")
-                call feedkeys("\<ESC>")
-                let s:temp_col = col("$")-1
-                if s:temp_col == 0 || col(".") == s:temp_col
-                    return "\<ESC>"
+                if g:completable==1
+                    call feedkeys("\<C-y>")
+                endif
+                call feedkeys("\<C-[>")
+                let s:end_col = col("$")-1
+                let s:cur_col = col(".")
+                if s:end_col == 0 || s:cur_col == s:end_col
+                    return "\$"
                 else
                     return "\<Right>"
                 endif
             else
-                return "\<ESC>"
+                return "\<C-[>"
             endif
         endfunction
-        au BufEnter * exec "imap <silent> <C-c> <C-R>=g:Smart_CtrlC()<cr>"
+        au BufEnter * exec "inoremap <silent> <C-c> <C-R>=g:Smart_CtrlC()<cr>"
         "imap <expr><C-c> pumvisible()? "\<C-y>":"\<C-[>"
 
         set completeopt=menuone,menu
