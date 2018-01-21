@@ -931,12 +931,20 @@ if version > 703
     endif
     " smart completion use neosnippet to expand
     if g:completable>0
+        function! g:Smart_ctrlc()
+            if pumvisible()
+                call feedkeys("\<ESC>")
+                if col(".") != col("$")-1
+                    return "\<Right>"
+                endif
+            else
+                return "\<ESC>"
+            endif
+        endfunction
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
-        smap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
-        smap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
         imap <expr><C-c> pumvisible()? "\<ESC>l":"\<C-[>"
-        smap <expr><C-c> pumvisible()? "\<ESC>l":"\<C-[>"
+        au BufEnter * exec "inoremap <silent> <C-c> <C-R>=g:Smart_ctrlc()<cr>"
         " menu style
         set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
