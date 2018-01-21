@@ -919,7 +919,11 @@ if version > 703
     if g:completable>0
         imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
         imap <expr><C-c> pumvisible()? "\<C-y>":"\<C-[>"
-        imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
+        if g:completable==2
+            imap <expr><Cr>  pumvisible()? "\<C-y>":"\<CR>"
+        else
+            imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
+        endif
         " menu style
         set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
