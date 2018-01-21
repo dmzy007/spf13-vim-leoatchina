@@ -8,8 +8,6 @@
 "            |_|
 " You can find spf13's origin config at http://spf13.com
 
-
-
 if count(g:spf13_bundle_groups, 'syntax')
     Bundle 'w0rp/ale'
 endif

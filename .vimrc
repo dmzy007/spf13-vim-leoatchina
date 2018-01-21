@@ -8,19 +8,15 @@
 "            |_|
 " You can find spf13's origin config at http://spf13.com
 
-
-
 " Basics
 set nocompatible        " Must be first line
 set background=dark     " Assume a dark background
 set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
-
 set laststatus=2
 set t_Co=256
 map gt <Nop>
 map gT <Nop>
-
 " Use before config
 if filereadable(expand("~/.vimrc.local"))
     source ~/.vimrc.local
@@ -29,16 +25,11 @@ endif
 if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
 endif
-
 set noimdisable
 set encoding=utf-8
-
-
 " set timeout
 set timeout
 set timeoutlen=500 ttimeoutlen=50
-
-
 " Gui
 if !has('gui')
     if !has('nvim')
@@ -47,7 +38,6 @@ if !has('gui')
 elseif WINDOWS()
     set guifont=YaHei\ Consolas\ Hybrid:h11
 endif
-
 " GUI Settings
 if has('gui_running')
     set lines=40                " 40 lines of text instead of 24
@@ -57,7 +47,6 @@ endif
 if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
     inoremap <silent> <C-[>OC <RIGHT>
 endif
-
 " Clipboard
 if has('clipboard')
     if has('unnamedplus')  " When possible use + register for copy-paste
@@ -125,18 +114,15 @@ else
 endif
 set pastetoggle=<F12>      " pastetoggle (sane indentation on pastes)
 noremap <leader>fp :set nopaste! nopaste?<CR>
-
 " move to last or first position of a line
 nmap <silent><C-e> $
 vmap <silent><C-e> $
 inoremap <silent><expr> <C-e> pumvisible()? "\<C-e>":"\<ESC>A"
-
 nmap <silent><C-y> ^
 vmap <silent><C-y> ^
 inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>I"
 nmap <silent><C-m> %
 vmap <silent><C-m> %
-
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
 cmap Tabe tabe
@@ -931,22 +917,9 @@ if version > 703
     endif
     " smart completion use neosnippet to expand
     if g:completable>0
-        function! g:Smart_ctrlc()
-            if pumvisible()
-                call feedkeys("\<ESC>")
-                if col(".") != col("$")-1
-                    return "\<Right>"
-                else
-                    return ""
-                endif
-            else
-                return "\<ESC>"
-            endif
-        endfunction
-        imap <expr><C-j> pumvisible()? "\<C-y>":"\<CR>"
+        imap <expr><C-j> pumvisible()? "\<ESC>a":"\<CR>"
         imap <expr><Cr>  pumvisible()? "\<ESC>a":"\<CR>"
-        imap <expr><C-c> pumvisible()? "\<ESC>l":"\<C-[>"
-        au BufEnter * exec "inoremap <silent> <C-c> <C-R>=g:Smart_ctrlc()<cr>"
+        imap <expr><C-c> pumvisible()? "\<ESC>a":"\<C-[>"
         " menu style
         set completeopt=menuone,menu
         "set completeopt=menu,menuone,noinsert,noselect
