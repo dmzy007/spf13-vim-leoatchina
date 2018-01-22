@@ -125,7 +125,7 @@ nnoremap <Leader>tp :tabprevious<SPACE>
 nnoremap <Leader>tn :tabnext<SPACE>
 nnoremap <Leader>te :tabe<SPACE>
 nnoremap <Leader>ts :tabs<CR>
-nnoremap <Leader>tp :tab split<CR>
+nnoremap <Leader>tl :tab split<CR>
 nnoremap <Leader>tm :tabm<SPACE>
 " buffer swithc
  nnoremap <localleader>] :bn<CR>
