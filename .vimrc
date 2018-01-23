@@ -112,6 +112,9 @@ vmap <silent><C-y> ^
 inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>I"
 nmap <silent><C-m> %
 vmap <silent><C-m> %
+"
+imap <F1> <Left>
+imap <F2> <Right>
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
 cmap Tabe tabe
