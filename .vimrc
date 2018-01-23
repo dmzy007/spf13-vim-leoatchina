@@ -127,12 +127,12 @@ nnoremap <leader>t<F2> :tablast<CR>
 nnoremap <Leader>tp :tabprevious<SPACE>
 nnoremap <Leader>tn :tabnext<SPACE>
 nnoremap <Leader>te :tabe<SPACE>
-nnoremap <Leader>ts :tabs<CR>
-nnoremap <Leader>tl :tab split<CR>
+nnoremap <Leader>tw :tabs<CR>
+nnoremap <Leader>ts :tab split<CR>
 nnoremap <Leader>tm :tabm<SPACE>
 " buffer swithc
- nnoremap <localleader>] :bn<CR>
- nnoremap <localleader>[ :bp<CR>
+nnoremap <localleader>] :bn<CR>
+nnoremap <localleader>[ :bp<CR>
 " 设置快捷键将选中文本块复制至系统剪贴板
 vnoremap  <leader>y  "+y
 nnoremap  <leader>y  "+y
