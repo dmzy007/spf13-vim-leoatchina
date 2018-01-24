@@ -112,18 +112,18 @@ vmap <silent><C-y> ^
 inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>I"
 nmap <silent><C-m> %
 vmap <silent><C-m> %
-"
-imap <F1> <Left>
-imap <F2> <Right>
+
+imap <C-a> <Left>
+imap <C-x> <Right>
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
 cmap Tabe tabe
 nnoremap <F1> :tabprevious<CR>
-nnoremap <F2> :tabnext<CR>
+nnoremap <F4> :tabnext<CR>
 nnoremap <leader><F1>  :tabm -1<CR>
-nnoremap <leader><F2>  :tabm +1<CR>
+nnoremap <leader><F4>  :tabm +1<CR>
 nnoremap <leader>t<F1> :tabfirst<CR>
-nnoremap <leader>t<F2> :tablast<CR>
+nnoremap <leader>t<F4> :tablast<CR>
 nnoremap <Leader>tp :tabprevious<SPACE>
 nnoremap <Leader>tn :tabnext<SPACE>
 nnoremap <Leader>te :tabe<SPACE>
@@ -151,8 +151,7 @@ map zh zH
 " Wrapped lines goes down/up to next row, rather than next line in file.
 noremap <silent>j gj
 noremap <silent>k gk
-"F4 help
-nmap <F4> :tab help<SPACE>
+nmap <F2> :tab help<SPACE>
 "F6 toggleFold
 noremap <F6> :set nofoldenable! nofoldenable?<CR>
 noremap <leader>fd :set nofoldenable! nofoldenable?<CR>
