@@ -118,12 +118,12 @@ imap <C-x> <Right>
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
 cmap Tabe tabe
-nnoremap <F1> :tabprevious<CR>
-nnoremap <F4> :tabnext<CR>
-nnoremap <leader><F1>  :tabm -1<CR>
-nnoremap <leader><F4>  :tabm +1<CR>
-nnoremap <leader>t<F1> :tabfirst<CR>
-nnoremap <leader>t<F4> :tablast<CR>
+nnoremap <S-Tab> :tabprevious<CR>
+nnoremap <Tab> :tabnext<CR>
+nnoremap <leader><S-Tab>  :tabm -1<CR>
+nnoremap <leader><Tab>  :tabm +1<CR>
+nnoremap <LocalLeader><S-Tab> :tabfirst<CR>
+nnoremap <LocalLeader><Tab> :tablast<CR>
 nnoremap <Leader>tp :tabprevious<SPACE>
 nnoremap <Leader>tn :tabnext<SPACE>
 nnoremap <Leader>te :tabe<SPACE>
@@ -151,7 +151,7 @@ map zh zH
 " Wrapped lines goes down/up to next row, rather than next line in file.
 noremap <silent>j gj
 noremap <silent>k gk
-nmap <F2> :tab help<SPACE>
+nmap <F1> :tab help<SPACE>
 "F6 toggleFold
 noremap <F6> :set nofoldenable! nofoldenable?<CR>
 noremap <leader>fd :set nofoldenable! nofoldenable?<CR>
@@ -588,7 +588,7 @@ endif
 " fugitive
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     nnoremap <leader>GG :Git<Space>
-    nnoremap <F3> :Git<Space>
+    nnoremap <F4> :Git<Space>
 endif
 " Misc
 if isdirectory(expand("~/.vim/bundle/matchit.zip"))

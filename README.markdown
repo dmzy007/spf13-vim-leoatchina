@@ -76,7 +76,7 @@ This is leoatchina's vim config forked from [spf13-vim:steve francia's vim distr
 - 按自己习惯修改了大量插件的快捷键
 - 去除了原来定义的一些函数
 - 去除了fork文件功能，仅保留before文件功能
-- 加入了5种补全插件：youcompleteme,deoplete,nvim-complete-manager,neocomplete,neocomplcache,默认会在nvim-complete-manager,necomplate,neocomplcace中选择一种。
+- 加入了5种补全插件：'youcompleteme','nvim-complete-manager','deoplete','neocomplete',neocomplcache,默认会在nvim-complete-manager,necomplate,neocomplcace中选择一种。
 - 我的`~/.vimrc.local`
 ```
   let g:spf13_bundle_groups=[ 'python', 'youcompleteme','php', 'javascript', 'html','wubi','markdown','material']
