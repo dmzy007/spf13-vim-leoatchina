@@ -325,7 +325,19 @@ if !exists('g:spf13_no_views')
         \ ]
 endif
 " Vim UI
-if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+if count(g:spf13_bundle_groups, 'material')
+    set background=dark
+    colorscheme PaperColor
+    let g:PaperColor_Theme_Options = {
+          \   'theme': {
+          \     'default': {
+          \       'transparent_background': 1
+          \     }
+          \   }
+          \ }
+elseif count(g:spf13_bundle_groups, 'dracula')
+    color dracula
+elseif  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
     let g:solarized_termcolors=256
     let g:solarized_termtrans=1
     let g:solarized_visibility="normal"
