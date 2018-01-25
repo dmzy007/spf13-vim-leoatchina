@@ -325,20 +325,12 @@ if !exists('g:spf13_no_views')
         \ ]
 endif
 " Vim UI
-if !exists('g:override_spf13_bundles') && !exists('g:no_colorscheme')
-    if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/vim-quantum"))
-        set background=dark
-        set termguicolors
-        colorscheme quantum
-    else
-        if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-            let g:solarized_termcolors=256
-            let g:solarized_termtrans=1
-            let g:solarized_visibility="normal"
-            colorscheme solarized
-            color solarized
-        endif
-    endif
+if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+    let g:solarized_termcolors=256
+    let g:solarized_termtrans=1
+    let g:solarized_visibility="normal"
+    colorscheme solarized
+    color solarized
 endif
 " indent_guides
 if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
@@ -346,8 +338,6 @@ if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
     let g:indent_guides_guide_size = 1
     let g:indent_guides_enable_on_vim_startup = 1
 endif
-
-
 
 " vim-airline
 if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
