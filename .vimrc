@@ -325,8 +325,8 @@ if !exists('g:spf13_no_views')
         \ ]
 endif
 " Vim UI
-if count(g:spf13_bundle_groups, 'material')
-    set background=dark
+set background=dark
+if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/papercolor-theme"))
     colorscheme PaperColor
     let g:PaperColor_Theme_Options = {
           \   'theme': {
@@ -335,7 +335,7 @@ if count(g:spf13_bundle_groups, 'material')
           \     }
           \   }
           \ }
-elseif count(g:spf13_bundle_groups, 'dracula')
+elseif count(g:spf13_bundle_groups, 'dracula') && isdirectory(expand("~/.vim/bundle/dracula-vim"))
     color dracula
 elseif  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
     let g:solarized_termcolors=256
