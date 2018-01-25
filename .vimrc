@@ -331,10 +331,21 @@ if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle
     let g:PaperColor_Theme_Options = {
           \   'theme': {
           \     'default': {
-          \       'transparent_background': 1
+          \       'transparent_background': 0
+          \     }
+          \   },
+          \   'language': {
+          \     'python': {
+          \       'highlight_builtins' : 1
+          \     },
+          \     'cpp': {
+          \       'highlight_standard_library': 1
+          \     },
+          \     'c': {
+          \       'highlight_builtins' : 1
           \     }
           \   }
-          \ }
+      \ }
 elseif count(g:spf13_bundle_groups, 'dracula') && isdirectory(expand("~/.vim/bundle/dracula-vim"))
     color dracula
 elseif  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
@@ -344,6 +355,7 @@ elseif  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized
     colorscheme solarized
     color solarized
 endif
+
 " indent_guides
 if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
     let g:indent_guides_start_level = 2
@@ -366,10 +378,8 @@ if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
     let g:airline#extensions#tabline#tabs_label = ''
     let g:airline#extensions#tabline#show_splits = 0
     let g:airline#extensions#tabline#show_close_button = 0
-
     let g:airline#extensions#tabline#buffer_nr_show = 0
     let g:airline#extensions#bufferline#enabled = 1
-
     " full_path of the file
     let g:airline_section_c = "\ %F\ \ %{strftime(\"%Y/%m/%d\ %H:%M\")}"
     if !exists('g:airline_symbols')
