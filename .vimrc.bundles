@@ -103,8 +103,6 @@ Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 " calor theme
 Bundle 'altercation/vim-colors-solarized'
-Bundle 'NLKNguyen/papercolor-theme'
-Bundle 'leoatchina/dracula-vim'
 " input method
 if OSX()
     Bundle 'CodeFalling/fcitx-vim-osx'
