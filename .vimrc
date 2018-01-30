@@ -112,6 +112,9 @@ vmap <silent><C-y> ^
 inoremap <silent><expr> <C-y> pumvisible()? "\<C-y>":"\<ESC>I"
 nmap <silent><C-m> %
 vmap <silent><C-m> %
+" C-a/C-x for Right and left
+imap <C-a> <Right>
+imap <C-x> <Left>
 " tab contral
 set tabpagemax=10 " Only show 10 tabs
 cmap Tabe tabe
@@ -127,7 +130,7 @@ nnoremap <Leader>te :tabe<SPACE>
 nnoremap <Leader>tw :tabs<CR>
 nnoremap <Leader>ts :tab split<CR>
 nnoremap <Leader>tm :tabm<SPACE>
-" buffer swithc
+" buffer switch
 nnoremap <localleader>] :bn<CR>
 nnoremap <localleader>[ :bp<CR>
 " 设置快捷键将选中文本块复制至系统剪贴板
@@ -597,7 +600,7 @@ endif
 " fugitive
 if isdirectory(expand("~/.vim/bundle/vim-fugitive"))
     nnoremap <leader>GG :Git<Space>
-    nnoremap <F4> :Git<Space>
+    nnoremap <F2> :Git<Space>
 endif
 " Misc
 if isdirectory(expand("~/.vim/bundle/matchit.zip"))
