@@ -31,6 +31,11 @@ call mklink "%HOME%\.vimrc.legacy"          "%APP_PATH%\.vimrc.legacy"
 call mklink "%HOME%\.vimrc.advance"         "%APP_PATH%\.vimrc.advance"
 call mklink "%HOME%\.ycm_extra_conf.py"     "%APP_PATH%\.ycm_extra_conf.py"
 
+IF NOT EXIST "%HOME%\.vimrc.local" (
+    call cp   "%APP_PATH%\.vimrc.local"  "%HOME%\.vimrc.local"
+)
+
+
 
 IF NOT EXIST "%HOME%\.vim" (
     call mkdir "%HOME%\.vim"
