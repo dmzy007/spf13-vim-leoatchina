@@ -127,8 +127,8 @@ nnoremap <LocalLeader><Tab> :tablast<CR>
 nnoremap <Leader>tp :tabprevious<SPACE>
 nnoremap <Leader>tn :tabnext<SPACE>
 nnoremap <Leader>te :tabe<SPACE>
-nnoremap <Leader>tw :tabs<CR>
 nnoremap <Leader>ts :tab split<CR>
+nnoremap <Leader>tS :tabs<CR>
 nnoremap <Leader>tm :tabm<SPACE>
 " buffer switch
 nnoremap <localleader>] :bn<CR>
