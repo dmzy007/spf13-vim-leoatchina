@@ -160,6 +160,10 @@ endif
 if count(g:spf13_bundle_groups, 'R') && executable('R')
     Bundle 'jalvesaq/Nvim-R'
 endif
+" Go
+if count(g:spf13_bundle_groups, 'go')
+    Bundle 'fatih/vim-go'
+endif
 " Scala
 if count(g:spf13_bundle_groups, 'scala')
     Bundle 'derekwyatt/vim-scala'

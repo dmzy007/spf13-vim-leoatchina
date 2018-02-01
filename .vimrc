@@ -625,7 +625,6 @@ endif
 " easy-align
 if isdirectory(expand("~/.vim/bundle/vim-easy-align"))
     vmap <Cr> <Plug>(EasyAlign)
-    nmap ga <Plug>(EasyAlign)
     if !exists('g:easy_align_delimiters')
         let g:easy_align_delimiters = {}
     endif
@@ -665,6 +664,27 @@ if isdirectory(expand("~/.vim/bundle/Nvim-R"))
     let R_rmd_environment = "new.env()"
     nmap <leader>rr <localleader>rf<localleader>ro<C-w>h
     nmap <leader>rq <localleader>rq
+endif
+" Go
+if count(g:spf13_bundle_groups, 'go')
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_structs = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_build_constraints = 1
+    let g:go_fmt_command = "goimports"
+    let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+    let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+    au FileType go nmap <Leader>i <Plug>(go-implements)
+    au FileType go nmap <Leader>I <Plug>(go-info)
+    au FileType go nmap <Leader>r <Plug>(go-rename)
+    au FileType go nmap <leader>R <Plug>(go-run)
+    au FileType go nmap <F5>      <Plug>(go-run)
+    au FileType go nmap <leader>b <Plug>(go-build)
+    au FileType go nmap <leader>t <Plug>(go-test)
+    au FileType go nmap <Leader>d <Plug>(go-doc)
+    au FileType go nmap <Leader>v <Plug>(go-doc-vertical)
+    au FileType go nmap <leader>c <Plug>(go-coverage)
 endif
 " PyMode
 if isdirectory(expand("~/.vim/bundle/python-mode"))
