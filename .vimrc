@@ -675,7 +675,7 @@ if isdirectory(expand("~/.vim/bundle/python-mode"))
     let g:pymode_run_bind = '<leader>R'
     " breakpoint
     let g:pymode_breakpoint = 1
-    let g:pymode_breakpoint_bind = '<C-g>'
+    let g:pymode_breakpoint_bind = '<F10>'
     let g:pymode_breakpoint_cmd = 'import pdb;pdb.set_trace()'
     " pymode check disable
     if count(g:spf13_bundle_groups, 'syntax')
