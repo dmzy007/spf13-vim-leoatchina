@@ -183,18 +183,6 @@ nmap <Leader><Up>   :resize +3<CR>
 "设置水平宽度减增
 nmap <Leader><Left> :vertical resize -3<CR>
 nmap <Leader><Right>:vertical resize +3<CR>
-"至左方的子窗口
-nnoremap <Leader>H <C-W>H
-nnoremap <Leader>h <C-W>h
-"至右方的子窗口
-nnoremap <Leader>L <C-W>L
-nnoremap <Leader>l <C-W>l
-"至上方的子窗口
-nnoremap <Leader>K <C-W>K
-nnoremap <Leader>k <C-W>k
-"至下方的子窗口
-nnoremap <Leader>J <C-W>J
-nnoremap <Leader>j <C-W>j
 " Visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv

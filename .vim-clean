@@ -1,5 +1,3 @@
-#/bin/sbh
-
 rm -rf ~/.vimswap
 rm -rf ~/.vimviews
 mkdir -p ~/.vimswap
