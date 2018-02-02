@@ -103,6 +103,7 @@ Bundle 'tpope/vim-repeat'
 Bundle 'tpope/vim-surround'
 " calor theme
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'flazz/vim-colorschemes'
 " input method
 if OSX()
     Bundle 'CodeFalling/fcitx-vim-osx'
@@ -116,15 +117,15 @@ Bundle 'rhysd/conflict-marker.vim'
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'tacahiroy/ctrlp-funky'
-Bundle 'junegunn/vim-easy-align'
 Bundle 'godlygeek/tabular'
 Bundle 'mbbill/undotree'
 Bundle 'bling/vim-bufferline'
+Bundle 'terryma/vim-multiple-cursors'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'mhinz/vim-signify'
 Bundle 'tamlok/vim-markdown'
-Bundle 'terryma/vim-multiple-cursors'
-
+" align
+Bundle 'junegunn/vim-easy-align'
 " airline
 if count(g:spf13_bundle_groups, 'airline')
     Bundle 'vim-airline/vim-airline'

@@ -14,7 +14,6 @@ set background=dark     " Assume a dark background
 set mouse=a             " Automatically enable mouse usage
 set mousehide           " Hide the mouse cursor while typing
 set laststatus=2
-set t_Co=256
 map gt <Nop>
 map gT <Nop>
 " Use before config
@@ -312,36 +311,14 @@ if !exists('g:spf13_no_views')
         \ '\[example pattern\]'
         \ ]
 endif
-" Vim UI
+" colortheme
 set background=dark
-if count(g:spf13_bundle_groups, 'material') && isdirectory(expand("~/.vim/bundle/papercolor-theme"))
-    colorscheme PaperColor
-    let g:PaperColor_Theme_Options = {
-          \   'theme': {
-          \     'default': {
-          \       'transparent_background': 0
-          \     }
-          \   },
-          \   'language': {
-          \     'python': {
-          \       'highlight_builtins' : 1
-          \     },
-          \     'cpp': {
-          \       'highlight_standard_library': 1
-          \     },
-          \     'c': {
-          \       'highlight_builtins' : 1
-          \     }
-          \   }
-      \ }
-elseif count(g:spf13_bundle_groups, 'dracula') && isdirectory(expand("~/.vim/bundle/dracula-vim"))
-    color dracula
-elseif  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+set t_Co=256
+if  filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
     let g:solarized_termcolors=256
     let g:solarized_termtrans=1
     let g:solarized_visibility="normal"
     colorscheme solarized
-    color solarized
 endif
 
 " indent_guides
@@ -368,9 +345,9 @@ if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
     let g:airline#extensions#tabline#show_close_button = 0
     let g:airline#extensions#tabline#buffer_nr_show = 0
     let g:airline#extensions#bufferline#enabled = 1
-    " full_path of the file
+    " shw full_path of the file,and the time
     let g:airline_section_c = "\ %F\ \ %{strftime(\"%Y/%m/%d\ %H:%M\")}"
-    if !exists('g:airline_symbols')
+	if !exists('g:airline_symbols')
         let g:airline_symbols = {}
     endif
     let g:airline_symbols.crypt = '🔒'
