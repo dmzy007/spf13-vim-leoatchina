@@ -46,7 +46,6 @@ This is leoatchina's vim config forked from [spf13-vim:steve francia's vim distr
   vim +BundleUpdate
   或者在vim里直接  :BundleUpdate
 ```
-![](http://oxa21co60.bkt.clouddn.com/markdown-img-paste-20171009103100770.png)
 
 ## 一些功能
 * 复制内容直接放到系统剪贴本
@@ -79,23 +78,22 @@ This is leoatchina's vim config forked from [spf13-vim:steve francia's vim distr
 - 加入了5种补全插件：'youcompleteme','nvim-complete-manager','deoplete','neocomplete',neocomplcache,默认会在nvim-complete-manager,necomplate,neocomplcace中选择一种。
 - 我的`~/.vimrc.local`
 ```
-  let g:spf13_bundle_groups=[ 'python', 'youcompleteme','php', 'javascript', 'html','wubi','markdown','material']
+  let g:spf13_bundle_groups=[ 'python', 'youcompleteme','php', 'javascript', 'html','wubi','airline']
 ```
 
 ## 基本快捷键
 * `<leader>`键改为空格键,这个在键盘上最大的按键就有了更强的作用;
 * `<localleader>`改为`\`,`\`在R编写调试时使用率比较高
-* `~`作为进入`ex`模式的快捷键,`Q`键map为`<Nop>`
+* `~`作为进入`ex`模式的快捷键,`Q`键map为`退出当前buffer`
 * `F1`: 为`:h `，方便启动帮助
-* `F2`: 打开关闭代码折叠 或 `<leader>fd`
-* `F3`: 打开关闭换行 或 `<leader>fr`
-* `F4`: 打开关闭搜索高亮 或 `<leader>fh`
-* `F5`: 运行脚本（python、perl、c等）或 `<leader>R`;`Shift+F5`:运行脚本并记录时间;`<leader>+F5`: AsyncRun命令
+* `F5`: 运行脚本（python、perl、c等）或 `<leader>R`;
+* `F6`: 打开关闭代码折叠 或 `<leader>fd`
+* `F7`: 打开关闭换行 或 `<leader>fr`
+* `F8`: 打开关闭搜索高亮 或 `<leader>fh`
 * `F11`: 全屏切换,如果是windows下的gvim,要把本目录下的`gvim_fullscreen.dll`放到`gvim`的安装目录下，此时<S+F11>为切换透明度
 * `F12`: 切换paste模式,或者`<leader>fp`
 * `<leader>fc`:fixed confict markers
 * `<leader>fw`:对当前光标下文字进行搜索
-* `<leader>mk`:markdown调用chrome生成markdown preview
 * 在`Visual`模式下按`.`为退出`Visual`模式
 * 标签页控制
 ```
