@@ -115,17 +115,17 @@ vmap <silent><C-m> %
 " C-a/C-x for Right and left
 imap <C-a> <Right>
 imap <C-x> <Left>
-" tab contral
+" tab control
 set tabpagemax=10 " Only show 10 tabs
 cmap Tabe tabe
 nnoremap <S-Tab> :tabprevious<CR>
 nnoremap <Tab> :tabnext<CR>
+nnoremap <Leader>tp :tabprevious<CR>
+nnoremap <Leader>tn :tabnext<CR>
 nnoremap <leader><S-Tab>  :tabm -1<CR>
 nnoremap <leader><Tab>  :tabm +1<CR>
 nnoremap <LocalLeader><S-Tab> :tabfirst<CR>
 nnoremap <LocalLeader><Tab> :tablast<CR>
-nnoremap <Leader>tp :tabprevious<SPACE>
-nnoremap <Leader>tn :tabnext<SPACE>
 nnoremap <Leader>te :tabe<SPACE>
 nnoremap <Leader>ts :tab split<CR>
 nnoremap <Leader>tS :tabs<CR>
@@ -632,26 +632,6 @@ if isdirectory(expand("~/.vim/bundle/tabular"))
     vmap <C-t>,, :Tabularize /,\zs<CR>
     vmap <C-t>. :Tabularize /\.<CR>
     vmap <C-t><Bar> :Tabularize /<Bar><CR>
-endif
-" Nvim-R
-if isdirectory(expand("~/.vim/bundle/Nvim-R"))
-    let R_rconsole_width = 0
-    let R_objbr_place = "script,right"
-    " R console windows
-    au VimResized * let R_rconsole_height = winheight(0) /3
-    let R_objbr_h         = 25
-    let R_objbr_opendf    = 1    " Show data.frames elements
-    let R_objbr_openlist  = 1  " Show lists elements
-    let R_objbr_allnames  = 0  " Show .GlobalEnv hidden objects
-    let R_objbr_labelerr  = 1  " Warn if label is not a valid text
-    let R_in_buffer       = 1
-    let R_hl_term         = 1
-    let R_close_term      = 1
-    let Rout_more_colors  = 1
-    let R_hi_fun_paren    = 1
-    let R_rmd_environment = "new.env()"
-    nmap <leader>rr <localleader>rf<localleader>ro<C-w>h
-    nmap <leader>rq <localleader>rq
 endif
 " Go
 if count(g:spf13_bundle_groups, 'go')
